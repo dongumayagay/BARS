@@ -17,7 +17,7 @@
 		</label>
 	</div>
 	<div class="navbar-center">
-		<h1 class=" normal-case text-xl">daisyUI</h1>
+		<h1 class=" normal-case text-xl">BARS</h1>
 	</div>
 	<div class="navbar-end">
 		<!--  -->
