@@ -7,7 +7,7 @@
         }
     ];
 
-    let showMenu = true;
+    let showMenu = false;
 </script>
 
 <div class="flex px-4 bg-white/90 rounded-2xl" class:rounded-b-none={showMenu}>
@@ -15,7 +15,7 @@
         <!-- logo -->
         <img src="https://via.placeholder.com/100" alt="" class="mask mask-circle">
     </section>
-    <section class="flex flex-col flex-1 lg:flex-row">
+    <section class="flex flex-col flex-1 ">
         <!--  -->
         <h1 class="flex items-center justify-center flex-1 font-serif text-xl">{title}</h1>
     
@@ -28,7 +28,7 @@
             {/each}
         </nav>
     </section>
-    <section class="flex flex-col items-center justify-center">
+    <section class="flex flex-col items-center justify-center lg:hidden">
         <label class="btn btn-circle btn-ghost swap swap-rotate">
   
             <!-- this hidden checkbox controls the state -->
