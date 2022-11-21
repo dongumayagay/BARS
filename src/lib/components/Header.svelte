@@ -65,9 +65,11 @@
 {#if showMenu}
 	<nav class="flex flex-col gap-2 p-4 bg-white rounded-b-2xl lg:hidden">
 		{#each links as link}
-			<a href={link.path} class="bg-white border-none text-gray-500 hover:text-black hover:bg-white btn">
+			<a href={link.path} 
+                class="bg-white border-none text-gray-500 hover:text-black hover:bg-white btn"
+                on:click={()=>showMenu=false}>
                 {link.name}
-			</a>
+            </a>
 		{/each}
 	</nav>
 {/if}
