@@ -10,14 +10,14 @@
 	let showMenu = false;
 </script>
 
-<div class="flex px-4 bg-white/90 rounded-2xl" class:rounded-b-none={showMenu}>
+<div class="flex px-4 bg-white lg:rounded-2xl" class:rounded-b-none={showMenu}>
 	<section class="py-4 ">
 		<!-- logo -->
 		<img src="https://via.placeholder.com/100?text=BARS" alt="" class="mask mask-circle" />
 	</section>
 	<section class="flex flex-col flex-1 ">
 		<!--  -->
-		<h1 class="flex items-center justify-center flex-1 font-serif text-xl">{title}</h1>
+		<h1 class="flex items-center justify-center flex-1 font-serif text-md lg:text-xl">{title}</h1>
 
 		<nav class="items-end flex-1 hidden lg:flex justify-evenly">
 			{#each links as link}
@@ -63,10 +63,10 @@
 </div>
 
 {#if showMenu}
-	<nav class="flex flex-col gap-2 p-4 bg-white rounded-b-2xl">
+	<nav class="flex flex-col gap-2 p-4 bg-white rounded-b-2xl lg:hidden">
 		{#each links as link}
-			<a href={link.path} class="bg-orange-300 border-none hover:bg-orange-200 btn">
-				{link.name}
+			<a href={link.path} class="bg-white border-none text-gray-500 hover:text-black hover:bg-white btn">
+                {link.name}
 			</a>
 		{/each}
 	</nav>
