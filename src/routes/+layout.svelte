@@ -2,4 +2,6 @@
 	import '../app.postcss';
 </script>
 
-<slot />
+<main class="p-6 min-h-full h-full bg-gradient-to-b from-orange-300 to-orange-200">
+	<slot />
+</main>
