@@ -6,22 +6,57 @@
             name: "Homepage"
         }
     ];
+
+    let showMenu = true;
 </script>
 
-<div class="flex px-4 bg-white/90 rounded-2xl">
+<div class="flex px-4 bg-white/90 rounded-2xl" class:rounded-b-none={showMenu}>
     <section class="py-4 ">
         <!-- logo -->
         <img src="https://via.placeholder.com/100" alt="" class="mask mask-circle">
     </section>
-    <section class="flex flex-col flex-1">
+    <section class="flex flex-col flex-1 lg:flex-row">
         <!--  -->
         <h1 class="flex items-center justify-center flex-1 font-serif text-xl">{title}</h1>
-        <nav class="flex items-end flex-1 justify-evenly">
+    
+        <nav class="items-end flex-1 hidden lg:flex justify-evenly">
             {#each links  as link}
                 <a href={link.path} 
                 class="bg-orange-300 border-none rounded-b-none hover:bg-orange-200 btn">
                     {link.name}
                 </a>
             {/each}
+        </nav>
+    </section>
+    <section class="flex flex-col items-center justify-center">
+        <label class="btn btn-circle btn-ghost swap swap-rotate">
+  
+            <!-- this hidden checkbox controls the state -->
+            <input type="checkbox" class="invisible" bind:checked={showMenu}/>
+            
+            <!-- hamburger icon -->
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 swap-off">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 9h16.5m-16.5 6.75h16.5" />
+              </svg>
+              
+            
+            <!-- close icon -->
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 swap-on">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+              </svg>
+              
+          </label>
     </section>
 </div>
+
+{#if showMenu}
+    <nav class="flex flex-col gap-2 p-4 bg-white rounded-b-2xl">
+        {#each links  as link}
+            <a href={link.path} 
+            class="bg-orange-300 border-none hover:bg-orange-200 btn">
+                {link.name}
+            </a>
+        {/each}
+    </nav>
+    
+{/if}
