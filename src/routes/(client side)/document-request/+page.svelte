@@ -3,6 +3,7 @@
 
     let doculist = [
         {
+            id: 1,
             name: "Document 1",
             requirements: [
                 {requirement: "requirement1"},
@@ -10,6 +11,7 @@
             ]
         },
         {
+            id: 2,
             name: "Document 2",
             requirements: [
                 {requirement: "requirement1"},
@@ -18,12 +20,14 @@
             ]
         },
         {
+            id: 3,
             name: "Document 3",
             requirements: [
                 {requirement: "requirement1"}
             ]
         },
         {
+            id: 4,
             name: "Document 4",
             requirements: [
                 {requirement: "requirement1"},
@@ -68,14 +72,25 @@
                     </div>
                 {/each}
             </div>
-            <div class="flex flex-col items-center">
+            <div class="h-[80px] flex flex-col items-center">
                 <p>You Selected:</p>
                 <div class="flex gap-2">
-                    {#each documents as document, i}
+                    {#each documents as document}
                         <p class="p-2 bg-info text-white rounded-xl">{document.name}</p>
                     {/each}
                 </div>
             </div>
+        </section>
+
+        <section class="flex gap-3">
+            <button type="button"
+                class="btn btn-primary">
+                Validate
+            </button>
+            <button type="reset"
+                class="hover:underline hover:underline-offset-2">
+                Clear Form
+            </button>
         </section>
 
     </form>

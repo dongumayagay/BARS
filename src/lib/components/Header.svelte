@@ -24,7 +24,7 @@
 			{#each links as link}
 				<a
 					href={link.path}
-					class="bg-orange-300 border-none rounded-b-none hover:bg-orange-200 btn"
+					class="bg-orange-300 border-none rounded-b-none hover:bg-orange-200 text-white btn"
 				>
 					{link.name}
 				</a>
