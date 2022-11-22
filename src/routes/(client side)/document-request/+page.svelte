@@ -42,8 +42,8 @@
 </script>
 
 
-<section class="py-6 px-4 lg:px-0">
-    <form class="form-control bg-neutral p-4 grid grid-cols-1 lg:grid-cols-2 rounded-lg gap-6">
+<section class="px-4 py-6 lg:px-0">
+    <form class="grid grid-cols-1 gap-6 p-4 rounded-lg form-control bg-neutral lg:grid-cols-2">
 
         <InfoForm class=""/>
 
@@ -54,7 +54,7 @@
             <p>Kindly check the box of the documents you need to request</p>
             <div class="overflow-y-auto overflow-x-visible max-h-[400px] flex flex-col items-start w-[95%] gap-3">
                 {#each doculist as document}
-                    <div class="w-full flex flex-col gap-2">
+                    <div class="flex flex-col w-full gap-2">
                         <div class="flex items-center justify-center gap-3 ">
                             <input type="checkbox" 
                                 value={document}
@@ -62,9 +62,9 @@
                                 checked="checked" 
                                 class="checkbox checkbox-primary" 
                             />
-                            <p class="w-full bg-primary p-2 rounded-xl">{document.name}</p>
+                            <p class="w-full p-2 bg-primary rounded-xl">{document.name}</p>
                         </div>
-                        <div class="flex flex-col items-start pl-14 gap-2">
+                        <div class="flex flex-col items-start gap-2 pl-14">
                             {#each document.requirements as requirement}
                                 <p>{requirement.requirement}</p>
                             {/each}
@@ -76,7 +76,7 @@
                 <p>You Selected:</p>
                 <div class="flex gap-2">
                     {#each documents as document}
-                        <p class="p-2 bg-info text-white rounded-xl">{document.name}</p>
+                        <p class="p-2 text-white bg-info rounded-xl">{document.name}</p>
                     {/each}
                 </div>
             </div>
