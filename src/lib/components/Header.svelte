@@ -10,7 +10,8 @@
 	let showMenu = false;
 </script>
 
-<div class="flex px-4 bg-white lg:rounded-2xl" class:rounded-b-none={showMenu}>
+<div class="flex px-4 bg-neutral lg:rounded-2xl" class:rounded-b-none={showMenu}>
+
 	<section class="py-4 ">
 		<!-- logo -->
 		<img src="https://via.placeholder.com/100?text=BARS" alt="" class="mask mask-circle" />
@@ -63,13 +64,15 @@
 </div>
 
 {#if showMenu}
-	<nav class="flex flex-col gap-2 p-4 bg-white rounded-b-2xl lg:hidden">
+	<nav class="flex flex-col gap-2 p-4 bg-neutral rounded-b-2xl lg:hidden">
 		{#each links as link}
 			<a href={link.path} 
-                class="bg-white border-none text-gray-500 hover:text-black hover:bg-white hover:underline btn"
-                on:click={()=>showMenu=false}>
-                {link.name}
-            </a>
+				class="bg-neutral border-none text-gray-500 hover:text-black hover:bg-neutral hover:underline btn"
+				on:click={()=>showMenu=false}>
+				{link.name}
+			</a>
 		{/each}
 	</nav>
 {/if}
+
+
