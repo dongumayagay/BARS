@@ -79,7 +79,7 @@
                     <!-- svelte-ignore a11y-click-events-have-key-events -->
                     <div class="absolute top-0 left-0 w-screen lg:min-h-screen h-[200vh] bg-black/50 z-1" on:click|self={() => dateTimeVisible = !dateTimeVisible}></div>
                     <div class="relative w-5 h-5 bg-primary top-[10px] rotate-45 z-2"></div>
-                    <div class="w-max lg:w-full h-max p-3 bg-primary flex flex-col items-center justify-center gap-2 lg:gap-0 rounded-2xl z-10">
+                    <div class="w-max lg:w-max h-max p-3 bg-primary flex flex-col items-center justify-center gap-2 rounded-2xl z-10">
                         <button type="button" class="w-full flex items-start justify-end" on:click={() => dateTimeVisible = !dateTimeVisible}>
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 text-black ">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
