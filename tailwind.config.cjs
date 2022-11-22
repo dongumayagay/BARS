@@ -4,8 +4,31 @@ const forms = require("@tailwindcss/forms");
 const config = {
   content: ["./src/**/*.{html,js,svelte,ts}"],
 
-  theme: {
-    extend: {}
+  daisyui: {
+    themes: [
+      {
+        mytheme: {
+        
+          "primary": "#fdba74",
+          
+          "secondary": "#fb923c",
+                  
+          "accent": "#f3f4f6",
+                  
+          "neutral": "#ffffff",
+                  
+          "base-100": "#fed7aa",
+                  
+          "info": "#2563eb",
+                  
+          "success": "#65a30d",
+                  
+          "warning": "#fbbf24",
+                  
+          "error": "#b91c1c",
+        },
+      },
+  ],
   },
 
   plugins: [forms, daisyui]
