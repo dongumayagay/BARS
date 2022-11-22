@@ -19,7 +19,6 @@
             dateMins = "0" + dateMins
         }
 
-
         let dateString = weekDays[dateFormat.getDay()] + ", " + months.at(dateFormat.getMonth()) + " " + dateFormat.getDate();
         let ampm;
 
@@ -28,6 +27,7 @@
         } else if(dateHours >= 12){
             ampm = "PM";
         }
+
         switch(dateHours){
             case 12: 
                 timeFormat = dateHours + ":" + dateMins + " " + ampm;
@@ -65,7 +65,7 @@
                     class="w-full bg-primary p-3 rounded-xl active:scale-[0.9] flex flex-row items-center justify-between transition-all duration-200"
                 >
                     {#if dateDisplay != "undefined, January NaN at NaN:NaNundefined"}
-                        <p class="w-full text-center">{dateDisplay}</p>
+                        <p class="w-full text-center text-sm">{dateDisplay}</p>
                     {:else }
                         <p class="w-full text-center">Select a date</p>
                     {/if}
@@ -76,11 +76,18 @@
                 </button>
 
                 <button type="button" class="flex flex-col items-center justify-center" class:hidden={!dateTimeVisible}>
-                    <div class="relative w-5 h-5 bg-primary top-[10px] rotate-45 z-1"></div>
-                    <div class="w-max lg:w-full h-max p-3 bg-primary flex items-center justify-center rounded-2xl z-10">
-                        <input type="datetime-local" class="input input-sm bg-neutral" bind:value={date}>
+                    <!-- svelte-ignore a11y-click-events-have-key-events -->
+                    <div class="absolute top-0 left-0 w-screen lg:min-h-screen h-[200vh] bg-black/50 z-1" on:click|self={() => dateTimeVisible = !dateTimeVisible}></div>
+                    <div class="relative w-5 h-5 bg-primary top-[10px] rotate-45 z-2"></div>
+                    <div class="w-max lg:w-full h-max p-3 bg-primary flex flex-col items-center justify-center gap-2 lg:gap-0 rounded-2xl z-10">
+                        <button type="button" class="w-full flex items-start justify-end" on:click={() => dateTimeVisible = !dateTimeVisible}>
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 text-black ">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                              </svg>
+                        </button>
+                        <input type="datetime-local" class="input input-md bg-neutral" bind:value={date}>
                     </div>
-                    <small>Click the CALENDAR ICON to set date and time</small>
+                    <small class="z-10 text-white">Click the CALENDAR ICON to set date and time</small>
                 </button>
             </div>
         </section>
