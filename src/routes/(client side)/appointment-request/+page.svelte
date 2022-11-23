@@ -16,7 +16,7 @@
         {name: "Official 4", position: "Administrator"},
         {name: "Official 5", position: "Deputy/Kagawad"},
         {name: "Official 6", position: "Deputy/Kagawad"},
-        {name: "Official 7", position: "Deputy/Kagawad"},
+        {name: "Official 7", position: "Deputy/Kagawad"}
     ];
 
     const months = ["January", "February", "March", 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
