@@ -106,7 +106,7 @@
                 <p class="p-2 rounded-xl font-medium  text-center lg:w-fit">Who would you like to have an appointment with?</p>
             </div>
             <div class="flex flex-col gap-2">
-                <p>Below are the list of the Barangay Officials</p>
+                <p class="text-center">Below are the list of the Barangay Officials</p>
                 <div class="overflow-y-auto max-h-[300px] lg:max-h-[300px] flex flex-col gap-3">
                     {#each officialsList as official}
                         <div class="flex items-center gap-2">
