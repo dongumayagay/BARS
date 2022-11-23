@@ -43,9 +43,9 @@
 
 
 <section class="px-4 py-6 lg:px-0">
-    <form class="grid grid-cols-1 gap-6 p-4 rounded-lg form-control bg-neutral lg:grid-cols-2">
+    <form class="grid grid-cols-1 gap-6 p-4 rounded-lg form-control bg-neutral lg:grid-cols-2 shadow-md">
 
-        <InfoForm class=""/>
+        <InfoForm />
 
         <section class="flex flex-col items-center justify-start gap-6">
             <div>

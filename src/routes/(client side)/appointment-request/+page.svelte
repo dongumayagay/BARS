@@ -6,7 +6,15 @@
     let dateTimeVisible = false;
 
     let dateDisplay;
-    let timeFormat
+    let timeFormat;
+
+    let officialsList = [
+        {name: "Official 1", position: "Barangay Captain"},
+        {name: "Official 2", position: "Barangay Vice Captain"},
+        {name: "Official 3", position: "Secretary"},
+        {name: "Official 4", position: "Administrator"},
+        {name: "Official 5", position: "Deputy/Kagawad"},
+    ];
 
     const months = ["January", "February", "March", 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
     const weekDays = [ 'Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
@@ -62,7 +70,7 @@
 
                 <button type="button"
                     on:click={()=>dateTimeVisible=!dateTimeVisible} 
-                    class="w-full bg-primary p-3 rounded-xl active:scale-[0.9] flex flex-row items-center justify-between transition-all duration-200"
+                    class="w-full bg-primary p-3 rounded-xl active:scale-[0.95] flex flex-row items-center justify-between transition-all duration-200"
                 >
                     {#if dateDisplay != "undefined, January NaN at NaN:NaNundefined"}
                         <p class="w-full text-center text-sm">{dateDisplay}</p>
@@ -77,13 +85,13 @@
 
                 <button type="button" class="flex flex-col items-center justify-center" class:hidden={!dateTimeVisible}>
                     <!-- svelte-ignore a11y-click-events-have-key-events -->
-                    <div class="absolute top-0 left-0 w-screen lg:min-h-screen h-[200vh] bg-black/50 z-1" on:click|self={() => dateTimeVisible = !dateTimeVisible}></div>
+                    <div class="absolute top-0 left-0 w-screen lg:min-h-screen h-[250vh] lg:h-[200vh] bg-black/50 z-1" on:click|self={() => dateTimeVisible = !dateTimeVisible}></div>
                     <div class="relative w-5 h-5 bg-primary top-[10px] rotate-45 z-2"></div>
                     <div class="w-max lg:w-max h-max p-3 bg-primary flex flex-col items-center justify-center gap-2 rounded-2xl z-10">
                         <button type="button" class="w-full flex items-start justify-end" on:click={() => dateTimeVisible = !dateTimeVisible}>
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 text-black ">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
-                              </svg>
+                            </svg>
                         </button>
                         <input type="datetime-local" class="input input-md bg-neutral" bind:value={date}>
                     </div>
@@ -92,8 +100,21 @@
             </div>
         </section>
 
-        <section class="lg:col-span-3">
-
+        <section class="lg:col-span-3 h-full flex flex-col items-center justify-start gap-4">
+            <div>
+                <p class="p-2 bg-primary rounded-xl">Who would you like to have an appointment with?</p>
+            </div>
+            <div class="flex flex-col gap-2">
+                <p>Below are the list of the Barangay Officials</p>
+                <div class="h-max max-h-300px lg:max-h-[300px] overflow-auto flex flex-col gap-3">
+                    {#each officialsList as official}
+                        <div class="flex items-center gap-2">
+                            <input type="radio" name="officials" class="radio radio-primary">
+                            <p class="bg-primary w-full p-2 rounded-xl">{official.name}<small>({official.position})</small></p>
+                        </div>
+                    {/each}
+                </div>
+            </div>
         </section>
 
         <section class="lg:col-span-3">
