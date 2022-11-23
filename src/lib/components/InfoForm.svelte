@@ -5,7 +5,7 @@
 
 <section class="flex flex-1 flex-col gap-2 h-max">
     <section class="flex justify-center">
-        <span>Basic Information</span>
+        <span class="font-bold">Basic Information</span>
     </section>
     <div class="flex flex-row items-center justify-between gap-2">
         <div class="flex flex-col flex-1">
@@ -73,7 +73,7 @@
             <!-- <span class="label-text-alt">Alt label</span> -->
           </label>
         <!-- <label for="lastName" class="label">Last name</label> -->
-        <input type="text" id="contact" placeholder="Type here" class="input input-bordered input-md input-secondary w-full bg-white focus:border-primary focus:outline-offset-[3px]"/>
+        <input type="tel" id="contact" placeholder="09** *** *** / 639** *** ****" class="input input-bordered input-md input-secondary w-full bg-white focus:border-primary focus:outline-offset-[3px]"/>
     </div>
     <div class="flex flex-col flex-1 ">
         <label for="contact" class="label">

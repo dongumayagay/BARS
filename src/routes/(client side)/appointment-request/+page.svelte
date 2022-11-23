@@ -1,4 +1,5 @@
 <script>
+    import DatePicker from "../../../lib/components/DatePicker.svelte";
     import InfoForm from "../../../lib/components/InfoForm.svelte";
 
     let date;
@@ -14,6 +15,8 @@
         {name: "Official 3", position: "Secretary"},
         {name: "Official 4", position: "Administrator"},
         {name: "Official 5", position: "Deputy/Kagawad"},
+        {name: "Official 6", position: "Deputy/Kagawad"},
+        {name: "Official 7", position: "Deputy/Kagawad"},
     ];
 
     const months = ["January", "February", "March", 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
@@ -49,8 +52,6 @@
         dateDisplay = dateString + " at " + timeFormat;
         console.log(dateDisplay)
     }
-
-    $: console.log(dateTimeVisible)
 </script>
 
 <section class="px-4 py-6 lg:px-0">
@@ -59,8 +60,8 @@
             <InfoForm />
         </section>
 
-        <section class="w-full h-[300px] lg:col-span-3 flex flex-col items-center gap-4">
-            <p>Appointment Schedule</p>
+        <section class=" lg:col-span-3 w-full h-[300px] flex flex-col items-center gap-4">
+            <p class=" font-bold">Appointment Schedule</p>
             <div class="w-[70%] lg:w-full flex flex-col gap-1">
 
                 <div>
@@ -72,7 +73,7 @@
                     on:click={()=>dateTimeVisible=!dateTimeVisible} 
                     class="w-full bg-primary p-3 rounded-xl active:scale-[0.95] flex flex-row items-center justify-between transition-all duration-200"
                 >
-                    {#if dateDisplay != "undefined, January NaN at NaN:NaNundefined"}
+                    {#if date != undefined}
                         <p class="w-full text-center text-sm">{dateDisplay}</p>
                     {:else }
                         <p class="w-full text-center">Select a date</p>
@@ -100,13 +101,13 @@
             </div>
         </section>
 
-        <section class="lg:col-span-3 h-full flex flex-col items-center justify-start gap-4">
-            <div>
-                <p class="p-2 bg-primary rounded-xl">Who would you like to have an appointment with?</p>
+        <section class="lg:col-span-3 h-full flex flex-col items-center justify-start lg:justify-center gap-4">
+            <div class="flex justify-center">
+                <p class="p-2 rounded-xl font-medium  text-center lg:w-fit">Who would you like to have an appointment with?</p>
             </div>
             <div class="flex flex-col gap-2">
                 <p>Below are the list of the Barangay Officials</p>
-                <div class="h-max max-h-300px lg:max-h-[300px] overflow-auto flex flex-col gap-3">
+                <div class="overflow-y-auto max-h-[300px] lg:max-h-[300px] flex flex-col gap-3">
                     {#each officialsList as official}
                         <div class="flex items-center gap-2">
                             <input type="radio" name="officials" class="radio radio-primary">
@@ -124,7 +125,11 @@
                     Validate
                 </button>
                 <button type="reset"
-                    class="hover:underline hover:underline-offset-2">
+                    class="hover:underline hover:underline-offset-2"
+                    on:click={()=>{
+                        date = undefined;     
+                    }}
+                    >
                     Clear Form
                 </button>
             </div>
