@@ -22,5 +22,4 @@
 </script>
 <Header {title} {links}/>
 
-
 <slot />
