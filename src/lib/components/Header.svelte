@@ -10,7 +10,8 @@
 	let showMenu = false;
 </script>
 
-<div class="flex mb-3 px-4 bg-neutral lg:rounded-2xl" class:rounded-b-none={showMenu}>
+
+<div class="flex px-4 bg-neutral lg:rounded-2xl" class:rounded-b-none={showMenu}>
 
 	<section class="py-4 ">
 		<!-- logo -->
@@ -74,4 +75,3 @@
 		{/each}
 	</nav>
 {/if}
-
