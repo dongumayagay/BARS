@@ -1,5 +1,4 @@
 <script>
-	export let title = 'title placeholder';
 	export let links = [
 		{
 			path: '/',
@@ -10,22 +9,15 @@
 	let showMenu = false;
 </script>
 
+<div class="flex py-2 px-4 bg-neutral lg:rounded-t-lg" class:rounded-b-none={showMenu}>
 
-<div class="flex px-4 bg-neutral lg:rounded-2xl" class:rounded-b-none={showMenu}>
-
-	<section class="py-4 ">
-		<!-- logo -->
-		<img src="https://via.placeholder.com/100?text=BARS" alt="" class="mask mask-circle" />
-	</section>
 	<section class="flex flex-col flex-1 ">
-		<!--  -->
-		<h1 class="flex items-center justify-center flex-1 font-serif text-md lg:text-xl">{title}</h1>
 
 		<nav class="items-end flex-1 hidden lg:flex justify-evenly">
 			{#each links as link}
 				<a
 					href={link.path}
-					class="bg-orange-300 border-none rounded-b-none hover:bg-orange-200 text-white btn"
+					class="bg-orange-300 border-none rounded hover:bg-orange-200 text-white btn"
 				>
 					{link.name}
 				</a>
@@ -75,3 +67,4 @@
 		{/each}
 	</nav>
 {/if}
+
