@@ -1,6 +1,22 @@
 <script>
-	import { validate_component } from "svelte/internal";
 
+    let birth;
+    let ageComputed
+$: {
+        // let birthInput = document.getElementsByName("age");
+        let birthdateInput = new Date(birth);
+        let today = new Date();
+
+        // let age = Math.abs(today - birthdateInput)
+        let yearAge = Math.ceil(Math.abs(today - birthdateInput) / (1000 * 60 * 60 * 24 * 365));
+
+        console.log(parseInt(yearAge - 1))
+        if(parseInt(yearAge - 1) <= -1 || birthdateInput > today){
+            ageComputed = 0;
+        } else {
+            ageComputed  = parseInt(yearAge - 1);
+        }
+    }
 </script>
 
 
@@ -48,14 +64,18 @@
             <label for="birthDate" class="label">
                 <span class="label-text">Birthdate</span>
               </label>
-            <input required title="Please enter your last name" type="date" id="birthdate" name="birthdate" placeholder="Type here" class="input input-bordered input-md input-secondary w-full bg-neutral focus:border-primary focus:outline-offset-[3px]" />
+            <input required title="Please enter your last name" type="date" id="birthdate" name="birthdate" placeholder="Type here" class="input input-bordered input-md input-secondary w-full bg-neutral focus:border-primary focus:outline-offset-[3px]" 
+              bind:value={birth}
+            />
         </div>
         <div class="flex flex-col flex-1 ">
             <label for="age" class="label">
                 <span class="label-text">Age</span>
                 <span class="label-text-alt">0-120 years old</span>
               </label>
-            <input required readonly title="Value is automatically computed" type="number" id="age" name="age" placeholder="Computed from your birthdate" class="input input-bordered input-md input-secondary w-full bg-neutral focus:border-primary focus:outline-offset-[3px]" min=0 max=120/>
+            <input required readonly title="Value is automatically computed" type="number" id="age" name="age" placeholder="Computed from your birthdate" class="input input-bordered input-md input-secondary w-full bg-neutral focus:border-primary focus:outline-offset-[3px]" min=0 max=120
+              bind:value={ageComputed}
+            />
         </div>
     </section>
     <div class="flex flex-col flex-1 ">
