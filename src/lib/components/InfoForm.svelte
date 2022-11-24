@@ -22,7 +22,7 @@ $: {
 
 <section class="flex flex-1 flex-col gap-2 h-max">
     <section class="flex justify-center">
-        <span>Basic Information</span>
+        <span class="font-bold">Basic Information</span>
     </section>
     <div class="flex flex-row items-center justify-between gap-2">
         <div class="flex flex-col flex-1">
@@ -92,4 +92,3 @@ $: {
     </div>
     
 </section>
-

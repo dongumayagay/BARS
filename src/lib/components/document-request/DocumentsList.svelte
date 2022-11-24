@@ -5,7 +5,7 @@
 
 <section class="flex flex-col items-center justify-start gap-6">
     <div>
-        <p>Documents List</p>
+        <p class="font-bold">Documents List</p>
     </div>
     <p>Kindly check the box of the documents you need to request</p>
     <div class="overflow-y-auto overflow-x-visible max-h-[400px] flex flex-col items-start w-[95%] gap-3">
