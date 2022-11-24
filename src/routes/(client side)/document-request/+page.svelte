@@ -1,5 +1,11 @@
 <script>
 	import InfoForm from "$lib/components/InfoForm.svelte";
+    import DocumentsList from "$lib/components/document-request/DocumentsList.svelte"
+	import FileUpload from "$lib/components/document-request/FileUpload.svelte";
+
+    let formValidated = false;
+    let filesCompleted = false;
+    let showUploadModal = false;
 
     let doculist = [
         {
@@ -38,25 +44,31 @@
     ]
 
     let lastNameValid;
+    let data;
+    let doclistReq;
 
     function submitHandler(event){
         const form = event.target;
         const formData = new FormData(form);
-        const data = Object.fromEntries(formData);
+        data = Object.fromEntries(formData);
         
         
         const {documents:_, ...info} = data; //destructuring
         const documents = formData.getAll("documents");
         if(documents.length == 0) alert("Please choose a document")
-        // console.log(documents)
-        const doclistReq = doculist.filter((document) => documents.includes(document.id))
-        // console.log(doclistReq)
+        console.log(info)
+        doclistReq = doculist.filter((document) => documents.includes(document.id))
+        if(documents.length != 0){
+            showUploadModal = true;
+        }
+        console.log(doclistReq, showUploadModal)
     }
 
     function resetHandler(event){
         const form = event.target;
         form.reset();
     }
+    
 
 </script>
 
@@ -66,34 +78,22 @@
 
         <InfoForm />
 
+        <DocumentsList {doculist}/>
 
-        <section class="flex flex-col items-center justify-start gap-6">
-            <div>
-                <p>Documents List</p>
-            </div>
-            <p>Kindly check the box of the documents you need to request</p>
-            <div class="overflow-y-auto overflow-x-visible max-h-[400px] flex flex-col items-start w-[95%] gap-3">
-                {#each doculist as document}
-                    <div class="w-full flex flex-col gap-2">
-                        <div class="flex items-center justify-center gap-3 ">
-                            <input type="checkbox" 
-                                value={document.id}
-                                name="documents"
-                                class="checkbox checkbox-primary"
-                                 
-                            />
-                            <p class="w-full bg-primary p-2 rounded-xl">{document.name}</p>
-                        </div>
-                        <div class="flex flex-col items-start pl-14 gap-2">
-                            {#each document.requirements as requirement}
-                                <p>{requirement.requirement}</p>
-                            {/each}
-                        </div>
-                    </div>
-                {/each}
-            </div>
-            
-        </section>
+        {#if showUploadModal == true}
+            <!-- svelte-ignore a11y-click-events-have-key-events -->
+            <section class="fixed top-0 left-0 h-screen w-screen flex items-center justify-center bg-black/50" on:click|self={()=>showUploadModal=false}>
+                <section class="h-max max-h-[80vh] w-[80vh] bg-neutral flex flex-col items-center justify-start p-3 rounded-2xl shadow-xl">
+                    <button type="button" class="w-full flex justify-end" on:click={()=>showUploadModal = false}>
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                          </svg>
+                    </button>
+                    <FileUpload {doclistReq}/>
+                </section>
+            </section>
+        {/if}
+        
 
         <section class="flex gap-3">
             <button type="submit"
