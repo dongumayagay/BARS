@@ -73,7 +73,7 @@ $: {
                 <span class="label-text">Age</span>
                 <span class="label-text-alt">0-120 years old</span>
               </label>
-            <input required readonly title="Value is automatically computed" type="number" id="age" name="age" placeholder="Computed from your birthdate" class="input input-bordered input-md input-secondary w-full bg-neutral focus:border-primary focus:outline-offset-[3px]" min=0 max=120
+            <input required readonly title="Value is automatically computed" type="number" id="age" name="age" placeholder="Calculated from your birthdate" class="input input-ghost input-md w-full bg-neutral focus-within:outline-none focus:outline-none" min=0 max=120
               bind:value={ageComputed}
             />
         </div>
