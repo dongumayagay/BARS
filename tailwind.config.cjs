@@ -21,7 +21,7 @@ const config = {
                   
           "info": "#2563eb",
                   
-          "success": "#65a30d",
+          "success": "#16a34a",
                   
           "warning": "#fbbf24",
                   
