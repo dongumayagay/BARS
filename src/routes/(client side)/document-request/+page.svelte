@@ -144,9 +144,24 @@
 
         {#if showRequestInfo}
             <!-- svelte-ignore a11y-click-events-have-key-events -->
-            <section class="fixed top-0 left-0 h-screen w-screen flex items-center justify-center bg-black/50" on:click|self={()=>showRequestInfo=false}>
+            <section class="fixed top-0 left-0 h-screen w-screen flex items-center justify-center bg-black/50 gap-4" on:click|self={()=>showRequestInfo=false}>
                 <section class="h-max max-h-[80vh] w-[80vw] lg:w-max lg:p-4 bg-neutral flex flex-col items-center justify-start p-3 rounded-2xl shadow-xl gap-2">
                     <RequestInfo {requestData} {doclistReq}/>
+                </section>
+                <section class="flex flex-col gap-3">
+                    <button type="button" class="btn btn-glass flex gap-2 shadow-lg" on:click={()=>{showRequestInfo=false; formValidated=false; filesCompleted=false}}>
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0013.5 3h-6a2.25 2.25 0 00-2.25 2.25v13.5A2.25 2.25 0 007.5 21h6a2.25 2.25 0 002.25-2.25V15M12 9l-3 3m0 0l3 3m-3-3h12.75" />
+                          </svg>
+                          <p>Go back and Edit</p>
+                    </button>
+                    <button type="button" class="btn btn-success flex gap-2 shadow-lg" on:click={()=>console.log("Request Successfully Submitted!")}>
+                        <p>Submit</p>
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5m-13.5-9L12 3m0 0l4.5 4.5M12 3v13.5" />
+                          </svg>
+                          
+                    </button>
                 </section>
             </section>
         {/if}
@@ -171,6 +186,5 @@
                 Clear Form
             </button>
         </section>
-
     </form>
 </section>
