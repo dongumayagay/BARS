@@ -11,37 +11,37 @@ $: console.log(requestData, doclistReq)
 
 <section>
     <p class="w-full text-center font-bold lg:text-lg mb-2">Here's what we got from you:</p>
-    <div class="overflow-y-auto lg:overflow-auto max-h-[500px] lg:max-h-max flex flex-col lg:flex-row">
+    <div class="overflow-y-auto max-h-[500px] lg:max-h-max flex flex-col lg:flex-row">
         <!-- Basic Information section -->
         <div class="p-4 border-b-2 lg:border-b-0 lg:border-r-2 border-primary">
             <div class="flex flex-col items-center justify-start gap-4">
                 <div class="w-full flex flex-col items-start justify-start">
-                    <p class="w-full font-semibold lg:text-lg">Full Name: </p>
-                    <p class="w-full text-center underline underline-offset-[10px] lg:text-lg">{requestData.lastName}, {requestData.firstName} {requestData.middleName}</p>
+                    <p class="w-full font-semibold lg:text-md">Full Name: </p>
+                    <p class="w-full text-center underline underline-offset-[10px] lg:text-md">{requestData.lastName}, {requestData.firstName} {requestData.middleName}</p>
                 </div>
                 <div class="w-full flex flex-col items-start justify-start">
-                    <p class="w-full font-semibold lg:text-lg">Birthdate: </p>
-                    <p class="w-full text-center underline underline-offset-[10px] lg:text-lg">{requestData.birthdate}</p>
+                    <p class="w-full font-semibold lg:text-md">Birthdate: </p>
+                    <p class="w-full text-center underline underline-offset-[10px] lg:text-md">{requestData.birthdate}</p>
                 </div>
                 <div class="w-full flex flex-col items-start justify-start">
-                    <p class="w-full font-semibold lg:text-lg">Age: </p>
-                    <p class="w-full text-center underline underline-offset-[10px] lg:text-lg">{requestData.age} {requestData.age >= 2 ? " years old" : "year old"}</p>
+                    <p class="w-full font-semibold lg:text-md">Age: </p>
+                    <p class="w-full text-center underline underline-offset-[10px] lg:text-md">{requestData.age} {requestData.age >= 2 ? " years old" : "year old"}</p>
                 </div>
                 <div class="w-full flex flex-col items-start justify-start">
-                    <p class="w-full font-semibold lg:text-lg">Complete Address: </p>
-                    <p class="w-full text-center underline underline-offset-[10px] lg:text-lg">{requestData.address}</p>
+                    <p class="w-full font-semibold lg:text-md">Complete Address: </p>
+                    <p class="w-full text-center underline underline-offset-[10px] lg:text-md">{requestData.address}</p>
                 </div>
                 <div class="w-full flex flex-col items-start justify-start">
-                    <p class="w-full font-semibold lg:text-lg">Email Address: </p>
-                    <p class="w-full text-center underline underline-offset-[10px] lg:text-lg">{requestData.email}</p>
+                    <p class="w-full font-semibold lg:text-md">Email Address: </p>
+                    <p class="w-full text-center underline underline-offset-[10px] lg:text-md">{requestData.email}</p>
                 </div>
                 <div class="w-full flex flex-col items-start justify-start">
-                    <p class="w-full font-semibold lg:text-lg">Phone Number: </p>
-                    <p class="w-full text-center underline underline-offset-[10px] lg:text-lg">{requestData.contact}</p>
+                    <p class="w-full font-semibold lg:text-md">Phone Number: </p>
+                    <p class="w-full text-center underline underline-offset-[10px] lg:text-md">{requestData.contact}</p>
                 </div>
                 <div class="w-full flex flex-col items-start justify-start">
-                    <p class="w-full font-semibold lg:text-lg">Purpose of the request: </p>
-                    <p class="w-full text-center underline underline-offset-[10px] lg:text-lg">{requestData.purpose}</p>
+                    <p class="w-full font-semibold lg:text-md">Purpose of the request: </p>
+                    <p class="w-full text-center underline underline-offset-[10px] lg:text-md">{requestData.purpose}</p>
                 </div>
             </div>
         </div>
