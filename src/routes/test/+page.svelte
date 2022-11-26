@@ -3,9 +3,9 @@
 
 	async function clickHandler() {
 		const result = await sendEmail({
-			to: 'emmanuelcalaycay17@gmail.com',
+			to: 'kyleandradebasquena@gmail.com',
 			subject: 'Test 1',
-			html: '<h1>Ohayo Sekai!!</h1>'
+			html: '<h1>Hello World</h1>'
 		});
 
         console.log(JSON.stringify(result))
