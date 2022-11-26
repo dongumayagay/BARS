@@ -268,13 +268,11 @@
         <InfoForm on:next={nextHandler}/>
     </div>
     
-    <div class="w-[90%] lg:w-[50%] p-4 bg-neutral rounded-xl flex justify-center" class:hidden={page !== 1}>
-        
+    <div class="w-[90%] lg:w-[45%] p-4 bg-neutral rounded-xl flex justify-start" class:hidden={page !== 1}>
         <DocumentsList on:next={nextHandler} on:back={()=>page -= 1 }/>
     </div>
-        
+
     <div class:hidden={page !== 2}>
-        
         <FileUpload doclistReq={documentRequest?.documentsRequestList??[]} on:next={nextHandler} on:back={()=>page -= 1 }/>
     </div>
 </div>

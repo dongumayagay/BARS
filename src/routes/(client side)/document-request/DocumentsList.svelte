@@ -51,15 +51,15 @@
 </svelte:head>
 
 
-<form class="flex flex-col items-center justify-start gap-3" on:submit|preventDefault={submitHandler} on:reset={(event)=>event.target.reset()}>
+<form class="w-full flex flex-col items-center justify-start gap-3" on:submit|preventDefault={submitHandler} on:reset={(event)=>event.target.reset()}>
     <div class="w-full flex justify-start">
-        <button type="button" class="lg:fixed lg:left-[15%] lg:bottom-[55%] btn btn-glass flex gap-2" on:click={()=>dispatch("back")}>
+        <button type="button" class="lg:fixed lg:left-[15%] lg:bottom-[55%] btn btn-neutral p-3 lg:p-2 btn-sm lg:btn-md flex items-center gap-2 hover:bg-neutral group hover:border-none" on:click={()=>dispatch("back")}>
             <i class="fa-solid fa-arrow-left"></i>
-            <p>Go Back</p>
+            <p class=" group-hover:underline group-hover:underline-offset-2">Go Back</p>
         </button>
     </div>
-    <div>
-        <p class="font-bold">Documents List</p>
+    <div class="w-full ">
+        <p class=" text-center  font-bold">Documents List</p>
     </div>
     <p>Kindly check the box of the documents you need to request</p>
     <div class="flex flex-col items-start w-[95%] gap-3">
@@ -82,11 +82,11 @@
             </div>
         {/each}
     </div>
-    <section class="w-full flex justify-start gap-4">
+    <section class="w-full pl-5 py-5 flex justify-start gap-1">
         <button type="submit" class="btn btn-primary flex gap-2" disabled={documentsRequestList.length === 0}>
             <p>Next</p> 
             <i class="fa-solid fa-arrow-right"></i>
         </button>
-        <button type="reset">Clear Form</button>
+        <button type="reset" class="btn btn-ghost hover:bg-neutral hover:underline hover:underline-offset-2" disabled={documentsRequestList.length === 0}>Clear Form</button>
     </section>
 </form>
