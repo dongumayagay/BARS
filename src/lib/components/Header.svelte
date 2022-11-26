@@ -11,7 +11,7 @@
 </script>
 
 
-<div class="flex px-4 bg-neutral lg:rounded-2xl" class:rounded-b-none={showMenu}>
+<div class="flex px-4 bg-neutral lg:rounded-2xl  shadow-lg" class:rounded-b-none={showMenu}>
 
 	<section class="py-4 ">
 		<!-- logo -->
@@ -25,7 +25,7 @@
 			{#each links as link}
 				<a
 					href={link.path}
-					class="bg-orange-300 border-none rounded-b-none hover:bg-orange-200 text-white btn"
+					class="bg-orange-300 border-none rounded-b-none hover:bg-orange-200 text-accent btn"
 				>
 					{link.name}
 				</a>
@@ -65,7 +65,7 @@
 </div>
 
 {#if showMenu}
-	<nav class="flex flex-col gap-2 p-4 bg-neutral rounded-b-2xl lg:hidden">
+	<nav class="flex flex-col gap-2 p-4 bg-neutral rounded-b-2xl lg:hidden shadow-lg">
 		{#each links as link}
 			<a href={link.path} 
 				class="bg-neutral border-none text-gray-500 hover:text-black hover:bg-neutral hover:underline btn"
