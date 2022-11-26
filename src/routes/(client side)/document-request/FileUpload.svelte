@@ -9,57 +9,66 @@
     let filesToUpload = []
 
     function submitHandler() {
-        // dispatch("next", {
-        //     documentsRequestList
-        // })
-        console.log(filesToUpload)
+        dispatch("next", {
+            filesToUpload
+        })
+        // console.log(filesToUpload)
     }
 
-    function changeHandler(file, name) {
-        console.log(file, name)
-        const result = filesToUpload.find((item)=>item.name === name)
+    function changeHandler(file, requestedDocumentName, requirementName) {
+        // console.log(file, requestedDocumentName)
+        const result = filesToUpload.find((item)=>item.requestedDocumentName === requestedDocumentName)
         if(result){
             result.file = file;
         } else {
-            filesToUpload = [...filesToUpload, {name, file}]
+            filesToUpload = [...filesToUpload, {requestedDocumentName, file, requirementName}]
         }
     }
-    $: console.log(filesToUpload)
+    // $: console.log(filesToUpload)
 </script>
 
-<form class="flex flex-col items-center justify-center" on:submit|preventDefault={submitHandler} on:reset={(event)=>event.target.reset()}>
-    <p>Please submit the following requirements</p>
+<form class="w-full flex flex-col items-center justify-center" on:submit|preventDefault={submitHandler} on:reset={(event)=>event.target.reset()}>
+    <div class="w-full flex justify-start">
+        <button type="button" 
+            class="lg:fixed lg:left-[15%] lg:bottom-[55%] btn btn-neutral lg:p-2 btn-md lg:btn-md flex items-center gap-2 hover:bg-neutral group hover:border-none" 
+            on:click={()=>dispatch("back")}
+        >
+            <i class="fa-solid fa-arrow-left"></i>
+            <p class="group-hover:underline group-hover:underline-offset-2">Go Back</p>
+        </button>
+    </div>
+    <p class="text-center font-semibold">Please submit the following requirements</p>
     <div class="flex flex-col gap-3 ">
-        <button type="reset" on:click={()=>{filesToUpload = []; dispatch("back")}}>Back</button>
-        <!-- {#if doclistReq} -->
             {#each doclistReq as document}
-            <div class="pb-2 border-b-4 border-primary">
-                <div>
-                    <p class=" font-semibold">{document.name}</p>
+            <div class="pb-5 border-b-4 border-dotted border-secondary">
+                <div class="p-3">
+                    <p class=" font-medium">{document.name}</p>
                 </div>
-                <div class="flex flex-col gap-4">
+                <div class="flex flex-col items-center gap-4">
                     {#each document.requirements as requirement}
-                    <div class="w-[50vw] flex flex-col items-center gao-2">
-                        <h1>
-                            {JSON.stringify(document)}
-                        </h1>
+                    <div class="w-[85%] lg:w-[30vw] flex flex-col items-center gap-2">
                         <p>{requirement.requirement}</p>
                         <input required type="file" 
-                        on:change={(event)=>changeHandler(event.target.value, document.id + "-" + document.name+ "-" + requirement.requirement)}
+                        on:change={(event)=>changeHandler(event.target.value, document.name, requirement.requirement)}
                             accept=".jpg, .jpeg .png, .svg, .webp" 
                             name="file" 
-                            class="file-input file-input-bordered file-input-primary w-full max-w-xs" 
+                            class="file-input file-input-bordered file-input-primary w-full max-w-xs file:w-[40%]" 
                         />
                     </div>
                     {/each}
                 </div>
             </div>
             {/each}
-        <!-- {/if} -->
     </div>
 
-    <button type="submit">Next</button>
-    <button type="reset">Clear Form</button>
+    <section class="w-full pl-1 pt-5 flex justify-start lg:gap-1">
+        <button type="submit" class="btn btn-primary flex gap-2">
+            <p>Next</p> 
+            <i class="fa-solid fa-arrow-right"></i>
+        </button>
+        <button type="reset" 
+            class="btn btn-ghost hover:bg-neutral hover:underline hover:underline-offset-2" 
+        >Clear Form</button>
+    </section>
 
 </form>
-
