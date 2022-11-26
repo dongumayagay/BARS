@@ -51,9 +51,9 @@
 </svelte:head>
 
 
-<form class="w-full flex flex-col items-center justify-start gap-3" on:submit|preventDefault={submitHandler} on:reset={(event)=>event.target.reset()}>
+<form class="w-full flex flex-col items-center justify-start gap-4" on:submit|preventDefault={submitHandler} on:reset={(event)=>event.target.reset()}>
     <div class="w-full flex justify-start">
-        <button type="button" class="lg:fixed lg:left-[15%] lg:bottom-[55%] btn btn-neutral p-3 lg:p-2 btn-sm lg:btn-md flex items-center gap-2 hover:bg-neutral group hover:border-none" on:click={()=>dispatch("back")}>
+        <button type="button" class="lg:fixed lg:left-[15%] lg:bottom-[55%] btn btn-neutral p-3 lg:p-4 flex items-center gap-2 hover:bg-neutral group hover:border-none" on:click={()=>dispatch("back")}>
             <i class="fa-solid fa-arrow-left"></i>
             <p class=" group-hover:underline group-hover:underline-offset-2">Go Back</p>
         </button>
@@ -61,7 +61,7 @@
     <div class="w-full ">
         <p class=" text-center  font-bold">Documents List</p>
     </div>
-    <p>Kindly check the box of the documents you need to request</p>
+    <p class=" text-center">Kindly check the box of the documents you need to request</p>
     <div class="flex flex-col items-start w-[95%] gap-3">
         {#each documentsList as document}
             <div class="w-full flex flex-col gap-2">
@@ -82,8 +82,8 @@
             </div>
         {/each}
     </div>
-    <section class="w-full pl-5 py-5 flex justify-start gap-1">
-        <button type="submit" class="btn btn-primary flex gap-2" disabled={documentsRequestList.length === 0}>
+    <section class="w-full pl-3 pt-5 flex justify-start gap-1">
+        <button type="submit" class="btn btn-primary flex lg:gap-1" disabled={documentsRequestList.length === 0}>
             <p>Next</p> 
             <i class="fa-solid fa-arrow-right"></i>
         </button>
