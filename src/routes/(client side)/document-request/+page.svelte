@@ -3,7 +3,7 @@
     import DocumentsList from "./DocumentsList.svelte"
     import FileUpload from "./FileUpload.svelte"
 
-    let page = 1;
+    let page = 0;
     let documentRequest = {}
     let requirementsFiles = []
     function nextHandler(event) {
