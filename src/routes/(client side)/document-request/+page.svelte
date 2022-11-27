@@ -5,8 +5,9 @@
     import RequestInfo from "./RequestInfo.svelte"
     import { firestore,  storage } from "$lib/firebase/client.js";
     import { doc, setDoc, Timestamp, collection } from "firebase/firestore";
+    import { ref, uploadBytes } from "firebase/storage";
 
-    // let formCompleted = false;
+    let requestCompleted = false;
     let page = 0;
 
     let requestId = "";
@@ -42,7 +43,15 @@
                         requestId += letters.charAt(Math.floor(Math.random() * letters.length));
                     }
                 }
+                for (const fileToUpload of documentRequest.filesToUpload){
+                    const pathName = "documentRequestsFiles/" + requestId + "/" + fileToUpload.requestedDocumentName + "/" + fileToUpload.requirementName + "/" + fileToUpload.file[0].name;
+                    const storageReference =  ref(storage, pathName);
 
+                    await uploadBytes(storageReference, fileToUpload.file[0])
+                    .then((snapshot) => {
+                        console.log('Uploaded a blob or file!');
+                    });
+                }
                 await setDoc(doc(firestore, "documentRequests", requestId), {
                     lastName: documentRequest.contactInfo.lastName,
                     firstName: documentRequest.contactInfo.firstName,
@@ -54,11 +63,12 @@
                     dateAdded: Timestamp.now(),
                     docsRequested: documentRequest.documentsRequestList,
                     docPurpose: documentRequest.contactInfo.purpose
-                    // ticketId: string
                 })
                 .then(
                     console.log('request successfully added to the database' + requestId)
                 )
+                requestCompleted = true;
+                console.log(requestCompleted)
             } catch (error) {
                 const errorMessage = error.errorMessage;
                 console.log(errorMessage);
@@ -79,7 +89,7 @@
         <li class="step font-semibold" class:step-success={page >= 0}>Contact Info</li>
         <li class="step {page >= 1 ? "step-success text-accent font-semibold": "text-black/50"}">Documents to Request</li>
         <li class="step {page >= 2 ? "step-success text-accent font-semibold": "text-black/50"}">Upload Requirements</li>
-        <li class="step {page >= 3 ? "step-success text-accent font-semibold": "text-black/50"}">Confirm</li>
+        <li class="step {page === 3 ? "step-success text-accent font-semibold": "text-black/50"}">Confirm</li>
     </ul>
     
     <div  class="w-[90%] lg:w-[45%] p-4 lg:px-10 bg-neutral rounded-xl flex flex-col justify-center shadow-xl gap-3" class:hidden={page !== 0}>
