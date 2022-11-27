@@ -1,5 +1,8 @@
 <script>
     import { createEventDispatcher } from 'svelte';
+
+    const dispatch = createEventDispatcher()
+    
     let contactInfo = {
         lastName: "",
         firstName: "",
@@ -10,7 +13,7 @@
         contactNo: "",
         purpose: "",
     }
-    const dispatch = createEventDispatcher()
+    
     function submitHandler() {
         dispatch("next", {
             contactInfo
