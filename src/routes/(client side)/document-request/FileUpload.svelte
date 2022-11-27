@@ -1,6 +1,5 @@
 <script>
     import {createEventDispatcher} from "svelte";
-	import { construct_svelte_component } from "svelte/internal";
     
     const dispatch = createEventDispatcher();
 
@@ -12,11 +11,9 @@
         dispatch("next", {
             filesToUpload
         })
-        // console.log(filesToUpload)
     }
 
     function changeHandler(file, requestedDocumentName, requirementName) {
-        // console.log(file, requestedDocumentName)
         const result = filesToUpload.find((item)=>item.requestedDocumentName === requestedDocumentName && item.requirementName === requirementName)
         if(result){
             result.file = file;
@@ -24,7 +21,6 @@
             filesToUpload = [...filesToUpload, {requestedDocumentName, file, requirementName}]
         }
     }
-    // $: console.log(filesToUpload)
 </script>
 
 <form class="w-full flex flex-col items-center justify-center" on:submit|preventDefault={submitHandler} on:reset={(event)=>event.target.reset()}>
