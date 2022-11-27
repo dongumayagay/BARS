@@ -17,7 +17,7 @@
 
     function changeHandler(file, requestedDocumentName, requirementName) {
         // console.log(file, requestedDocumentName)
-        const result = filesToUpload.find((item)=>item.requestedDocumentName === requestedDocumentName)
+        const result = filesToUpload.find((item)=>item.requestedDocumentName === requestedDocumentName && item.requirementName === requirementName)
         if(result){
             result.file = file;
         } else {
@@ -31,7 +31,7 @@
     <div class="w-full flex justify-start">
         <button type="button" 
             class="lg:fixed lg:left-[15%] lg:bottom-[55%] btn btn-neutral lg:p-2 btn-md lg:btn-md flex items-center gap-2 hover:bg-neutral group hover:border-none" 
-            on:click={()=>dispatch("back")}
+            on:click={()=> {filesToUpload = []; dispatch("back")}}
         >
             <i class="fa-solid fa-arrow-left"></i>
             <p class="group-hover:underline group-hover:underline-offset-2">Go Back</p>
@@ -68,7 +68,7 @@
         </button>
         <button type="reset" 
             class="btn btn-ghost hover:bg-neutral hover:underline hover:underline-offset-2" 
-        >Clear Form</button>
+        >Reset Files</button>
     </section>
 
 </form>
