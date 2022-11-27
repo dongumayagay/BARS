@@ -3,12 +3,17 @@
     import DocumentsList from "./DocumentsList.svelte"
     import FileUpload from "./FileUpload.svelte"
     import RequestInfo from "./RequestInfo.svelte"
+    import { firestore,  storage } from "$lib/firebase/client.js";
+    import { doc, setDoc, Timestamp, collection } from "firebase/firestore";
 
-    let formCompleted = false;
+    // let formCompleted = false;
     let page = 0;
+
+    let requestId = "";
 
     let documentRequest = {}
     let requirementsFiles = []
+
     function nextHandler(event) {
         documentRequest = Object.assign(documentRequest, event.detail)
         if(!!event.detail.filesToUpload){
@@ -18,14 +23,51 @@
         console.log(documentRequest)
         page += 1;
 
-        if(!!documentRequest.contactInfo && !!documentRequest.documentsRequestList && requirementsFiles.length != 0){
-            formCompleted = true;
-        }
+        // if(!!documentRequest.contactInfo && !!documentRequest.documentsRequestList && !!requirementsFiles.length){
+        //     formCompleted = true;
+        // }
     }
 
-    function backToPage(pageNumber) {
-        page = pageNumber;
+    async function submitToDatabase(){
+        try {
+                const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890QWERTYUIOPLKJHGFDSAZXCVBNM9876543210";
+
+                // requesttId Generator
+                for(let index = 0; index < 9; index++){
+                    if(requestId.length <= 11) {
+                        let modulus = index % 3;
+                        if(modulus == 0 && index != 0){
+                            requestId += "-"
+                        }
+                        requestId += letters.charAt(Math.floor(Math.random() * letters.length));
+                    }
+                }
+
+                await setDoc(doc(firestore, "documentRequests", requestId), {
+                    lastName: documentRequest.contactInfo.lastName,
+                    firstName: documentRequest.contactInfo.firstName,
+                    middleName: documentRequest.contactInfo.middleName,
+                    completeAddress: documentRequest.contactInfo.address,
+                    contactNo: documentRequest.contactInfo.contactNo,
+                    birthDate: documentRequest.contactInfo.birthdate,
+                    email: documentRequest.contactInfo.email,
+                    dateAdded: Timestamp.now(),
+                    docsRequested: documentRequest.documentsRequestList,
+                    docPurpose: documentRequest.contactInfo.purpose
+                    // ticketId: string
+                })
+                .then(
+                    console.log('request successfully added to the database' + requestId)
+                )
+
+                
+                
+            } catch (error) {
+                const errorMessage = error.errorMessage;
+                console.log(errorMessage);
+            }
     }
+
 </script>
 
 <svelte:head>
@@ -69,7 +111,7 @@
             />
         </div>
         <div class="w-[95%] lg:w-[65%] flex justify-center">
-            <button type="button" class="btn btn-success">Submit Request</button>
+            <button type="button" class="btn btn-success" on:click={submitToDatabase}>Submit Request</button>
         </div>
     </div>
 </div>
