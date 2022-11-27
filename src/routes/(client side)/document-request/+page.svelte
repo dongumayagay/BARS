@@ -17,6 +17,7 @@
     let requirementsFiles = []
 
     function nextHandler(event) {
+        documentRequest = Object.assign(documentRequest, event.detail)
         if(!!event.detail.filesToUpload){
             requirementsFiles = {...requirementsFiles, ...event.detail.filesToUpload}
             console.log(requirementsFiles)
