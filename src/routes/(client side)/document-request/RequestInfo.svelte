@@ -9,13 +9,6 @@ export let documentsRequestList;
 $: console.log(contactInfo, documentsRequestList)
 </script>
 
-<svelte:head>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" 
-        integrity="sha512-MV7K8+y+gLIBoVD59lQIYicR65iaqukzvf/nwasF0nqhPay5w/9lJmVM2hMDcnK1OnMGCdVK+iQrJ7lzPJQd1w==" 
-        crossorigin="anonymous" referrerpolicy="no-referrer" 
-    />
-</svelte:head>
-
 <section>
     <p class="w-full text-center font-bold lg:text-lg mb-2">Here's what we got from you:</p>
     <div class="h-max flex flex-col lg:flex-row">
@@ -30,10 +23,6 @@ $: console.log(contactInfo, documentsRequestList)
                     <p class="w-full font-semibold lg:text-md">Birthdate: </p>
                     <p class="w-full text-center underline underline-offset-[10px] lg:text-md">{contactInfo.birthdate}</p>
                 </div>
-                <!-- <div class="w-full flex flex-col items-start justify-start">
-                    <p class="w-full font-semibold lg:text-md">Age: </p>
-                    <p class="w-full text-center underline underline-offset-[10px] lg:text-md">{contactInfo.age} {contactInfo.age >= 2 ? " years old" : "year old"}</p>
-                </div> -->
                 <div class="w-full flex flex-col items-start justify-start gap-2">
                     <p class="w-full font-semibold lg:text-md">Complete Address: </p>
                     <p class="w-full text-center underline underline-offset-[10px] lg:text-md">{contactInfo.address}</p>

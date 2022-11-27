@@ -59,9 +59,6 @@
                 .then(
                     console.log('request successfully added to the database' + requestId)
                 )
-
-                
-                
             } catch (error) {
                 const errorMessage = error.errorMessage;
                 console.log(errorMessage);
@@ -115,10 +112,3 @@
         </div>
     </div>
 </div>
-
-
-
-
-
-
-
