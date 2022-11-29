@@ -8,9 +8,10 @@
     import { doc, Timestamp, collection, addDoc } from "firebase/firestore";
     import { ref, uploadBytes } from "firebase/storage";
     import { goto } from "$app/navigation";
+    import { sendEmail } from '$lib/utils';
 
     // let requestCompleted = false;
-    let page = 1;
+    let page = 0;
 
     // let requestId = "";
 
@@ -21,7 +22,18 @@
         page += 1;
     }
 
-    $: console.log(documentRequest)
+    async function emailRequestId(email, documentRequestId) {
+		const result = await sendEmail({
+			to: email,
+			subject: 'Document Request Tracker',
+			html: '<a href="https://bars-gf.vercel.app/document-request/' + documentRequestId + '">Click Here</a>'
+		});
+
+        console.log(JSON.stringify(result))
+        alert("An email containing this request's tracker link has been sent");
+	}
+    
+    // $: console.log(documentRequest)
     async function submitToDatabase(){
         try {
                 const documentRequestRef = await addDoc(collection(db, 'documentRequests'),{
@@ -49,55 +61,13 @@
                 // console.log(fileUploadPromises);
                 const fileUploadPromisesResult = await Promise.all(fileUploadPromises)
 
+                emailRequestId(documentRequestRef.data().email, documentRequestRef.id);
+
                 console.log(fileUploadPromisesResult)
                 alert("Your request have been submitted \n\nYou will now be redirected to this request's tracker")
 
                 console.log(documentRequestRef.id)
                 goto('./document-request/' + documentRequestRef.id );
-
-
-
-
-                    // const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890QWERTYUIOPLKJHGFDSAZXCVBNM9876543210";
-
-                // // requesttId Generator
-                // for(let index = 0; index < 9; index++){
-                //     if(requestId.length <= 11) {
-                //         let modulus = index % 3;
-                //         if(modulus == 0 && index != 0){
-                //             requestId += "-"
-                //         }
-                //         requestId += letters.charAt(Math.floor(Math.random() * letters.length));
-                //     }
-                // }
-
-                // for (const fileToUpload of documentRequest.filesToUpload){
-                //     const pathName = "documentRequestsFiles/" + requestId + "/" + fileToUpload.requestedDocumentName + "/" + fileToUpload.requirementName + "/" + fileToUpload.file[0].name;
-                //     const storageReference =  ref(storage, pathName);
-
-                //     await uploadBytes(storageReference, fileToUpload.file[0])
-                //     .then((snapshot) => {
-                //         console.log('Uploaded a blob or file!');
-                //     });
-                // }
-
-                // await setDoc(doc(firestore, "documentRequests", requestId), {
-                    // lastName: documentRequest.contactInfo.lastName,
-                    // firstName: documentRequest.contactInfo.firstName,
-                    // middleName: documentRequest.contactInfo.middleName,
-                    // completeAddress: documentRequest.contactInfo.address,
-                    // contactNo: documentRequest.contactInfo.contactNo,
-                    // birthDate: documentRequest.contactInfo.birthdate,
-                    // email: documentRequest.contactInfo.email,
-                    // dateAdded: Timestamp.now(),
-                    // docsRequested: documentRequest.documentsRequestList,
-                    // docPurpose: documentRequest.contactInfo.purpose
-                // })
-
-                
-                // documentRequestRef.id
-                // console.log('request successfully added to the database' + requestId)                
-                // requestCompleted = true;
             } catch (error) {
                 const errorMessage = error.errorMessage;
             }
@@ -110,6 +80,7 @@
 </svelte:head>
 
 <div class="p-3 flex flex-col items-center gap-4">
+    
     <!-- {#if !requestCompleted} -->
         <ul class="steps lg:w-[75%]">
             <li class="step font-semibold" class:step-success={page >= 0}>Contact Info</li>
