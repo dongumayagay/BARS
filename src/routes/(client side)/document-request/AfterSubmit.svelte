@@ -1,4 +1,4 @@
-<script>
+<!-- <script>
 
     export let requestId;
     
@@ -23,4 +23,4 @@
         </button>
     </div>
         <button type="button" class="btn btn-ghost btn-sm hover:bg-neutral hover:underline" on:click={() => window.location.reload()}>Finish</button>
-</div>
+</div> -->
