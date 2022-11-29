@@ -5,7 +5,7 @@
 		const result = await sendEmail({
 			to: 'emmanuelcalaycay17@gmail.com',
 			subject: 'Test 1',
-			html: '<a href="https://bars-gf.vercel.app/document-request/fPNsUHolkZONBSV2yeNX">Click Here</a>'
+			html: '<a href="https://bars-git-documents-request-page-dongumayagay.vercel.app/fPNsUHolkZONBSV2yeNX">Click Here</a>'
 		});
 
         console.log(JSON.stringify(result))
