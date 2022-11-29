@@ -26,7 +26,7 @@
 		const result = await sendEmail({
 			to: email,
 			subject: 'Document Request Tracker',
-			html: '<a href="https://bars-gf.vercel.app/document-request/' + documentRequestId + '">Click Here</a>'
+			html: '<a href="https://bars-git-documents-request-page-dongumayagay.vercel.app/document-request/' + documentRequestId + '">Click Here</a>'
 		});
 
         console.log(JSON.stringify(result))
@@ -61,7 +61,7 @@
                 // console.log(fileUploadPromises);
                 const fileUploadPromisesResult = await Promise.all(fileUploadPromises)
 
-                emailRequestId(documentRequestRef.data().email, documentRequestRef.id);
+                emailRequestId(documentRequest.contactInfo.email, documentRequestRef.id);
 
                 console.log(fileUploadPromisesResult)
                 alert("Your request have been submitted \n\nYou will now be redirected to this request's tracker")
