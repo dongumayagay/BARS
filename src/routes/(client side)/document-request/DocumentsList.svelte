@@ -47,10 +47,7 @@
 
 <form class="w-full flex flex-col items-center justify-start gap-4" on:submit|preventDefault={submitHandler} on:reset={(event)=>event.target.reset()}>
     <div class="w-full flex justify-start">
-        <button type="button" class="lg:fixed lg:left-[15%] lg:bottom-[55%] btn btn-neutral p-3 lg:p-4 flex items-center gap-2 hover:bg-neutral group hover:border-none" on:click={()=>dispatch("back")}>
-            <i class="fa-solid fa-arrow-left"></i>
-            <p class=" group-hover:underline group-hover:underline-offset-2">Go Back</p>
-        </button>
+        
     </div>
     <div class="w-full ">
         <p class=" text-center  font-bold">Documents List</p>
@@ -76,11 +73,17 @@
             </div>
         {/each}
     </div>
-    <section class="w-full pl-3 pt-5 flex justify-start gap-1">
-        <button type="submit" class="btn btn-primary flex lg:gap-1" disabled={documentsRequestList.length === 0}>
-            <p>Next</p> 
-            <i class="fa-solid fa-arrow-right"></i>
+    <section class="w-full flex flex-col lg:flex-row gap-4 justify-around items-center ">
+        <div class="flex justify-start gap-1">
+            <button type="submit" class="btn btn-primary flex lg:gap-1" disabled={documentsRequestList.length === 0}>
+                <p>Next</p> 
+                <i class="fa-solid fa-arrow-right"></i>
+            </button>
+            <button type="reset" class="btn btn-ghost hover:bg-neutral hover:underline hover:underline-offset-2" disabled={documentsRequestList.length === 0}>Clear Form</button>
+        </div>
+        <button type="button" class="btn btn-neutral p-3 lg:p-4 flex items-center gap-2 hover:bg-neutral group hover:border-none" on:click={()=>dispatch("back")}>
+            <i class="fa-solid fa-arrow-left"></i>
+            <p class=" group-hover:underline group-hover:underline-offset-2">Go Back</p>
         </button>
-        <button type="reset" class="btn btn-ghost hover:bg-neutral hover:underline hover:underline-offset-2" disabled={documentsRequestList.length === 0}>Clear Form</button>
     </section>
 </form>
