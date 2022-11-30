@@ -52,10 +52,10 @@ export let documentRequest;
         {/if}
         
         <!-- Documents Requested section -->
-        {#if documentRequest?.documentsRequestList}
+        {#if documentRequest?.listOfRequestedDocuments}
         <div class="p-4 w-full lg:w-max flex flex-col justify-between gap-4">
             <p class="w-full text-center font-semibold">Documents you requested: </p>
-            {#each documentRequest.documentsRequestList as document}
+            {#each documentRequest.listOfRequestedDocuments as document}
                 <div class="flex items-center gap-2">
                     <i class="fa-solid fa-circle text-[8px]"></i>
                     <p>{document.name}</p>
