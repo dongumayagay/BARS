@@ -1,5 +1,8 @@
 <script>
     import {createEventDispatcher} from "svelte";
+
+    const dispatch = createEventDispatcher();
+
     const documentsList = [
             {
                 id: "1",
@@ -35,11 +38,12 @@
                 ]
             },
         ]
-    let documentsRequestList = []
-    const dispatch = createEventDispatcher()
+        
+    let listOfRequestedDocuments = []
+    
     function submitHandler() {
         dispatch("next", {
-            documentsRequestList
+            listOfRequestedDocuments
         })
     }
 </script>
@@ -61,7 +65,7 @@
                         value={document}
                         name="documents"
                         class="checkbox checkbox-primary"
-                        bind:group={documentsRequestList} 
+                        bind:group={listOfRequestedDocuments} 
                     />
                     <p class="w-full bg-primary p-2 rounded-xl">{document.name}</p>
                 </div>
@@ -75,11 +79,11 @@
     </div>
     <section class="w-full flex flex-col lg:flex-row gap-4 justify-around items-center ">
         <div class="flex justify-start gap-1">
-            <button type="submit" class="btn btn-primary flex lg:gap-1" disabled={documentsRequestList.length === 0}>
+            <button type="submit" class="btn btn-primary flex lg:gap-1" disabled={listOfRequestedDocuments.length === 0}>
                 <p>Next</p> 
                 <i class="fa-solid fa-arrow-right"></i>
             </button>
-            <button type="reset" class="btn btn-ghost hover:bg-neutral hover:underline hover:underline-offset-2" disabled={documentsRequestList.length === 0}>Clear Form</button>
+            <button type="reset" class="btn btn-ghost hover:bg-neutral hover:underline hover:underline-offset-2" disabled={listOfRequestedDocuments.length === 0}>Clear Form</button>
         </div>
         <button type="button" class="btn btn-neutral p-3 lg:p-4 flex items-center gap-2 hover:bg-neutral group hover:border-none" on:click={()=>dispatch("back")}>
             <i class="fa-solid fa-arrow-left"></i>
