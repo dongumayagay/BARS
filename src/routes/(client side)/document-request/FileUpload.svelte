@@ -3,7 +3,7 @@
     
     const dispatch = createEventDispatcher();
 
-    export let listOfDocumentsRequested;
+    export let listOfRequestedDocuments;
 
     let filesToUpload = []
 
@@ -29,7 +29,7 @@
     </div>
     <p class="text-center font-semibold">Please submit the following requirements</p>
     <div class="flex flex-col gap-3 ">
-            {#each listOfDocumentsRequested as document}
+            {#each listOfRequestedDocuments as document}
             <div class="pb-5 border-b-4 border-dotted border-secondary">
                 <div class="p-3">
                     <p class=" font-medium">{document.name}</p>
