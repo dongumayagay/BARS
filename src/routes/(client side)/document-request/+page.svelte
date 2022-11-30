@@ -3,17 +3,16 @@
     import DocumentsList from "./DocumentsList.svelte";
     import FileUpload from "./FileUpload.svelte";
     import Confirm from "./Confirm.svelte";
-    // import AfterSubmit from "./AfterSubmit.svelte";
+    import RequestCompleted from "./RequestCompleted.svelte";
     import { db,  storage } from "$lib/firebase/client.js";
-    import { doc, Timestamp, collection, addDoc } from "firebase/firestore";
+    import { Timestamp, collection, addDoc } from "firebase/firestore";
     import { ref, uploadBytes } from "firebase/storage";
-    import { goto } from "$app/navigation";
     import { sendEmail } from '$lib/utils';
 
-    // let requestCompleted = false;
+    let requestComplete = false;
     let page = 0;
 
-    // let requestId = "";
+    let requestId;
 
     let documentRequest = {}
 
@@ -45,7 +44,7 @@
                     birthDate: documentRequest.contactInfo.birthdate,
                     email: documentRequest.contactInfo.email,
                     dateAdded: Timestamp.now(),
-                    docsRequested: documentRequest.documentsRequestList,
+                    docsRequested: documentRequest.listOfRequestedDocuments,
                     docPurpose: documentRequest.contactInfo.purpose,
                     status: "pending"
                 })
@@ -58,21 +57,16 @@
                     // return pathName;
                 })
 
-                // console.log(fileUploadPromises);
                 const fileUploadPromisesResult = await Promise.all(fileUploadPromises)
-
                 emailRequestId(documentRequest.contactInfo.email, documentRequestRef.id);
-
-                console.log(fileUploadPromisesResult)
-                alert("Your request have been submitted \n\nYou will now be redirected to this request's tracker")
+                requestId = documentRequestRef.id;
+                requestComplete = true;
 
                 console.log(documentRequestRef.id)
-                goto('./document-request/' + documentRequestRef.id );
             } catch (error) {
                 const errorMessage = error.errorMessage;
             }
     }
-
 </script>
 
 <svelte:head>
@@ -81,7 +75,7 @@
 
 <div class="p-3 flex flex-col items-center gap-4">
     
-    <!-- {#if !requestCompleted} -->
+    {#if !requestComplete}
         <ul class="steps lg:w-[75%]">
             <li class="step font-semibold" class:step-success={page >= 0}>Contact Info</li>
             <li class="step {page >= 1 ? "step-success text-accent font-semibold": "text-black/50"}">Documents to Request</li>
@@ -98,8 +92,7 @@
         </div>
 
         <div class="w-[95%] lg:w-[45%] p-4 lg:px-6 bg-neutral rounded-xl flex justify-center shadow-xl" class:hidden={page !== 2}>
-            <FileUpload listOfDocumentsRequested={documentRequest?.documentsRequestList??[]} on:next={nextHandler} on:back={()=>page -= 1 }/>
-            
+            <FileUpload listOfRequestedDocuments={documentRequest?.listOfRequestedDocuments??[]} on:next={nextHandler} on:back={()=>page -= 1 }/>
         </div>
 
         <div class:hidden={page !== 3}>
@@ -114,13 +107,11 @@
                     on:submit = {submitToDatabase}
                 />
             </div>
-            
         </div>
-    <!-- {:else}
+    {:else}
         <section>
-            <AfterSubmit {requestId} />
-    
+            <RequestCompleted {requestId} />
         </section>
-    {/if} -->
+    {/if}
 </div>
 
