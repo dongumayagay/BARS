@@ -34,7 +34,7 @@
         <div class="flex flex-col gap-3">
             {#each officialsList as official}
                 <div class="flex items-center gap-2">
-                    <input value={official.name} type="radio" name="officials" class="radio radio-secondary" bind:group={selectedOfficial}>
+                    <input value={official} type="radio" name="officials" class="radio radio-secondary" bind:group={selectedOfficial}>
                     <p class="bg-primary w-full p-2 rounded-xl">{official.name}<small>({official.position})</small></p>
                 </div>
             {/each}
