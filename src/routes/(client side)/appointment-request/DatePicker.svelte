@@ -1,16 +1,29 @@
 <script>
+    import {db} from '$lib/firebase/client.js'
     import {createEventDispatcher} from "svelte";
+    import { collection, getDocs, query, QuerySnapshot, where } from "firebase/firestore"
 
     const dispatch = createEventDispatcher();
 
-    let availableHours = [
+    let barangayWorkingHours = [
         "8:00 AM", "9:00 AM", "10:00 AM", "11:00 AM", "12:00 PM", "1:00 PM", "2:00 PM", "3:00 PM", "4:00 PM", "5:00 PM"
     ]
+
+    let availableHours = [];
 
     let selectedDateAndTime = {
         date: "",
         time: ""
     };
+
+    async function filterHours(date) {
+        availableHours = barangayWorkingHours;
+        const findReservedDay = await getDocs(query(collection(db, 'appointmentRequests'), where("appointmentDate", "==", date))) 
+
+        findReservedDay.forEach((doc) => {
+            availableHours = availableHours.filter(time => time != doc.data().appointmentTime);
+        })
+    }
 
     function submitHandler() {
         dispatch("next", {
@@ -18,7 +31,7 @@
         })
     }
 
-    $: console.log(selectedDateAndTime)
+    $: if(!!selectedDateAndTime.date) filterHours(selectedDateAndTime.date)
 </script>
 
 
