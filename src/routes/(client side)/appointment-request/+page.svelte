@@ -2,16 +2,44 @@
     import DatePicker from "./DatePicker.svelte";
     import InfoForm from "../../../lib/components/InfoForm.svelte";
 	import OfficialsList from "./OfficialsList.svelte";
+	import ConfirmAppointment from "./ConfirmAppointment.svelte";
+    import {db} from '$lib/firebase/client.js'
+    import {addDoc, collection, Timestamp} from 'firebase/firestore';
 
-    let page = 0;
+    let page = 1;
 
     let appointmentRequest = [];
+    let requestId;
 
     function nextHandler(event) {
         appointmentRequest = Object.assign(appointmentRequest, event.detail)
         page += 1;
 
         console.log(appointmentRequest, page);
+    }
+
+    async function submitToDatabase() {
+        try {
+            const appointmentRequestRef = await addDoc(collection(db, 'appointmentRequests'),{
+                lastName: appointmentRequest.contactInfo.lastName,
+                firstName: appointmentRequest.contactInfo.firstName,
+                middleName: appointmentRequest.contactInfo.middleName,
+                completeAddress: appointmentRequest.contactInfo.address,
+                contactNo: appointmentRequest.contactInfo.contactNo,
+                birthDate: appointmentRequest.contactInfo.birthdate,
+                email: appointmentRequest.contactInfo.email,
+                dateAdded: Timestamp.now(),
+                appointmentDate: appointmentRequest.selectedDateAndTime.date,
+                appointmentTime: appointmentRequest.selectedDateAndTime.time,
+                appointmentPurpose: appointmentRequest.contactInfo.purpose,
+                status: "pending"
+            })
+
+            requestId = appointmentRequestRef.id;
+            alert('Your request for an appointment has been submitted\n\nRequest ID: ' + appointmentRequestRef.id);
+        } catch (error) {
+            console.log(error)
+        }
     }
 
 </script>
@@ -34,6 +62,15 @@
 
     <div class="w-[95%] lg:w-max p-4 bg-neutral rounded-xl shadow-xl" class:hidden={page !== 2}>
         <OfficialsList on:next={nextHandler} on:back={()=>{page -= 1}}/>
+    </div>
+
+    <div class="w-full flex justify-center" class:hidden={page !== 3}>
+        <div class="w-[95%] lg:w-max p-4 lg:px-6 bg-neutral rounded-xl flex justify-center shadow-xl" >
+            <ConfirmAppointment 
+                {appointmentRequest}
+                on:submit={submitToDatabase}
+            />
+        </div>
     </div>
 
 </div>
