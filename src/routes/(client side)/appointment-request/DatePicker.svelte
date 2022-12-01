@@ -5,10 +5,18 @@
 
     const dispatch = createEventDispatcher();
 
+    const currentMonth = new Date().toLocaleDateString().split('/')[0];
+    let currentDate = parseInt(new Date().toLocaleDateString().split('/')[1]) + 1;
+    const currentYear = new Date().toLocaleDateString().split('/')[2];
+    if(parseInt(currentDate) < 10){
+        currentDate = "0" + currentDate;
+    }
+
+    let dateToday = currentYear + "-" + currentMonth + "-" + currentDate;
+
     let barangayWorkingHours = [
         "8:00 AM", "9:00 AM", "10:00 AM", "11:00 AM", "12:00 PM", "1:00 PM", "2:00 PM", "3:00 PM", "4:00 PM", "5:00 PM"
     ]
-
     let availableHours = [];
 
     let selectedDateAndTime = {
@@ -35,7 +43,7 @@
 </script>
 
 
-<form class="w-full h-max p-4 flex flex-col items-center gap-4" on:submit|preventDefault={submitHandler} on:reset={(event)=>event.target.reset()}>
+<form class="w-full h-max p-4 flex flex-col items-center gap-4" on:submit|preventDefault={submitHandler} on:reset={(event)=>{event.target.reset(); availableHours = []}}>
     <p class=" font-bold">Appointment Schedule</p>
     <div class="w-full h-full lg:w-full flex flex-col gap-4">
 
@@ -51,6 +59,7 @@
                 </label>
                 <input type="date" 
                     id="date"  
+                    min={dateToday}
                     placeholder="Type here" 
                     class="input input-bordered w-full lg:max-w-xs bg-neutral border-secondary focus:outline-primary focus:ring-0 focus:border-secondary"
                     bind:value={selectedDateAndTime.date} 
@@ -92,5 +101,4 @@
             <p class=" group-hover:underline group-hover:underline-offset-2">Go Back</p>
         </button>
     </section>
-
 </form>
