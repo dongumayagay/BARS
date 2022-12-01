@@ -6,13 +6,13 @@
     const dispatch = createEventDispatcher();
 
     const currentMonth = new Date().toLocaleDateString().split('/')[0];
-    let currentDate = parseInt(new Date().toLocaleDateString().split('/')[1]) + 1;
+    let tomorrowDate = parseInt(new Date().toLocaleDateString().split('/')[1]) + 1;
     const currentYear = new Date().toLocaleDateString().split('/')[2];
-    if(parseInt(currentDate) < 10){
-        currentDate = "0" + currentDate;
+    if(parseInt(tomorrowDate) < 10){
+        tomorrowDate = "0" + tomorrowDate;
     }
 
-    let dateToday = currentYear + "-" + currentMonth + "-" + currentDate;
+    let dateToday = currentYear + "-" + currentMonth + "-" + tomorrowDate;
 
     let barangayWorkingHours = [
         "8:00 AM", "9:00 AM", "10:00 AM", "11:00 AM", "12:00 PM", "1:00 PM", "2:00 PM", "3:00 PM", "4:00 PM", "5:00 PM"
