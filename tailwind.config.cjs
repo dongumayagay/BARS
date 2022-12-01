@@ -13,7 +13,7 @@ const config = {
           
           "secondary": "#fb923c",
                   
-          "accent": "#f3f4f6",
+          "accent": "#44403c",
                   
           "neutral": "#ffffff",
                   
@@ -21,7 +21,7 @@ const config = {
                   
           "info": "#2563eb",
                   
-          "success": "#65a30d",
+          "success": "#16a34a",
                   
           "warning": "#fbbf24",
                   

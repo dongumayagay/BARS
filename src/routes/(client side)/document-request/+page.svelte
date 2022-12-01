@@ -1,112 +1,117 @@
 <script>
-	import InfoForm from "$lib/components/InfoForm.svelte";
+    import InfoForm from "$lib/components/InfoForm.svelte";
+    import DocumentsList from "./DocumentsList.svelte";
+    import FileUpload from "./FileUpload.svelte";
+    import Confirm from "./Confirm.svelte";
+    import RequestCompleted from "./RequestCompleted.svelte";
+    import { db,  storage } from "$lib/firebase/client.js";
+    import { Timestamp, collection, addDoc } from "firebase/firestore";
+    import { ref, uploadBytes } from "firebase/storage";
+    import { sendEmail } from '$lib/utils';
 
-    let doculist = [
-        {
-            id: "1",
-            name: "Document 1",
-            requirements: [
-                {requirement: "requirement1"},
-                {requirement: "requirement2"},
-            ]
-        },
-        {
-            id: "2",
-            name: "Document 2",
-            requirements: [
-                {requirement: "requirement1"},
-                {requirement: "requirement2"},
-                {requirement: "requirement3"}
-            ]
-        },
-        {
-            id: "3",
-            name: "Document 3",
-            requirements: [
-                {requirement: "requirement1"}
-            ]
-        },
-        {
-            id: "4",
-            name: "Document 4",
-            requirements: [
-                {requirement: "requirement1"},
-                {requirement: "requirement2"},
-                {requirement: "requirement3"}
-            ]
-        },
-    ]
+    let requestComplete = false;
+    let page = 0;
 
-    let lastNameValid;
+    let requestId;
 
-    function submitHandler(event){
-        const form = event.target;
-        const formData = new FormData(form);
-        const data = Object.fromEntries(formData);
-        
-        
-        const {documents:_, ...info} = data; //destructuring
-        const documents = formData.getAll("documents");
-        if(documents.length == 0) alert("Please choose a document")
-        // console.log(documents)
-        const doclistReq = doculist.filter((document) => documents.includes(document.id))
-        // console.log(doclistReq)
+    let documentRequest = {}
+
+    function nextHandler(event) {
+        documentRequest = Object.assign(documentRequest, event.detail)
+        page += 1;
     }
 
-    function resetHandler(event){
-        const form = event.target;
-        form.reset();
-    }
+    async function emailRequestId(email, documentRequestId) {
+		const result = await sendEmail({
+			to: email,
+			subject: 'Document Request Tracker',
+			html: '<a href="https://bars-git-documents-request-page-dongumayagay.vercel.app/document-request/' + documentRequestId + '">Click Here</a>'
+		});
 
+        console.log(JSON.stringify(result))
+        alert("An email containing this request's tracker link has been sent");
+	}
+    
+    // $: console.log(documentRequest)
+    async function submitToDatabase(){
+        try {
+                const documentRequestRef = await addDoc(collection(db, 'documentRequests'),{
+                    lastName: documentRequest.contactInfo.lastName,
+                    firstName: documentRequest.contactInfo.firstName,
+                    middleName: documentRequest.contactInfo.middleName,
+                    completeAddress: documentRequest.contactInfo.address,
+                    contactNo: documentRequest.contactInfo.contactNo,
+                    birthDate: documentRequest.contactInfo.birthdate,
+                    email: documentRequest.contactInfo.email,
+                    dateAdded: Timestamp.now(),
+                    docsRequested: documentRequest.listOfRequestedDocuments,
+                    docPurpose: documentRequest.contactInfo.purpose,
+                    status: "pending"
+                })
+
+                const fileUploadPromises = documentRequest.filesToUpload.map((value)=>{
+                    const pathName = "documentRequestsFiles/" + documentRequestRef.id + "/" + value.requestedDocumentName + "/" + value.requirementName + "." + value.file[0].type.split('/')[1];
+                    const storageReference =  ref(storage, pathName);
+
+                    return uploadBytes(storageReference, value.file[0]);
+                    // return pathName;
+                })
+
+                const fileUploadPromisesResult = await Promise.all(fileUploadPromises)
+                emailRequestId(documentRequest.contactInfo.email, documentRequestRef.id);
+                requestId = documentRequestRef.id;
+                requestComplete = true;
+
+                console.log(documentRequestRef.id)
+            } catch (error) {
+                const errorMessage = error.errorMessage;
+            }
+    }
 </script>
 
+<svelte:head>
+    <title>Document Request | B.A.R.S.</title>
+</svelte:head>
 
+<div class="p-3 flex flex-col items-center gap-4">
+    
+    {#if !requestComplete}
+        <ul class="steps lg:w-[75%]">
+            <li class="step font-semibold" class:step-success={page >= 0}>Contact Info</li>
+            <li class="step {page >= 1 ? "step-success text-accent font-semibold": "text-black/50"}">Documents to Request</li>
+            <li class="step {page >= 2 ? "step-success text-accent font-semibold": "text-black/50"}">Upload Requirements</li>
+            <li class="step {page === 3 ? "step-success text-accent font-semibold": "text-black/50"}">Confirm</li>
+        </ul>
+        
+        <div  class="w-[90%] lg:w-[45%] p-4 lg:px-10 bg-neutral rounded-xl flex flex-col justify-center shadow-xl gap-3" class:hidden={page !== 0}>
+            <InfoForm on:next={nextHandler}/>
+        </div>
+        
+        <div class="w-[95%] lg:w-[45%] p-4 bg-neutral rounded-xl flex justify-start shadow-xl" class:hidden={page !== 1}>
+            <DocumentsList on:next={nextHandler} on:back={()=>page -= 1 }/>
+        </div>
 
-<section class="py-6 px-4 lg:px-0">
-    <form class="form-control bg-neutral p-4 grid grid-cols-1 lg:grid-cols-2 rounded-lg gap-6" on:submit|preventDefault={submitHandler} on:reset={resetHandler}>
+        <div class="w-[95%] lg:w-[45%] p-4 lg:px-6 bg-neutral rounded-xl flex justify-center shadow-xl" class:hidden={page !== 2}>
+            <FileUpload listOfRequestedDocuments={documentRequest?.listOfRequestedDocuments??[]} on:next={nextHandler} on:back={()=>page -= 1 }/>
+        </div>
 
-        <InfoForm />
-
-        <section class="flex flex-col items-center justify-start gap-6">
-            <div>
-                <p>Documents List</p>
+        <div class:hidden={page !== 3}>
+            <div class="w-[95%] lg:w-max p-4 lg:px-6 bg-neutral rounded-xl flex justify-center shadow-xl" >
+                <Confirm 
+                    {documentRequest}
+                    on:backToPageZero = {() => page = 0}
+                    on:backToPageOne = {() => {
+                        page = 1; 
+                        // requirementsFiles = [];
+                    }}
+                    on:submit = {submitToDatabase}
+                />
             </div>
-            <p>Kindly check the box of the documents you need to request</p>
-            <div class="overflow-y-auto overflow-x-visible max-h-[400px] flex flex-col items-start w-[95%] gap-3">
-                {#each doculist as document}
-                    <div class="flex flex-col w-full gap-2">
-                        <div class="flex items-center justify-center gap-3 ">
-                            <input type="checkbox" 
-                                value={document.id}
-                                name="documents"
-                                class="checkbox checkbox-primary"
-                                 
-                            />
-                            <p class="w-full p-2 bg-primary rounded-xl">{document.name}</p>
-                        </div>
-                        <div class="flex flex-col items-start gap-2 pl-14">
-                            {#each document.requirements as requirement}
-                                <p>{requirement.requirement}</p>
-                            {/each}
-                        </div>
-                    </div>
-                {/each}
-            </div>
+        </div>
+    {:else}
+        <section>
+            <RequestCompleted {requestId} />
         </section>
+    {/if}
+</div>
 
-        <section class="flex gap-3">
-            <button type="submit"
-                class="btn btn-primary"
-                
-                
-                >
-                Validate
-            </button>
-            <button type="reset"
-                class="hover:underline hover:underline-offset-2">
-                Clear Form
-            </button>
-        </section>
-
-    </form>
-</section>
