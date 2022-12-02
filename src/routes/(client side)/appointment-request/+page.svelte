@@ -6,6 +6,7 @@
 	import ConfirmAppointment from "./ConfirmAppointment.svelte";
     import {db} from '$lib/firebase/client.js'
     import {addDoc, collection, Timestamp} from 'firebase/firestore';
+    import { sendEmail } from '$lib/utils.js';
 
     let page = 0;
     let requestSubmitted = false;
@@ -19,6 +20,17 @@
 
         console.log(appointmentRequest, page);
     }
+
+    async function emailRequestId(email, appointmentRequestId) {
+		const result = await sendEmail({
+			to: email,
+			subject: 'Document Request Tracker',
+			html: '<a href="https://bars-git-documents-request-page-dongumayagay.vercel.app/document-request/' + appointmentRequestId + '">Click Here</a>'
+		});
+
+        console.log(JSON.stringify(result))
+        alert("An email containing this request's tracker link has been sent");
+	}
 
     async function submitToDatabase() {
         try {
@@ -38,6 +50,7 @@
                 status: "pending"
             })
 
+            emailRequestId(appointmentRequest.contactInfo.email, appointmentRequestRef.id);
             requestId = appointmentRequestRef.id;
             alert('Your request for an appointment has been submitted\n\nRequest ID: ' + appointmentRequestRef.id);
             requestSubmitted = true; 
