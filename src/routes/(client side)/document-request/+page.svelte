@@ -3,7 +3,7 @@
     import DocumentsList from "./DocumentsList.svelte";
     import FileUpload from "./FileUpload.svelte";
     import Confirm from "./Confirm.svelte";
-    import RequestCompleted from "./RequestCompleted.svelte";
+    import RequestCompleted from "$lib/components/RequestCompleted.svelte";
     import { db,  storage } from "$lib/firebase/client.js";
     import { Timestamp, collection, addDoc } from "firebase/firestore";
     import { ref, uploadBytes } from "firebase/storage";
@@ -110,7 +110,7 @@
         </div>
     {:else}
         <section>
-            <RequestCompleted {requestId} />
+            <RequestCompleted {requestId} trackerPath='./document-request/'/>
         </section>
     {/if}
 </div>
