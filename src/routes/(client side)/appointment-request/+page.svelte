@@ -25,7 +25,7 @@
 		const result = await sendEmail({
 			to: email,
 			subject: 'Document Request Tracker',
-			html: '<a href="https://bars-git-documents-request-page-dongumayagay.vercel.app/document-request/' + appointmentRequestId + '">Click Here</a>'
+			html: '<a href="https://bars-git-appointment-request-dongumayagay.vercel.app/appointment-request/' + appointmentRequestId + '">Click Here</a>'
 		});
 
         console.log(JSON.stringify(result))
