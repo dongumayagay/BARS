@@ -24,7 +24,7 @@
     async function emailRequestId(email, appointmentRequestId) {
 		const result = await sendEmail({
 			to: email,
-			subject: 'Document Request Tracker',
+			subject: 'Appointment Request Tracker',
 			html: '<a href="https://bars-git-appointment-request-dongumayagay.vercel.app/appointment-request/' + appointmentRequestId + '">Click Here</a>'
 		});
 
