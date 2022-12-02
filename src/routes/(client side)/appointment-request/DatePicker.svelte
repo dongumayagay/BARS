@@ -8,7 +8,7 @@
     const currentMonth = new Date().toLocaleDateString().split('/')[0];
     let tomorrowDate = parseInt(new Date().toLocaleDateString().split('/')[1]) + 1;
     const currentYear = new Date().toLocaleDateString().split('/')[2];
-    if(parseInt(tomorrowDate) < 10){
+    if(tomorrowDate < 10){
         tomorrowDate = "0" + tomorrowDate;
     }
 
@@ -63,7 +63,7 @@
                     placeholder="Type here" 
                     class="input input-bordered w-full lg:max-w-xs bg-neutral border-secondary focus:outline-primary focus:ring-0 focus:border-secondary"
                     bind:value={selectedDateAndTime.date} 
-                    
+                    required
                 />
             </div>
             <div class="w-full flex justify-center lg:justify-start lg:flex-col gap-2 lg:gap-0">
