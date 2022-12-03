@@ -1,6 +1,7 @@
 <script>
     import { doc, getDoc } from 'firebase/firestore';
     import { db } from '$lib/firebase/client';
+    import {goto} from "$app/navigation"
     import Tracker from "./Tracker.svelte";
 
     let errorMessage = "";
@@ -15,7 +16,12 @@
                 console.log(errorMessage)
             } else {
                 errorMessage = "";
-                console.log("The request does exist")
+                // console.log("The request does exist")
+                if(event.detail.typeOfRequest === 'documentRequests'){
+                    goto('../document-request/' + event.detail.requestId);
+                } else {
+                    goto('../document-request/' + event.detail.requestId);
+                }
             } 
              
         } catch (error) {
