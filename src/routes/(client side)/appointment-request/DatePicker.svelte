@@ -5,14 +5,15 @@
 
     const dispatch = createEventDispatcher();
 
-    const currentMonth = new Date().toLocaleDateString().split('/')[0];
-    let tomorrowDate = parseInt(new Date().toLocaleDateString().split('/')[1]) + 1;
-    const currentYear = new Date().toLocaleDateString().split('/')[2];
-    if(tomorrowDate < 10){
-        tomorrowDate = "0" + tomorrowDate;
+    const today = new Date();
+    let tomorrowDateFormat = today.getDate() + 1
+
+    // the date should be '0*' if it is less than 10 for it to be valid, otherwise the min value will be ignored
+    if(tomorrowDateFormat < 10){
+        tomorrowDateFormat = "0" + tomorrowDateFormat;
     }
 
-    let dateToday = currentYear + "-" + currentMonth + "-" + tomorrowDate;
+    let tomorrow = today.getFullYear() + "-" + (today.getMonth() + 1) + "-" + tomorrowDateFormat;
 
     let barangayWorkingHours = [
         "8:00 AM", "9:00 AM", "10:00 AM", "11:00 AM", "12:00 PM", "1:00 PM", "2:00 PM", "3:00 PM", "4:00 PM", "5:00 PM"
@@ -59,7 +60,7 @@
                 </label>
                 <input type="date" 
                     id="date"  
-                    min={dateToday}
+                    min={tomorrow}
                     placeholder="Type here" 
                     class="input input-bordered w-full lg:max-w-xs bg-neutral border-secondary focus:outline-primary focus:ring-0 focus:border-secondary"
                     bind:value={selectedDateAndTime.date} 
