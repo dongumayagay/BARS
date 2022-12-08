@@ -25,7 +25,7 @@
 		const result = await sendEmail({
 			to: email,
 			subject: 'Document Request Tracker',
-			html: '<a href="https://bars-git-documents-request-page-dongumayagay.vercel.app/document-request/' + documentRequestId + '">Click Here</a>'
+			html: '<a href="https://bars-gf.vercel.app/document-request' + documentRequestId + '">Click Here</a><p> to track this document request</p>'
 		});
 
         console.log(JSON.stringify(result))
@@ -99,11 +99,7 @@
             <div class="w-[95%] lg:w-max p-4 lg:px-6 bg-neutral rounded-xl flex justify-center shadow-xl" >
                 <Confirm 
                     {documentRequest}
-                    on:backToPageZero = {() => page = 0}
-                    on:backToPageOne = {() => {
-                        page = 1; 
-                        // requirementsFiles = [];
-                    }}
+                    on:back={()=>page -= 1}
                     on:submit = {submitToDatabase}
                 />
             </div>
