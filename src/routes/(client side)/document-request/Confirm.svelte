@@ -42,12 +42,6 @@ export let documentRequest;
                         <p class="w-full text-center underline underline-offset-[10px] lg:text-md">{documentRequest.contactInfo.purpose}</p>
                     </div>
                 </div>
-                <section class="w-full flex justify-center">
-                    <button type="button" class="btn btn-primary flex gap-2 shadow-md" on:click={()=>dispatch('backToPageZero')}>
-                        <p>Edit Contact Info</p>
-                        <i class="fa-solid fa-pen-to-square"></i>
-                    </button>
-                </section>
             </div>
         {/if}
         
@@ -61,17 +55,15 @@ export let documentRequest;
                     <p>{document.name}</p>
                 </div>
             {/each}
-            <section class="w-full flex justify-center">
-                <button type="button" class="flex gap-2 btn btn-primary shadow-md" on:click={()=>dispatch('backToPageOne')}>
-                    <p>Edit this list</p>
-                    <i class="fa-solid fa-pen-to-square"></i>
-                </button>
-            </section>
         </div>
         {/if}
 
     </div>
-    <div class="w-full flex justify-center">
-        <button type="button" class="btn btn-success" on:click={()=>dispatch("submit")}>Submit Request</button>
+    <div class="w-full flex justify-around">
+        <button type="button" class="btn btn-success hover:text-neutral hover:scale-105" on:click={()=>dispatch("submit")}>Submit Request</button>
+        <button type="button" class="btn btn-neutral p-3 lg:p-4 flex items-center gap-2 hover:bg-neutral group hover:border-none" on:click={()=>dispatch("back")}>
+            <i class="fa-solid fa-arrow-left"></i>
+            <p class=" group-hover:underline group-hover:underline-offset-2">Go Back</p>
+        </button>
     </div>
 </section>
