@@ -8,7 +8,6 @@
 
     async function submitHandler(event) {
         try {
-            console.log(event.detail)
             const docRef = await getDoc(doc(db, event.detail.typeOfRequest, event.detail.requestId))
 
             if(!docRef.exists()){
@@ -16,7 +15,6 @@
                 console.log(errorMessage)
             } else {
                 errorMessage = "";
-                // console.log("The request does exist")
                 if(event.detail.typeOfRequest === 'documentRequests'){
                     goto('../document-request/' + event.detail.requestId);
                 } else {
