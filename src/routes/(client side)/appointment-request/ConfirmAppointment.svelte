@@ -67,7 +67,8 @@
         </div>
     </div>
 
-    <div class="w-full flex justify-center gap-4">
+    <div class="w-full flex justify-around gap-4">
+        <button type="button" class="btn btn-success" on:click={()=>dispatch("submit")}>Submit Request</button>
         <button type="button" class="btn btn-ghost flex gap-2 group hover:bg-neutral  " on:click={()=>dispatch("back")}>
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18" />
@@ -75,7 +76,6 @@
               
             <p class=" group-hover:underline group-hover:underline-offset-2">Go Back</p>
         </button>
-        <button type="button" class="btn btn-success" on:click={()=>dispatch("submit")}>Submit Request</button>
     </div>
 </section>
 
