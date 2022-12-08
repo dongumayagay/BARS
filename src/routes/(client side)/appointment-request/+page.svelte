@@ -25,7 +25,7 @@
 		const result = await sendEmail({
 			to: email,
 			subject: 'Appointment Request Tracker',
-			html: '<a href="https://bars-git-appointment-request-dongumayagay.vercel.app/appointment-request/' + appointmentRequestId + '">Click Here</a>'
+			html: '<a href="https://bars-gf.vercel.app/appointment-request/' + appointmentRequestId + '">Click Here</a><p> to track this appointment request</p>'
 		});
 
         console.log(JSON.stringify(result))
