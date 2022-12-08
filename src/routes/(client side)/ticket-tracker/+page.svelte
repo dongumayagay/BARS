@@ -18,7 +18,7 @@
                 if(event.detail.typeOfRequest === 'documentRequests'){
                     goto('../document-request/' + event.detail.requestId);
                 } else {
-                    goto('../document-request/' + event.detail.requestId);
+                    goto('../appointment-request/' + event.detail.requestId);
                 }
             } 
              
