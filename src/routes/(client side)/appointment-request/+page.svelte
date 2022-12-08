@@ -61,6 +61,10 @@
 
 </script>
 
+<svelte:head>
+    <title>Appointment Request | B.A.R.S.</title>
+</svelte:head>
+
 {#if !requestSubmitted}
     <section class="p-3 flex flex-col items-center gap-4">
         <ul class="steps w-full lg:w-[75%]">
