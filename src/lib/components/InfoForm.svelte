@@ -69,7 +69,7 @@
             <!-- <input required title="Please enter your complete address" type="text" id="address" name="address" placeholder="Brgy. United Bayanihan, San Pedro, Laguna" class="input input-bordered input-md input-secondary "
             
              /> -->
-            <textarea required title="Please enter your complete address" class="textarea textarea-secondary w-full bg-neutral focus:border-primary focus:outline-offset-[3px]" placeholder="Bio" bind:value={contactInfo.address}></textarea>
+            <textarea required title="Please enter your complete address" class="textarea textarea-secondary w-full bg-neutral focus:border-primary focus:outline-offset-[3px]" placeholder="Lot **, Blk **, Brgy. United Bayanihan, San Pedro City, Laguna" bind:value={contactInfo.address}></textarea>
         </div>
         <div class="group flex flex-col flex-1 ">
             <label for="email" class="label">
