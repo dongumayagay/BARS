@@ -62,7 +62,7 @@
                     id="date"  
                     min={tomorrow}
                     placeholder="Type here" 
-                    class="input input-bordered w-full lg:max-w-xs bg-neutral border-secondary focus:outline-primary focus:ring-0 focus:border-secondary"
+                    class="input input-bordered w-full lg:max-w-xs bg-neutral border-primary focus:outline-primary focus:ring-0 focus:border-secondary"
                     bind:value={selectedDateAndTime.date} 
                     required
                 />
@@ -72,7 +72,7 @@
                     <span class="label-text">Pick a time: </span>
                 </label>
                 <select id="time" 
-                    class="select select-bordered bg-neutral border-secondary focus:outline-primary focus:ring-0 focus:border-secondary"
+                    class="select select-bordered bg-neutral border-primary focus:outline-primary focus:ring-0 focus:border-secondary"
                     placeholder="Pick a Time"
                     bind:value={selectedDateAndTime.time} 
                     required

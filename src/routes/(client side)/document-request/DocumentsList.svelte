@@ -4,40 +4,40 @@
     const dispatch = createEventDispatcher();
 
     const documentsList = [
-            {
-                id: "1",
-                name: "Document 1",
-                requirements: [
-                    {requirement: "requirement1"},
-                    {requirement: "requirement2"},
-                ]
-            },
-            {
-                id: "2",
-                name: "Document 2",
-                requirements: [
-                    {requirement: "requirement1"},
-                    {requirement: "requirement2"},
-                    {requirement: "requirement3"}
-                ]
-            },
-            {
-                id: "3",
-                name: "Document 3",
-                requirements: [
-                    {requirement: "requirement1"}
-                ]
-            },
-            {
-                id: "4",
-                name: "Document 4",
-                requirements: [
-                    {requirement: "requirement1"},
-                    {requirement: "requirement2"},
-                    {requirement: "requirement3"}
-                ]
-            },
-        ]
+        {
+            id: "1",
+            name: "Document 1",
+            requirements: [
+                {requirement: "requirement1"},
+                {requirement: "requirement2"},
+            ]
+        },
+        {
+            id: "2",
+            name: "Document 2",
+            requirements: [
+                {requirement: "requirement1"},
+                {requirement: "requirement2"},
+                {requirement: "requirement3"}
+            ]
+        },
+        {
+            id: "3",
+            name: "Document 3",
+            requirements: [
+                {requirement: "requirement1"}
+            ]
+        },
+        {
+            id: "4",
+            name: "Document 4",
+            requirements: [
+                {requirement: "requirement1"},
+                {requirement: "requirement2"},
+                {requirement: "requirement3"}
+            ]
+        },
+    ]
         
     let listOfRequestedDocuments = []
     
@@ -67,7 +67,7 @@
                         class="checkbox checkbox-primary"
                         bind:group={listOfRequestedDocuments} 
                     />
-                    <p class="w-full bg-primary p-2 rounded-xl">{document.name}</p>
+                    <p class="w-full p-2 border-b-2 border-primary font-semibold">{document.name}</p>
                 </div>
                 <div class="flex flex-col items-start pl-14 gap-2">
                     {#each document.requirements as requirement}

@@ -13,6 +13,10 @@
             <p class="font-semibold hover:underline">{documentRequest.id}</p>
         </div>
         <div class="flex flex-col gap-5">
+            <div class="flex gap-2">
+                <p class="text-[14px]">Type of Request: </p>
+                <p class="text-[14px] font-semibold">Appointment Request</p>
+            </div>
             <div class="flex flex-col justify-between md:flex-row-reverse gap-3">
                 <p class="text-[12px] w-full md:w-[25vw]">Date Requested: {documentRequest.dateAdded.toDate()}</p>
                 <div class="flex flex-col">
