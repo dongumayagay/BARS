@@ -42,7 +42,7 @@
                 </label>
             <input required title="Please enter your last name" type="text" 
                 placeholder="ex: Dela Cruz"
-                class="input input-bordered input-md input-secondary w-full bg-neutral focus:border-primary focus:outline-offset-[3px]"
+                class="input input-bordered input-md input-primary w-full bg-neutral focus:border-primary focus:outline-offset-[3px]"
                 bind:value={contactInfo.lastName}
                 />
         </div>
@@ -50,7 +50,7 @@
             <label for="firstName" class="label">
                 <span class="label-text">First Name</span>
                 </label>
-            <input required title="Please enter your first name" type="text" id="firstName" name="firstName" placeholder="ex: Juan" class="input input-bordered input-md input-secondary w-full bg-neutral focus:border-primary focus:outline-offset-[3px]"
+            <input required title="Please enter your first name" type="text" id="firstName" name="firstName" placeholder="ex: Juan" class="input input-bordered input-md input-primary w-full bg-neutral focus:border-primary focus:outline-offset-[3px]"
             bind:value={contactInfo.firstName}
              />
         </div>
@@ -58,7 +58,7 @@
             <label for="middleName" class="label">
                 <span class="label-text">Middle Name</span>
             </label>
-            <input  type="text" title="Disregard if not applicable" id="middleName" name="middleName" placeholder="(optional)" class="input input-bordered input-md input-secondary w-full bg-neutral focus:border-primary focus:outline-offset-[3px]"
+            <input  type="text" title="Disregard if not applicable" id="middleName" name="middleName" placeholder="(optional)" class="input input-bordered input-md input-primary w-full bg-neutral focus:border-primary focus:outline-offset-[3px]"
             bind:value={contactInfo.middleName}
              />
         </div>
@@ -66,16 +66,16 @@
             <label for="address" class="label">
                 <span class="label-text">Complete Address</span>
               </label>
-            <!-- <input required title="Please enter your complete address" type="text" id="address" name="address" placeholder="Brgy. United Bayanihan, San Pedro, Laguna" class="input input-bordered input-md input-secondary "
+            <!-- <input required title="Please enter your complete address" type="text" id="address" name="address" placeholder="Brgy. United Bayanihan, San Pedro, Laguna" class="input input-bordered input-md input-primary "
             
              /> -->
-            <textarea required title="Please enter your complete address" class="textarea textarea-secondary w-full bg-neutral focus:border-primary focus:outline-offset-[3px]" placeholder="Lot **, Blk **, Brgy. United Bayanihan, San Pedro City, Laguna" bind:value={contactInfo.address}></textarea>
+            <textarea required title="Please enter your complete address" class="textarea textarea-primary w-full bg-neutral focus:border-primary focus:outline-offset-[3px]" placeholder="Lot **, Blk **, Brgy. United Bayanihan, San Pedro City, Laguna" bind:value={contactInfo.address}></textarea>
         </div>
         <div class="group flex flex-col flex-1 ">
             <label for="email" class="label">
                 <span class="label-text">Email Address</span>
               </label>
-            <input required title="Please enter your valid Email address" type="email" id="email" name="email" placeholder="example@email.com" class="input input-bordered input-md input-secondary w-full bg-neutral focus:border-primary focus:outline-offset-[3px]"
+            <input required title="Please enter your valid Email address" type="email" id="email" name="email" placeholder="example@email.com" class="input input-bordered input-md input-primary w-full bg-neutral focus:border-primary focus:outline-offset-[3px]"
             bind:value={contactInfo.email}
              />
         </div>
@@ -84,7 +84,7 @@
                 <label for="birthDate" class="label">
                     <span class="label-text">Birthdate</span>
                   </label>
-                <input required title="Please enter your last name" type="date" id="birthdate" name="birthdate" placeholder="Type here" class="input input-bordered input-md input-secondary w-full bg-neutral focus:border-primary focus:outline-offset-[3px]"
+                <input required title="Please enter your last name" type="date" id="birthdate" name="birthdate" placeholder="Type here" class="input input-bordered input-md input-primary w-full bg-neutral focus:border-primary focus:outline-offset-[3px]"
                 bind:value={contactInfo.birthdate}
                 />
             </div>
@@ -93,7 +93,7 @@
             <label for="contact" class="label">
                 <span class="label-text">Phone Number</span>
               </label>
-            <input required title="Please enter your valid phone number" type="tel" id="contact" name="contact" placeholder="09** *** *** / 639** *** ****" class="input input-bordered input-md input-secondary w-full bg-neutral focus:border-primary focus:outline-offset-[3px]"
+            <input required title="Please enter your valid phone number" type="tel" id="contact" name="contact" placeholder="09** *** *** / 639** *** ****" class="input input-bordered input-md input-primary w-full bg-neutral focus:border-primary focus:outline-offset-[3px]"
             bind:value={contactInfo.contactNo}
               />
         </div>
@@ -101,10 +101,10 @@
             <label for="purpose" class="label">
                 <span class="label-text">Purpose of the Request</span>
               </label>
-            <!-- <input required title="Please enter the purpose of the requirement" type="textarea" id="purpose" name="purpose" placeholder="example: Job Requirement" class="input input-bordered input-md input-secondary "
+            <!-- <input required title="Please enter the purpose of the requirement" type="textarea" id="purpose" name="purpose" placeholder="example: Job Requirement" class="input input-bordered input-md input-primary "
             
             /> -->
-            <textarea class="textarea textarea-secondary w-full bg-neutral focus:border-primary focus:outline-offset-[3px]" placeholder="example: Job Requirement" bind:value={contactInfo.purpose}></textarea>
+            <textarea class="textarea textarea-primary w-full bg-neutral focus:border-primary focus:outline-offset-[3px]" placeholder="example: Job Requirement" bind:value={contactInfo.purpose}></textarea>
         </div>
     </section>
     
