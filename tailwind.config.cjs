@@ -6,6 +6,7 @@ const config = {
 
   daisyui: {
     themes: [
+      "dark",
       {
         mytheme: {
         
