@@ -86,12 +86,18 @@
 
 {#if showMenu}
 	<nav class="flex flex-col gap-2 p-4 bg-neutral rounded-b-2xl lg:hidden shadow-lg z-10">
-		{#each links as link}
-			<a href={link.path} 
-				class="bg-neutral border-none text-gray-500 hover:text-black hover:bg-neutral hover:underline btn"
-				on:click={()=>showMenu=false}>
+		{#each links as link, index}
+			<button type="button"
+				on:click={()=>{ 
+					$currentPage = index; 
+					showMenu = false;
+					goto(link.path)
+				}}
+				class="bg-neutral border-none text-gray-500 hover:text-black hover:bg-neutral hover:underline btn" 
+				class:tab-active={$currentPage == index}
+			>
 				{link.name}
-			</a>
+			</button>
 		{/each}
 	</nav>
 {/if}
