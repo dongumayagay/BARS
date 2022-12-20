@@ -5,7 +5,7 @@
 </script>
 
 <section class="w-[80%] flex flex-col gap-2">
-    <section class="w-full bg-neutral flex flex-col rounded-xl z-10">
+    <section class="w-full bg-neutral flex flex-col rounded-xl shadow-lg z-10">
         <div class="w-full h-[75px] border-b-[1px] border-primary p-4">
             <p class="font-semibold">{document.name}</p>
         </div>
@@ -29,7 +29,7 @@
     
     <section class="w-full flex flex-col gap-2 rounded-xl z-1 mb-10 {showList ? " " : "opacity-0 h-0  translate-y-[-6rem]"} transition-all ease-in-out duration-300 z-1">
         {#each document.requirements as requirement}
-            <div class="bg-neutral flex items-center gap-4 rounded-xl p-4">
+            <div class="bg-neutral flex items-center gap-4 rounded-xl shadow-lg p-4">
                 <i class="fa-solid fa-id-card"></i>
                 <div class="flex flex-col">
                     <p>{requirement.name}</p>
