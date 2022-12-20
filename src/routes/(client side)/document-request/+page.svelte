@@ -1,5 +1,5 @@
 <script>
-    import InfoForm from "$lib/components/InfoForm.svelte";
+    import InfoForm from "$lib/components/BasicInformationForm.svelte";
     import DocumentsList from "./DocumentsList.svelte";
     import FileUpload from "./FileUpload.svelte";
     import Confirm from "./Confirm.svelte";
@@ -78,9 +78,9 @@
     {#if !requestComplete}
         <ul class="steps lg:w-[75%]">
             <li class="step font-semibold" class:step-success={page >= 0} class:text-xs={page!==0}>Contact Info</li>
-            <li class="step {page >= 1 ? "step-success font-semibold": "text-black/50"}" class:text-xs={page!==1}>Documents to Request</li>
-            <li class="step {page >= 2 ? "step-success font-semibold": "text-black/50"}" class:text-xs={page!==2}>Upload Requirements</li>
-            <li class="step {page === 3 ? "step-success font-semibold": "text-black/50"}" class:text-xs={page!==3}>Confirm</li>
+            <li class="step {page >= 1 ? "step-success font-semibold": ""}" class:text-xs={page!==1}>Documents to Request</li>
+            <li class="step {page >= 2 ? "step-success font-semibold": ""}" class:text-xs={page!==2}>Upload Requirements</li>
+            <li class="step {page === 3 ? "step-success font-semibold": ""}" class:text-xs={page!==3}>Confirm</li>
         </ul>
         
         <div  class="w-[90%] lg:w-[45%] p-4 lg:px-10 bg-neutral rounded-xl flex flex-col justify-center shadow-xl gap-3" class:hidden={page !== 0}>
