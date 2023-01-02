@@ -35,37 +35,37 @@
     // $: console.log(documentRequest)
     async function submitToDatabase(){
         try {
-                const documentRequestRef = await addDoc(collection(db, 'documentRequests'),{
-                    lastName: documentRequest.contactInfo.lastName,
-                    firstName: documentRequest.contactInfo.firstName,
-                    middleName: documentRequest.contactInfo.middleName,
-                    completeAddress: documentRequest.contactInfo.address,
-                    contactNo: documentRequest.contactInfo.contactNo,
-                    birthDate: documentRequest.contactInfo.birthdate,
-                    email: documentRequest.contactInfo.email,
-                    dateAdded: Timestamp.now(),
-                    docsRequested: documentRequest.listOfRequestedDocuments,
-                    docPurpose: documentRequest.contactInfo.purpose,
-                    status: "pending"
-                })
+            const documentRequestRef = await addDoc(collection(db, 'documentRequests'),{
+                lastName: documentRequest.contactInfo.lastName,
+                firstName: documentRequest.contactInfo.firstName,
+                middleName: documentRequest.contactInfo.middleName,
+                completeAddress: documentRequest.contactInfo.address,
+                contactNo: documentRequest.contactInfo.contactNo,
+                birthDate: documentRequest.contactInfo.birthdate,
+                email: documentRequest.contactInfo.email,
+                dateAdded: Timestamp.now(),
+                docsRequested: documentRequest.listOfRequestedDocuments,
+                docPurpose: documentRequest.contactInfo.purpose,
+                status: "pending"
+            })
 
-                const fileUploadPromises = documentRequest.filesToUpload.map((value)=>{
-                    const pathName = "documentRequestsFiles/" + documentRequestRef.id + "/" + value.requestedDocumentName + "/" + value.requirementName + "." + value.file[0].type.split('/')[1];
-                    const storageReference =  ref(storage, pathName);
+            const fileUploadPromises = documentRequest.filesToUpload.map((value)=>{
+                const pathName = "documentRequestsFiles/" + documentRequestRef.id + "/" + value.requestedDocumentName + "/" + value.requirementName + "." + value.file[0].type.split('/')[1];
+                const storageReference =  ref(storage, pathName);
 
-                    return uploadBytes(storageReference, value.file[0]);
-                    // return pathName;
-                })
+                return uploadBytes(storageReference, value.file[0]);
+                // return pathName;
+            })
 
-                const fileUploadPromisesResult = await Promise.all(fileUploadPromises)
-                emailRequestId(documentRequest.contactInfo.email, documentRequestRef.id);
-                requestId = documentRequestRef.id;
-                requestComplete = true;
+            const fileUploadPromisesResult = await Promise.all(fileUploadPromises)
+            emailRequestId(documentRequest.contactInfo.email, documentRequestRef.id);
+            requestId = documentRequestRef.id;
+            requestComplete = true;
 
-                console.log(documentRequestRef.id)
-            } catch (error) {
-                const errorMessage = error.errorMessage;
-            }
+            console.log(documentRequestRef.id)
+        } catch (error) {
+            const errorMessage = error.message;
+        }
     }
 </script>
 
