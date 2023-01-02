@@ -1,26 +1,35 @@
 <script>
-	export let links = [
-		{
-			path: '/',
-			name: 'Homepage'
-		}
-	];
+	import {goto} from '$app/navigation'
+	import { createEventDispatcher } from 'svelte';
 
+	const dispatch = createEventDispatcher();
+	const links = [
+		{name: 'Waiting List'},
+		{name: 'To Claim Documents'},
+		{name: 'Approved Appointments'},
+        {name: 'History'},
+        {name: 'Trash'}
+	] 
+	
+	export let page;
 	let showMenu = false;
 </script>
 
-<div class="flex py-2 px-4 bg-neutral lg:rounded-t-lg" class:rounded-b-none={showMenu}>
+<div class="w-full flex pt-4 px-4 bg-neutral lg:rounded-t-lg" class:rounded-b-none={showMenu}>
 
 	<section class="flex flex-col flex-1 ">
 
-		<nav class="items-end flex-1 hidden lg:flex justify-evenly">
-			{#each links as link}
-				<a
-					href={link.path}
-					class="bg-orange-300 border-none rounded hover:bg-orange-200 text-white btn"
+		<nav class="items-end flex-1 hidden lg:flex justify-evenly tabs">
+			{#each links as link, index}
+				<button
+					on:click={()=>{
+						dispatch("switchTab", {index})
+					}}
+					class="tab tab-lifted border-b-0 font-semibold"
+					class:tab-active={page === index}
 				>
 					{link.name}
-				</a>
+				</button>
 			{/each}
 		</nav>
 	</section>
@@ -58,12 +67,15 @@
 
 {#if showMenu}
 	<nav class="flex flex-col gap-2 p-4 bg-neutral rounded-b-2xl lg:hidden">
-		{#each links as link}
-			<a href={link.path} 
+		{#each links as link, index}
+			<button
 				class="bg-neutral border-none text-gray-500 hover:text-black hover:bg-neutral hover:underline btn"
-				on:click={()=>showMenu=false}>
+				on:click={()=>{
+					dispatch("switchTab", {index})
+				}}
+			>
 				{link.name}
-			</a>
+			</button>
 		{/each}
 	</nav>
 {/if}
