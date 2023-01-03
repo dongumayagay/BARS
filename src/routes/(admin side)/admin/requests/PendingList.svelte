@@ -38,14 +38,11 @@
                 nextStatusEmailContent: "Good Day! Your requested date and schedule is approved. Please come to the office on your scheduled time."
             }]
         })
-
-        // console.log(pendingAppointmentRequests)
     })
 
     function viewHandler(event) {
         dataToView = event.detail.requestData;
         viewing = true;
-        // console.log(dataToView)
     }
 
     function closeHandler() {
@@ -76,7 +73,6 @@
     </div>
     <div class="w-full" class:hidden={!viewing}>
         <RequestViewer {dataToView} nextStatus={dataToView.nextStatus} on:close={closeHandler}/>
-
     </div>
 
 </main>
