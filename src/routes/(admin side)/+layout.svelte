@@ -1,25 +1,26 @@
 <script>
-
 	import Header from "$lib/components/Header.svelte";
-
+	import { adminUser } from "$lib/stores.js";
 
 	const title = "Welcome Admin"
 	const links = [
 		{
-			path: '/admin',
+			path: '../admin/dashboard',
 			name: 'Dashboard'
 		},
 		{
-			path: '/admin/document-appointment-request',
+			path: '../admin/requests',
 			name: 'Requests'
 		},
 		{
-			path: '/admin/make-annoucement',
+			path: '../admin/make-announcement',
 			name: 'Announcement'
 		}
 	] 
 
 </script>
-<Header {title} {links}/>
 
+{#if $adminUser !== null}
+	<Header {title} {links}/>	
+{/if}
 <slot />
