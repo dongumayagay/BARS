@@ -70,7 +70,11 @@
                 <div class="w-full flex flex-col items-start">
                     <div class="flex gap-2">
                         <small>Status:</small>
-                        <small class:text-info={dataToView.status=="pending"}>{dataToView.status}</small>
+                        <small 
+                            class="font-semibold"
+                            class:text-info={dataToView.status === "pending"}
+                            class:text-success={dataToView.status === "Ready to claim" || dataToView.status === "Approved"}
+                        >{dataToView.status}</small>
                     </div>
                     <button class="text-sm hover:underline" on:click={updateHandler}>Update Status to: {nextStatus}</button>
                 </div>
