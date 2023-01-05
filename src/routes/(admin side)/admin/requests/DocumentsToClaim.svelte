@@ -1,7 +1,7 @@
 <script>
     import RequestPreview from "../../../../lib/components/RequestPreview.svelte";
     import RequestViewer from "./RequestViewer.svelte";
-	import { onSnapshot, query, collection, where, doc } from "firebase/firestore";
+	import { onSnapshot, query, collection, where } from "firebase/firestore";
     import { db } from "$lib/firebase/client.js"
 
 
