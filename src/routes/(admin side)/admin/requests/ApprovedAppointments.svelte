@@ -41,13 +41,13 @@
 <div class="w-full flex flex-col items-center" class:hidden={page !== 2}>
     <div class="w-full flex flex-col items-center py-6" class:hidden={viewing}>
         <p class="w-max h-max text-center mb-4 p-2 rounded-lg font-bold">Approved Appointment Schedules</p>
-        <div class=" overflow-y-auto max-h-[400px] flex flex-col gap-4">
+        <div class="overflow-y-auto max-h-[400px] p-6 flex flex-col gap-4">
             {#each approvedAppointments as approvedAppointment }
                 <RequestPreview requestData={approvedAppointment} on:view={viewHandler}/>
             {/each}
         </div>
     </div>
     <div class="w-full" class:hidden={!viewing}>
-        <RequestViewer {dataToView} nextStatus={dataToView.nextStatus} on:close={closeHandler}/>
+        <RequestViewer {dataToView} on:close={closeHandler}/>
     </div>
 </div>
