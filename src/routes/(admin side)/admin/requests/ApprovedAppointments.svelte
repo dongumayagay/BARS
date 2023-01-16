@@ -47,7 +47,7 @@
             {/each}
         </div>
     </div>
-    <div class="w-full" class:hidden={!viewing}>
+    {#if viewing}
         <RequestViewer {dataToView} on:close={closeHandler}/>
-    </div>
+    {/if}
 </div>
