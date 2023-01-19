@@ -1,13 +1,21 @@
 <script>
     /** @type {import('./$types').PageData} */
+    import NavigationButtons from './NavigationButtons.svelte';
+    import RequestMessages from './messaging-components/RequestMessages.svelte';
+
     export let data;
 
     const {documentRequest} = data;
+
+    let page = 0;
+    let requesterFullName = documentRequest.lastName + ", " + documentRequest.firstName + " " + documentRequest.middleName;
+
     console.log(documentRequest);
 </script>
 
-<main class="p-4 w-full h-max flex items-center justify-center">
-    <section class="w-[90vw] lg:w-[60vw] flex flex-col bg-neutral p-4 rounded-2xl shadow-xl gap-4">
+<main class="p-4 w-full h-max flex flex-col lg:flex-row lg:items-start justify-center gap-4">
+    <NavigationButtons {page} on:navigate={(event) => page = event.detail.index}/>
+    <section class="w-[90vw] lg:w-[60vw] flex flex-col bg-neutral p-4 rounded-2xl shadow-xl gap-4" class:hidden={page !== 0}>
         <div class="w-full flex justify-center items-center border-b-2 border-b-primary-focus border-dashed">
             <p class="w-max p-2 flex justify-center text-center rounded-xl font-semibold">ID: </p>
             <p class="font-semibold hover:underline">{documentRequest.id}</p>
@@ -51,5 +59,8 @@
                 <small class:text-info={documentRequest.status=="pending"}>{documentRequest.status}</small>
             </div>
         </div>
+    </section>
+    <section class="w-full lg:w-[60vw] h-full flex justify-center" class:hidden={page !== 1}>
+        <RequestMessages requestId={documentRequest.id} {requesterFullName}/>
     </section>
 </main>
