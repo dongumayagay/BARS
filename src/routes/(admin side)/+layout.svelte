@@ -2,7 +2,7 @@
 	import Header from "$lib/components/Header.svelte";
 	import { adminUser } from "$lib/stores.js";
 
-	const title = "Welcome " + $adminUser?.email
+	const title = "Welcome " + $adminUser.email
 	const links = [
 		{
 			path: '../admin/dashboard',
