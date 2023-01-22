@@ -7,11 +7,8 @@
 
     import { signInWithEmailAndPassword } from "firebase/auth";
 
-    // let email;
-    // let password;
-
-    async function submitHandler(event) {
-        await signInWithEmailAndPassword(auth, event.detail.email, event.detail.password)
+    function submitHandler(event) {
+        signInWithEmailAndPassword(auth, event.detail.email, event.detail.password)
             .then((userCredential) => {
                 $adminUser = userCredential.user;
                 console.log($adminUser)

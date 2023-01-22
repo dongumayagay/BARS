@@ -35,7 +35,6 @@
             <Trash {page} />
 		</div>
 	</div>
-
 </main>
 
 <!-- pendingDocumentRequests={documentRequests.filter(documentRequest => documentRequest.status === 'pending')} -->

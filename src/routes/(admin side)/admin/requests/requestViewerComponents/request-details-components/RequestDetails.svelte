@@ -2,7 +2,6 @@
     import RequestBasicInfo from "./RequestBasicInfo.svelte";
 	import DocumentsRequested from "./DocumentsRequested.svelte";
 	import SelectedDateAndOfficial from "./SelectedDateAndOfficial.svelte";
-	// import RequesterBasicInfo from "./requester-basic-info-components/RequesterBasicInfo.svelte";
 
     export let dataToView;
 </script>
@@ -39,5 +38,4 @@
             </div>
         </div>
     </section>
-    <!-- <RequesterBasicInfo {dataToView}/> -->
 </section>
