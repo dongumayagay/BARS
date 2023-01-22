@@ -2,24 +2,12 @@
 	import {currentPage} from "$lib/stores.js";
 	import { goto } from '$app/navigation'
 
-	const title = "Welcome to Barangay Appointment and Request System"
-	const links = [
+	export let title = "Welcome to Barangay Appointment and Request System"
+	export let links = [
 		{
 			path: './',
 			name: 'Homepage'
 		},
-		{
-			path: '/document-request',
-			name: 'Request Documents'
-		},
-		{
-			path: '/appointment-request',
-			name: 'Make an Appointment'
-		},
-		{
-			path: '/ticket-tracker',
-			name: 'Ticket Tracker'
-		}
 		
 	] 
 

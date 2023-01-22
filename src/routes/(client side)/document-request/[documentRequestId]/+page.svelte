@@ -49,7 +49,6 @@
             <div class="flex gap-2">
                 <small>Status:</small>
                 <small class:text-info={documentRequest.status=="pending"}>{documentRequest.status}</small>
-
             </div>
         </div>
     </section>
