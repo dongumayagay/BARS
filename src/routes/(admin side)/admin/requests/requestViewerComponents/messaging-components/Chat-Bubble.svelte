@@ -1,0 +1,22 @@
+<script>
+    import {adminUser} from "$lib/stores.js"
+    import {Timestamp,  } from "firebase/firestore"; 
+
+    const months = [
+        "January", "February", "March", "April", "May", "June", "July", "August", "September", "November", "December"
+    ];
+    
+    export let message;
+    let time = new Timestamp(message?.dateSent.seconds??[], message?.dateSent.nanoseconds??[]).toDate().getHours() + ":" + new Timestamp(message?.dateSent.seconds??[], message?.dateSent.nanoseconds??[]).toDate().getMinutes()
+</script>
+
+<div class="chat {message?.sender !== $adminUser.email ? "chat-start":"chat-end"}">
+    <div class="chat-header">
+        {message?.sender === $adminUser.email ? "You" : message?.sender}
+        <time class="text-xs opacity-50">
+            {time},
+            {months[new Timestamp(message?.dateSent.seconds??[], message?.dateSent.nanoseconds??[]).toDate().getMonth()]} {new Timestamp(message?.dateSent.seconds??[], message?.dateSent.nanoseconds??[]).toDate().getDate()}
+        </time>
+    </div>
+    <div class="chat-bubble" class:chat-bubble-primary={message?.sender === $adminUser.email}>{message?.messageContent}</div>
+</div>

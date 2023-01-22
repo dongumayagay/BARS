@@ -3,13 +3,14 @@
     import { doc, updateDoc } from "firebase/firestore"; 
     import { db } from "$lib/firebase/client.js"
     import { sendEmail } from '$lib/utils';
-	import RequestBasicInfo from "./requestViewerCards/RequestBasicInfo.svelte";
-	import DocumentsRequested from "./requestViewerCards/DocumentsRequested.svelte";
-	import SelectedDateAndOfficial from "./requestViewerCards/SelectedDateAndOfficial.svelte";
-
+	import NavigationButtons from "./requestViewerComponents/NavigationButtons.svelte";
+	import RequestDetails from "./requestViewerComponents/request-details-components/RequestDetails.svelte";
+	import RequestMessages from "./requestViewerComponents/messaging-components/RequestMessages.svelte";
+    
     const dispatch = createEventDispatcher();
 
     export let dataToView;
+    let page = 0;
 
     async function updateHandler() {
         try {
@@ -47,7 +48,6 @@
                 previousStatus: dataToView.status,
                 status: "Trashed",
             })
-            console.log(docRef)
             alert("Successfully moved to trash")
             dispatch("close")
         } catch (error) {
@@ -58,7 +58,7 @@
 
 <div class="w-full h-full flex flex-col items-center p-4">
     <div class="w-full flex justify-between items-center">
-        <button class="btn btn-ghost hover:bg-inherit flex gap-[1px]" on:click={() => dispatch("close")}>
+        <button class="btn btn-ghost hover:bg-inherit flex gap-[1px]" on:click={() => {dispatch("close")}}>
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
             </svg>
@@ -78,36 +78,16 @@
             {/if}
         </div>
     </div>
-    <div class="p-4 w-full h-max flex items-center justify-center">
-        <section class="w-[90vw] lg:w-[60vw] flex flex-col bg-neutral p-4 rounded-2xl shadow-xl gap-4">
-            <div class="w-full flex justify-center items-center border-b-2 border-b-primary-focus border-dashed">
-                <p class="w-max p-2 flex justify-center text-center rounded-xl font-semibold">ID: </p>
-                <p class="font-semibold hover:underline">{dataToView.requestId}</p>
-            </div>
-            <div class="flex flex-col gap-5">
-                <RequestBasicInfo {dataToView}/>
-                <div class="text-sm flex flex-col ">
-                    {#if dataToView.typeOfRequest === "Document Request"}
-                        <DocumentsRequested {dataToView} />
-                    {:else}
-                        <SelectedDateAndOfficial appointmentDetails={{
-                            appointmentDate: dataToView.appointmentDate??[],
-                            appointmentTime: dataToView.appointmentTime??[],
-                            selectedOfficial: dataToView.selectedOfficial??[]
-                        }} />
-                    {/if}
-                    
-                </div>
-                <div class="flex gap-2">
-                    <small>Status:</small>
-                    <small 
-                        class="font-semibold"
-                        class:text-info={dataToView.status === "pending"}
-                        class:text-success={dataToView.status === "Ready to claim" || dataToView.status === "Approved"}
-                        class:text-error={dataToView.status === "Trashed"}
-                    >{dataToView.status}</small>
-                </div>
-            </div>
+    <div class="p-4 w-full h-full flex items-start justify-start gap-10">
+        <NavigationButtons {page} on:navigate={(event) => page = event.detail.index}/>
+        <section class="w-full" class:hidden={page !== 0}>
+            <RequestDetails {dataToView} />
+        </section>
+        <section class="h-full w-full" class:hidden={page !== 1}>
+            <RequestMessages 
+                requestId = {dataToView.requestId} 
+                requesterFullName={dataToView.lastName + ", " + dataToView.firstName + " " + dataToView.middleName}
+            />
         </section>
     </div>
 </div>

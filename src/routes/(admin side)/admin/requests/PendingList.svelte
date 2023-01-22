@@ -6,7 +6,7 @@
     
     export let page;
 
-    let viewing = false
+    let viewing = false;
     let dataToView = {};
 
     let pendingDocumentRequests = [];
@@ -71,8 +71,8 @@
             </div>
         </div>
     </div>
-    <div class="w-full" class:hidden={!viewing}>
+    {#if viewing}
         <RequestViewer {dataToView} on:close={closeHandler}/>
-    </div>
+    {/if}
 
 </main>
