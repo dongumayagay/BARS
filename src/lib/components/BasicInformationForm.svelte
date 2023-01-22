@@ -2,6 +2,22 @@
     import { createEventDispatcher } from 'svelte';
 
     const dispatch = createEventDispatcher()
+
+    const today = new Date();
+    let dateFormat = today.getDate()
+    let monthFormat = (today.getMonth() + 1);
+
+    // the date's number should start with "0" if its value is less than 10 for it to be valid, otherwise the min value will be ignored
+    if(dateFormat < 10){
+        dateFormat = "0" + dateFormat;
+    }
+
+    // the month's number should start with "0" if its value is less than 10 for it to be valid, otherwise the min value will be ignored
+    if(monthFormat < 10){
+        monthFormat = "0" + monthFormat;
+    }
+    
+    let todayFormat = today.getFullYear() + "-" + monthFormat + "-" + dateFormat;
     
     let contactInfo = {
         lastName: "",
@@ -84,7 +100,7 @@
                 <label for="birthDate" class="label">
                     <span class="label-text">Birthdate</span>
                   </label>
-                <input required title="Please enter your last name" type="date" id="birthdate" name="birthdate" placeholder="Type here" class="input input-bordered input-md input-primary w-full bg-neutral focus:border-primary focus:outline-offset-[3px]"
+                <input required title="Please enter your last name" type="date" id="birthdate" name="birthdate" placeholder="Type here" min="1890-01-01" max={todayFormat} class="input input-bordered input-md input-primary w-full bg-neutral focus:border-primary focus:outline-offset-[3px]"
                 bind:value={contactInfo.birthdate}
                 />
             </div>

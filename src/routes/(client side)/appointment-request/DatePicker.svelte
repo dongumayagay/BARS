@@ -7,13 +7,19 @@
 
     const today = new Date();
     let tomorrowDateFormat = today.getDate() + 1
+    let monthFormat = (today.getMonth() + 1);
 
     // the date should be '0*' if it is less than 10 for it to be valid, otherwise the min value will be ignored
     if(tomorrowDateFormat < 10){
         tomorrowDateFormat = "0" + tomorrowDateFormat;
     }
 
-    let tomorrow = today.getFullYear() + "-" + (today.getMonth() + 1) + "-" + tomorrowDateFormat;
+    // the month should be '0*' if it is less than 10 for it to be valid, otherwise the min value will be ignored
+    if(monthFormat < 10){
+        monthFormat = "0" + monthFormat;
+    }
+
+    let tomorrow = today.getFullYear() + "-" + monthFormat + "-" + tomorrowDateFormat;
 
     let barangayWorkingHours = [
         "8:00 AM", "9:00 AM", "10:00 AM", "11:00 AM", "12:00 PM", "1:00 PM", "2:00 PM", "3:00 PM", "4:00 PM", "5:00 PM"
