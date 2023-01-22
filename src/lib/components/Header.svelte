@@ -1,34 +1,54 @@
 <script>
-	export let title = 'title placeholder';
-	export let links = [
+	import {currentPage} from "$lib/stores.js";
+	import { goto } from '$app/navigation'
+
+	const title = "Welcome to Barangay Appointment and Request System"
+	const links = [
 		{
-			path: '/',
+			path: './',
 			name: 'Homepage'
+		},
+		{
+			path: '/document-request',
+			name: 'Request Documents'
+		},
+		{
+			path: '/appointment-request',
+			name: 'Make an Appointment'
+		},
+		{
+			path: '/ticket-tracker',
+			name: 'Ticket Tracker'
 		}
-	];
+		
+	] 
 
 	let showMenu = false;
 </script>
 
 
-<div class="flex px-4 bg-neutral lg:rounded-2xl  shadow-lg" class:rounded-b-none={showMenu}>
+<div class="flex px-4 bg-neutral lg:rounded-2xl border-b-[1px] border-none " class:rounded-b-none={showMenu}>
 
-	<section class="py-4 ">
+	<section class="py-4">
 		<!-- logo -->
-		<img src="https://via.placeholder.com/100?text=BARS" alt="" class="mask mask-circle" />
+		<img src="https://via.placeholder.com/100?text=BARS" alt="" class="mask mask-circle h-14 w-14 lg:w-[100px] lg:h-[100px]" />
 	</section>
 	<section class="flex flex-col flex-1 ">
 		<!--  -->
-		<h1 class="flex items-center justify-center flex-1 font-serif text-md lg:text-xl">{title}</h1>
+		<h1 class=" text-center flex items-center justify-center flex-1 font-serif text-sm lg:text-xl">{title}</h1>
 
-		<nav class="items-end flex-1 hidden lg:flex justify-evenly">
-			{#each links as link}
-				<a
-					href={link.path}
-					class="bg-orange-300 border-none rounded-b-none hover:bg-orange-200 text-accent btn"
+		<nav class="tabs items-end flex-1 hidden lg:flex justify-evenly ">
+			{#each links as link, index}
+				<button
+					on:click={()=>{ 
+						$currentPage = index; 
+						goto(link.path)
+					}}
+					class="tab tab-lifted text-lg border-b-0 font-semibold"
+					class:tab-active={$currentPage == index}
 				>
 					{link.name}
-				</a>
+				</button>
 			{/each}
 		</nav>
 	</section>
@@ -65,13 +85,19 @@
 </div>
 
 {#if showMenu}
-	<nav class="flex flex-col gap-2 p-4 bg-neutral rounded-b-2xl lg:hidden shadow-lg">
-		{#each links as link}
-			<a href={link.path} 
-				class="bg-neutral border-none text-gray-500 hover:text-black hover:bg-neutral hover:underline btn"
-				on:click={()=>showMenu=false}>
+	<nav class="flex flex-col gap-2 p-4 bg-neutral rounded-b-2xl lg:hidden shadow-lg z-10">
+		{#each links as link, index}
+			<button type="button"
+				on:click={()=>{ 
+					$currentPage = index; 
+					showMenu = false;
+					goto(link.path)
+				}}
+				class="bg-neutral border-none text-gray-500 hover:text-black hover:bg-neutral hover:underline btn" 
+				class:tab-active={$currentPage == index}
+			>
 				{link.name}
-			</a>
+			</button>
 		{/each}
 	</nav>
 {/if}
