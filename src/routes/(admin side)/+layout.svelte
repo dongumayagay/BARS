@@ -2,7 +2,7 @@
 	import Header from "$lib/components/Header.svelte";
 	import { adminUser } from "$lib/stores.js";
 
-	const title = "Welcome " + $adminUser.email
+	let title;
 	const links = [
 		{
 			path: '../admin/dashboard',
@@ -18,6 +18,7 @@
 		}
 	] 
 
+	$: title = "Welcome " + $adminUser?.email
 </script>
 
 {#if $adminUser !== null}
