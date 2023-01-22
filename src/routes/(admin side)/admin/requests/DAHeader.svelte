@@ -25,8 +25,7 @@
 					on:click={()=>{
 						dispatch("switchTab", {index})
 					}}
-					class="tab tab-lifted border-b-0 font-semibold"
-					class:tab-active={page === index}
+					class="tab tab-lifted border-b-0 font-semibold {page === index ? "tab-active translate-y-[1px]" : ""}"
 				>
 					{link.name}
 				</button>
