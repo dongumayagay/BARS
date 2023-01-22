@@ -54,7 +54,7 @@
             </div>
         {/if}
     </section>
-    <section class="h-[15%] border-t-2 p-2">
+    <section class="h-[15%] flex items-center border-t-2 p-2">
         <ChatBox {requestId} on:send-message={sendHandler}/>
     </section>
 </section>
