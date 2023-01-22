@@ -48,6 +48,6 @@
         </div>
     </div>
     <div class="w-full" class:hidden={!viewing}>
-        <RequestViewer {dataToView} nextStatus={dataToView.nextStatus} on:close={closeHandler}/>
+        <RequestViewer {dataToView} on:close={closeHandler}/>
     </div>
 </div>

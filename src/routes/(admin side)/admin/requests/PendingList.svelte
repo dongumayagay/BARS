@@ -2,7 +2,7 @@
     import RequestPreview from "$lib/components/RequestPreview.svelte";
     import RequestViewer from "./RequestViewer.svelte"
     import { db } from '$lib/firebase/client.js'
-    import { collection, getDocs, onSnapshot, query, where } from "firebase/firestore";
+    import { collection, onSnapshot, query, where } from "firebase/firestore";
     
     export let page;
 
@@ -72,7 +72,7 @@
         </div>
     </div>
     <div class="w-full" class:hidden={!viewing}>
-        <RequestViewer {dataToView} nextStatus={dataToView.nextStatus} on:close={closeHandler}/>
+        <RequestViewer {dataToView} on:close={closeHandler}/>
     </div>
 
 </main>
