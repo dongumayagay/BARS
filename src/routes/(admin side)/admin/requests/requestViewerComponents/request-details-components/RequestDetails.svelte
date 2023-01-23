@@ -2,6 +2,7 @@
     import RequestBasicInfo from "./RequestBasicInfo.svelte";
 	import DocumentsRequested from "./DocumentsRequested.svelte";
 	import SelectedDateAndOfficial from "./SelectedDateAndOfficial.svelte";
+	import ImagePreview from "./ImagePreview.svelte";
 
     export let dataToView;
 </script>
@@ -38,4 +39,24 @@
             </div>
         </div>
     </section>
+    {#if dataToView.typeOfRequest === "Document Request"}
+        <section class="w-[60vw] flex flex-col bg-neutral p-4 rounded-2xl shadow-xl gap-4">
+            {#each dataToView.docsRequested as documentRequested}
+            <div>
+                <p>{documentRequested.name}</p>
+                <div class="w-full flex justify-center gap-2">
+                    {#each documentRequested.requirements as requirement}
+                        <ImagePreview 
+                            requestId={dataToView.requestId}
+                            documentName={documentRequested.name}
+                            requirementName={requirement.requirement}
+                        />
+                    {/each}
+                </div>
+            </div>
+            {/each}
+        </section>
+    {/if}
 </section>
+
+<!-- const pathName = "documentRequestsFiles/" + dataToView.requestId + "/" + document.name + "/" + requirement.requirement + ".png"; -->
