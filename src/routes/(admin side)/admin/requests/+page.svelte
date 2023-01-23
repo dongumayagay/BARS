@@ -26,7 +26,7 @@
 <main class="w-full flex flex-col items-center p-4 px-1">
 	<DAHeader {page} on:switchTab={navigate}/>
 
-	<div class="w-full bg-neutral h-screen flex justify-center pb-[5vh]">
+	<div class="w-full bg-neutral min-h-screen flex justify-center pb-[5vh]">
 		<div class="w-[90%] bg-base-100 flex justify-center border-[1px] border-base-300 rounded-lg">
             <PendingList {page} />
             <DocumentsToClaim {page} />
