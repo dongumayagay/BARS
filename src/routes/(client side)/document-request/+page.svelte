@@ -5,7 +5,7 @@
     import Confirm from "./Confirm.svelte";
     import RequestCompleted from "$lib/components/RequestCompleted.svelte";
     import { db,  storage } from "$lib/firebase/client.js";
-    import { Timestamp, collection, addDoc } from "firebase/firestore";
+    import { Timestamp, collection, addDoc} from "firebase/firestore";
     import { ref, uploadBytes } from "firebase/storage";
     import { sendEmail } from '$lib/utils';
 
@@ -19,6 +19,7 @@
     function nextHandler(event) {
         documentRequest = Object.assign(documentRequest, event.detail)
         page += 1;
+        console.log(event.detail)
     }
 
     async function emailRequestId(email, documentRequestId) {
@@ -35,6 +36,7 @@
     // $: console.log(documentRequest)
     async function submitToDatabase(){
         try {
+
             const documentRequestRef = await addDoc(collection(db, 'documentRequests'),{
                 lastName: documentRequest.contactInfo.lastName,
                 firstName: documentRequest.contactInfo.firstName,
@@ -50,11 +52,10 @@
             })
 
             const fileUploadPromises = documentRequest.filesToUpload.map((value)=>{
-                const pathName = "documentRequestsFiles/" + documentRequestRef.id + "/" + value.requestedDocumentName + "/" + value.requirementName + "." + value.file[0].type.split('/')[1];
+                const pathName = "documentRequestsFiles/" + documentRequestRef.id + "/" + value.requestedDocumentName + "/" + value.requirementName + ".jpg"
                 const storageReference =  ref(storage, pathName);
 
                 return uploadBytes(storageReference, value.file[0]);
-                // return pathName;
             })
 
             const fileUploadPromisesResult = await Promise.all(fileUploadPromises)
