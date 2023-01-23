@@ -41,7 +41,7 @@
                         <p>{requirement.requirement}</p>
                         <input required type="file" 
                         on:change={(event)=>changeHandler(event.target.files, document.name, requirement.requirement)}
-                            accept=".jpg, .jpeg, .png, .svg, .webp" 
+                            accept=".jpg, .jpeg, .png" 
                             name="file" 
                             class="file-input file-input-bordered file-input-primary w-full max-w-xs file:w-[40%]" 
                         />
