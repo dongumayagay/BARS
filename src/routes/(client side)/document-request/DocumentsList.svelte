@@ -5,7 +5,6 @@
 
     const documentsList = [
         {
-            id: "1",
             name: "Document 1",
             requirements: [
                 {requirement: "requirement1"},
@@ -13,7 +12,6 @@
             ]
         },
         {
-            id: "2",
             name: "Document 2",
             requirements: [
                 {requirement: "requirement1"},
@@ -22,14 +20,12 @@
             ]
         },
         {
-            id: "3",
             name: "Document 3",
             requirements: [
                 {requirement: "requirement1"}
             ]
         },
         {
-            id: "4",
             name: "Document 4",
             requirements: [
                 {requirement: "requirement1"},
