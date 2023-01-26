@@ -5,6 +5,7 @@
 	import ChatBubble from "./Chat-Bubble.svelte";
 	import ChatBox from "./Chat-Box.svelte";
 	import { ref, uploadBytes } from "firebase/storage";
+	import ChatBubbleFile from "./Chat-Bubble-File.svelte";
 
     export let requestId;
     export let requesterFullName;
@@ -22,19 +23,20 @@
 
     async function sendHandler(event) {
         try {
+
+            if(event.detail.messageType === "file"){
+                await uploadBytes(ref(storage, event.detail.content), event.detail.file[0]??[]);
+            }
+
             await addDoc(collection(db, "requestMessages"),{
                 messageContent: event.detail.content,
+                filename: event.detail.filename??"N/A",
                 sender: $adminUser.email,
                 reciever: requesterFullName,
                 trackingId: "id-" + requestId,
                 dateSent: Timestamp.now(),
                 messageType: event.detail.messageType
             })
-
-            if(event.detail.messageType === "file"){
-                await uploadBytes(ref(storage, event.detail.content), event.detail.file??[]);
-                console.log("this is a file upload")
-            }
         } catch (error) {
             console.log(error.message)
         }
@@ -45,7 +47,11 @@
     <section class="overflow-y-auto h-full w-full ">
         {#if messages.length > 0}
             {#each messages as message}
-                <ChatBubble {message}/>
+                {#if message.messageType === "text"}
+                    <ChatBubble {message}/>
+                {:else}
+                    <ChatBubbleFile {message}/>
+                {/if}
             {/each}
         {:else}
             <div class="h-full w-full flex items-center">

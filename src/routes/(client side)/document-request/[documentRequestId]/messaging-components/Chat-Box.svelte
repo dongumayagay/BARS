@@ -24,6 +24,7 @@
             })
         }
         content = undefined;
+        file = undefined;
     }
     // $: console.log(messageType, file, content);
     // $: console.log("/" +  requestId + "/message_files/" + file.FileList[0].name)

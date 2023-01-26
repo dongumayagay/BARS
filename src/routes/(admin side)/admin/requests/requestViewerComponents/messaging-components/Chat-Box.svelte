@@ -19,14 +19,14 @@
             console.log("message_files/" +  requestId + "/" + file[0].name)
             dispatch("send-message", {
                 content: "message_files/" +  requestId + "/" + file[0].name,
+                filename: file[0].name,
                 messageType,
                 file
             })
         }
         content = undefined;
+        file = undefined;
     }
-    // $: console.log(messageType, file, content);
-    // $: console.log("/" +  requestId + "/message_files/" + file.FileList[0].name)
 </script>
 
 <form on:submit|preventDefault={dispatchHandler} class="w-full h-max flex items-center gap-4">
@@ -34,7 +34,7 @@
         <input title="Send a message" placeholder="Send a message" class="input input-accent input-sm w-[50%] dark:input-primary" bind:value={content} required>
     {:else}
         <input required type="file" 
-            accept=".jpg, .jpeg, .png, .svg, .webp" 
+            accept=".jpg, .jpeg, .png" 
             name="file" 
             class="file-input file-input-bordered file-input-primary file-input-sm w-[50%] file:w-[40%]" 
             on:change={(event)=> file = event.target.files}
