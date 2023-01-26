@@ -25,7 +25,7 @@
         <small>Loading image..</small>
     </div>
 {:then url} 
-    <img src={url} alt={requirementName} class="h-[150px]">
+    <img src={url} alt={requirementName} class="w-fit max-h-[150px]">
 {:catch error}
     <p>{error}</p>
 {/await}

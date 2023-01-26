@@ -41,6 +41,7 @@
     </section>
     {#if dataToView.typeOfRequest === "Document Request"}
         <section class="w-[60vw] flex flex-col bg-neutral p-4 rounded-2xl shadow-xl gap-4">
+            <p class="font-semibold w-full text-center">Uploaded Requirements</p>
             {#each dataToView.docsRequested as documentRequested}
             <div>
                 <p>{documentRequested.name}</p>
@@ -58,5 +59,3 @@
         </section>
     {/if}
 </section>
-
-<!-- const pathName = "documentRequestsFiles/" + dataToView.requestId + "/" + document.name + "/" + requirement.requirement + ".png"; -->
