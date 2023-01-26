@@ -1,10 +1,6 @@
 <script>
-    import {adminUser} from "$lib/stores.js"
+    import {months} from "$lib/stores.js"
     import {Timestamp,  } from "firebase/firestore"; 
-
-    const months = [
-        "January", "February", "March", "April", "May", "June", "July", "August", "September", "November", "December"
-    ];
     
     export let message;
     export let requesterFullName;
