@@ -48,6 +48,7 @@
                 dateAdded: Timestamp.now(),
                 docsRequested: documentRequest.listOfRequestedDocuments,
                 docPurpose: documentRequest.contactInfo.purpose,
+                totalFee: documentRequest.totalFee,
                 status: "pending"
             })
 
