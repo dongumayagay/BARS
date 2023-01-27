@@ -1,59 +1,47 @@
 <script>
     import {createEventDispatcher} from "svelte";
+    import { collection, onSnapshot } from "firebase/firestore";
+    import { db } from "$lib/firebase/client.js"
 
     const dispatch = createEventDispatcher();
 
-    const documentsList = [
-        {
-            name: "Document 1",
-            requirements: [
-                {requirement: "requirement1"},
-                {requirement: "requirement2"},
-            ]
-        },
-        {
-            name: "Document 2",
-            requirements: [
-                {requirement: "requirement1"},
-                {requirement: "requirement2"},
-                {requirement: "requirement3"}
-            ]
-        },
-        {
-            name: "Document 3",
-            requirements: [
-                {requirement: "requirement1"}
-            ]
-        },
-        {
-            name: "Document 4",
-            requirements: [
-                {requirement: "requirement1"},
-                {requirement: "requirement2"},
-                {requirement: "requirement3"}
-            ]
-        },
-    ]
+    // export let requestPurpose;
+
+    let documentsList = []
+    // let recommendations;
+
+    const fetchDocumentsList = onSnapshot(collection(db, "documentsList"), (querySnapshot) => {
+        documentsList = [];
+        querySnapshot.forEach((doc)=>{
+            documentsList = [ ...documentsList, doc.data()]
+        })
+    })
         
     let listOfRequestedDocuments = []
     
     function submitHandler() {
+        let totalFee = 0;
+
+        listOfRequestedDocuments.forEach((element) => {
+            totalFee += element.fee
+        })
+        console.log(totalFee)
         dispatch("next", {
-            listOfRequestedDocuments
+            listOfRequestedDocuments, totalFee
         })
     }
 </script>
 
 
 <form class="w-full flex flex-col items-center justify-start gap-4" on:submit|preventDefault={submitHandler} on:reset={(event)=>event.target.reset()}>
-    <div class="w-full flex justify-start">
-        
-    </div>
     <div class="w-full ">
         <p class=" text-center  font-bold">Documents List</p>
     </div>
     <p class=" text-center">Kindly check the box of the documents you need to request</p>
-    <div class="flex flex-col items-start w-[95%] gap-3">
+    <!-- <div>
+        <p>Recommendations:</p>
+    </div> -->
+    <div class="flex flex-col items-start w-[95%] gap-10">
         {#each documentsList as document}
             <div class="w-full flex flex-col gap-2">
                 <div class="flex items-center justify-center gap-3 ">
@@ -65,10 +53,20 @@
                     />
                     <p class="w-full p-2 border-b-2 border-primary font-semibold">{document.name}</p>
                 </div>
-                <div class="flex flex-col items-start pl-14 gap-2">
-                    {#each document.requirements as requirement}
-                        <p>{requirement.requirement}</p>
-                    {/each}
+                <div class="flex flex-col items-start gap-2">
+                    <small>Requirements:</small>
+                    <div class=" pl-10">
+                        {#each document.requirements as requirement}
+                        <div class="flex items-center gap-2">
+                            <i class="fa-solid fa-circle text-[5px]"></i>
+                            <p>{requirement}</p>
+                        </div>
+                        {/each}
+                    </div>
+                </div>
+                <div class="mt-2">
+                    <small>Document Fee: </small>
+                    <small class="font-semibold">P{document.fee}</small>
                 </div>
             </div>
         {/each}
