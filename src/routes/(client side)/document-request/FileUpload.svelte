@@ -38,9 +38,9 @@
                 <div class="flex flex-col items-center gap-4">
                     {#each document.requirements as requirement}
                     <div class="w-[85%] lg:w-[30vw] flex flex-col items-center gap-2">
-                        <p>{requirement.requirement}</p>
+                        <p>{requirement}</p>
                         <input required type="file" 
-                        on:change={(event)=>changeHandler(event.target.files, document.name, requirement.requirement)}
+                        on:change={(event)=>changeHandler(event.target.files, document.name, requirement)}
                             accept=".jpg, .jpeg, .png" 
                             name="file" 
                             class="file-input file-input-bordered file-input-primary w-full max-w-xs file:w-[40%]" 

@@ -25,7 +25,10 @@
         <small>Loading image..</small>
     </div>
 {:then url} 
-    <img src={url} alt={requirementName} class="w-fit max-h-[150px]">
+    <div class="flex flex-col items-center gap-2">
+        <img src={url} alt={requirementName} class="w-fit max-h-[150px]">
+        <p>{requirementName}</p>
+    </div>
 {:catch error}
     <p>{error}</p>
 {/await}

@@ -50,7 +50,7 @@
                         <ImagePreview 
                             requestId={dataToView.requestId}
                             documentName={documentRequested.name}
-                            requirementName={requirement.requirement}
+                            requirementName={requirement}
                         />
                     {/each}
                 </div>

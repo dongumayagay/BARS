@@ -92,7 +92,7 @@
                 <p>{document.name}</p>
                 <div class="w-full flex justify-center gap-1 lg:gap-4">
                     {#each document.requirements as requirement}
-                        <ImagePreview requestId={documentRequest.id} documentName={document.name} requirementName={requirement.requirement}/>
+                        <ImagePreview requestId={documentRequest.id} documentName={document.name} requirementName={requirement}/>
                     {/each}
                 </div>
             {/each}
