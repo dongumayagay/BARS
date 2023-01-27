@@ -1,6 +1,6 @@
 <script>
     import { createEventDispatcher } from "svelte";
-    import { doc, updateDoc } from "firebase/firestore"; 
+    import { addDoc, doc, Timestamp, updateDoc, collection } from "firebase/firestore"; 
     import { db } from "$lib/firebase/client.js"
     import { sendEmail } from '$lib/utils';
 	import NavigationButtons from "./requestViewerComponents/NavigationButtons.svelte";
@@ -17,14 +17,36 @@
             const docRef = doc(db, dataToView.collectionReference, dataToView.requestId);
 
             if(dataToView.status === "Trashed"){
+
+                // Log to History
+                await addDoc(collection( db, "history"), {
+                    previousStatus: dataToView.status,
+                    currentStatus: dataToView.previousStatus,
+                    logDate: Timestamp.now(),
+                    requestId: dataToView.requestId,
+                })
+
                 await updateDoc(docRef, {
                     status: dataToView?.previousStatus,
+                    previousStatus: "",
+                    lastUpdated: Timestamp.now()
                 })
             } else {
+
+                // Log to History
+                await addDoc(collection( db, "history"), {
+                    previousStatus: dataToView.status,
+                    currentStatus: dataToView.nextStatus,
+                    logDate: Timestamp.now(),
+                    requestId: dataToView.requestId,
+                })
+
                 await updateDoc(docRef, {
                     status: dataToView.nextStatus,
+                    lastUpdated: Timestamp.now()
                 })
             }
+
 
             const result = await sendEmail({
                 to: dataToView.email,
