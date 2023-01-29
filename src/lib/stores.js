@@ -3,8 +3,6 @@ import { auth } from '$lib/firebase/client.js';
 import { browser } from '$app/environment';
 import { readable, writable } from "svelte/store";
 
-export let adminUser = writable(null);
-
 export let currentPage = writable(0);
 
 export const userStore = readable(undefined, set => {
@@ -29,4 +27,15 @@ export const months = [
     "October",
     "November",
     "December",
+]
+
+export const weekDays = [
+    "Sunday",
+    "Monday",
+    "Tuesday",
+    "Wednesday",
+    "Thursday",
+    "Friday",
+    "Saturday",
+
 ]
