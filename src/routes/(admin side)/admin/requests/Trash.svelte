@@ -22,7 +22,6 @@
                 collectionReference: "documentRequests",
             }]
         })
-        console.log("Trashed Document Requests: ", trashedDocumentRequests)
     })
 
     const trashedAppointmentRequestsQuery = onSnapshot(query(collection(db, "appointmentRequests"), where("status", "==", "Trashed")), (querySnapshot) => {
@@ -35,7 +34,6 @@
                 collectionReference: "appointmentRequests",
             }]
         })
-        console.log("Trashed Appointment Requests: ", trashedAppointmentRequests)
     })
 
     function viewHandler(event) {
