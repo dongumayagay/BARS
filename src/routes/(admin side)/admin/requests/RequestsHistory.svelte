@@ -5,7 +5,7 @@
 	import HistoryViewer from "./request-history-components/HistoryViewer.svelte";
     import RequestViewer from "./RequestViewer.svelte";
 	import LogsToday from "./request-history-components/LogsToday.svelte";
-	import LogsThisWeek from "./request-history-components/LogsThisWeek.svelte";
+	import LogsSet from "./request-history-components/LogsSet.svelte";
 
     export let page;
 
@@ -49,34 +49,34 @@
                             }]
                         }
                     } else {
-                        let week = daysDifference / 7 ;
+                        let week = Math.ceil(daysDifference / 7) - 1;
                         let weekAgo = " week ago";
     
                         if(week > 1){ weekAgo = " weeks ago" }
 
-                        activityLogs.weeksAgoLogs - [...activityLogs?.weeksAgoLogs??[], {
+                        activityLogs.weeksAgoLogs = [...activityLogs?.weeksAgoLogs??[], {
                             ...doc.data(),
                             ago: week + weekAgo
                         }]
                     }
                 } else {
-                    let month = daysDifference / 30;
+                    let month = Math.ceil(daysDifference / 30) -1;
                     let monthAgo = " month ago";
 
                     if(month > 1){ monthAgo = " months ago"} 
 
-                    activityLogs.monthsAgoLogs - [...activityLogs?.monthsAgoLogs??[], {
+                    activityLogs.monthsAgoLogs = [...activityLogs?.monthsAgoLogs??[], {
                         ...doc.data(),
                         ago: month + monthAgo
                     }]
                 }
             } else {
-                let year = daysDifference / 365
+                let year = Math.ceil(daysDifference / 365) - 1
                 let yearAgo = " year ago"
 
                 if(year > 1){ yearAgo = " years ago" } 
 
-                activityLogs.yearsAgoLogs - [...activityLogs?.yearsAgoLogs??[], {
+                activityLogs.yearsAgoLogs = [...activityLogs?.yearsAgoLogs??[], {
                     ...doc.data(),
                     ago: year + yearAgo
                 }]
@@ -84,6 +84,7 @@
 
         }
         )
+        console.log(activityLogs)
     })
 
     function viewHandler(event) {
@@ -102,7 +103,9 @@
         <!-- <p class="w-fit h-max text-center mb-4 p-2 bg-primary rounded-lg">REQUESTS HISTORY</p> -->
         <div class="overflow-y-auto w-full max-h-[575px] bg-base-100 flex flex-col items-center rounded-lg py-6" >
             <LogsToday todayLogs = {activityLogs?.todayLogs??[]}  on:view={viewHandler}/>
-            <LogsThisWeek logsThisWeek = {activityLogs?.lessThanAWeekAgoLogs??[]} on:view={viewHandler}/>
+            <LogsSet logsSet={activityLogs?.lessThanAWeekAgoLogs??[]}  logSetStatement="Less than a week ago" on:view={viewHandler}/>
+            <LogsSet logsSet={activityLogs?.weeksAgoLogs??[]}  logSetStatement="Less than a month ago" on:view={viewHandler}/>
+            <LogsSet logsSet={activityLogs?.monthsAgoLogs??[]}  logSetStatement="Less than a year ago" on:view={viewHandler}/>
         </div>
     </div>
     {#if viewing}
