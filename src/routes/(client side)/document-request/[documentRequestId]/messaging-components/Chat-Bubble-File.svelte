@@ -1,6 +1,6 @@
 <script>
     import { storage } from "$lib/firebase/client.js"
-    import { adminUser, months } from "$lib/stores.js"
+    import { months } from "$lib/stores.js"
     import { ref, getDownloadURL } from "firebase/storage";
     import {Timestamp,  } from "firebase/firestore"; 
 
@@ -31,7 +31,6 @@
             {months[new Timestamp(message?.dateSent.seconds??[], message?.dateSent.nanoseconds??[]).toDate().getMonth()]} {new Timestamp(message?.dateSent.seconds??[], message?.dateSent.nanoseconds??[]).toDate().getDate()}
         </time>
     </div>
-    
         {#await fetchURLHandler()}
             <div class="w-[150px] h-[150px] flex flex-col items-center justify-center">
                 <img src="/loading.png" alt="loader" class="h-[20%]">

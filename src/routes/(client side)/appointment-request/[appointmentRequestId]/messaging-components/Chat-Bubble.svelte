@@ -1,5 +1,4 @@
 <script>
-    import {adminUser} from "$lib/stores.js"
     import {Timestamp,  } from "firebase/firestore"; 
 
     const months = [

@@ -1,6 +1,5 @@
 <script>
     import { addDoc, collection, onSnapshot, orderBy, query, Timestamp, where } from "firebase/firestore";
-    import {adminUser} from "$lib/stores.js"
     import {db, storage} from "$lib/firebase/client.js"
 	import ChatBubble from "./Chat-Bubble.svelte";
 	import ChatBubbleFile from "./Chat-Bubble-File.svelte";

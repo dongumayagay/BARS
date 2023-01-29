@@ -1,6 +1,6 @@
 <script>
     import { addDoc, collection, onSnapshot, orderBy, query, Timestamp, where } from "firebase/firestore";
-    import {adminUser} from "$lib/stores.js"
+    import {userStore} from "$lib/stores.js"
     import {db, storage} from "$lib/firebase/client.js"
 	import ChatBubble from "./Chat-Bubble.svelte";
 	import ChatBox from "./Chat-Box.svelte";
@@ -31,7 +31,7 @@
             await addDoc(collection(db, "requestMessages"),{
                 messageContent: event.detail.content,
                 filename: event.detail.filename??"N/A",
-                sender: $adminUser.email,
+                sender: $userStore.email,
                 reciever: requesterFullName,
                 trackingId: "id-" + requestId,
                 dateSent: Timestamp.now(),

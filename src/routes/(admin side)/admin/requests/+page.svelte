@@ -5,13 +5,13 @@
 	import ApprovedAppointments from './ApprovedAppointments.svelte';
 	import RequestsHistory from './RequestsHistory.svelte';
 	import Trash from './Trash.svelte';
-
-    import { onMount } from "svelte";
-    import { adminUser } from '$lib/stores.js'
     import {goto} from '$app/navigation';
+    import { userStore, currentPage } from '$lib/stores.js'
+	import { onMount } from 'svelte';
 
-    onMount(() => {
-        if($adminUser === null){
+    onMount(()=>{
+        if(!$userStore){
+            $currentPage = 0
             goto("../admin")
         }
     })
@@ -36,5 +36,3 @@
 		</div>
 	</div>
 </main>
-
-<!-- pendingDocumentRequests={documentRequests.filter(documentRequest => documentRequest.status === 'pending')} -->

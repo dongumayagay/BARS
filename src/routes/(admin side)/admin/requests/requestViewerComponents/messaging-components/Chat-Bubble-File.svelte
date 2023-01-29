@@ -1,6 +1,6 @@
 <script>
     import { storage } from "$lib/firebase/client.js"
-    import { adminUser, months } from "$lib/stores.js"
+    import { userStore, months } from "$lib/stores.js"
     import { ref, getDownloadURL } from "firebase/storage";
     import {Timestamp,  } from "firebase/firestore"; 
 
@@ -23,9 +23,9 @@
     }
 </script>
 
-<div class="chat {message?.sender !== $adminUser.email ? "chat-start":"chat-end"} flex flex-col gap-2 p-2">
+<div class="chat {message?.sender !== $userStore.email ? "chat-start":"chat-end"} flex flex-col gap-2 p-2">
     <div class="chat-header mr-2">
-        {message?.sender === $adminUser.email ? "You" : message?.sender}
+        {message?.sender === $userStore.email ? "You" : message?.sender}
         <time class="text-xs opacity-50">
             {time},
             {months[new Timestamp(message?.dateSent.seconds??[], message?.dateSent.nanoseconds??[]).toDate().getMonth()]} {new Timestamp(message?.dateSent.seconds??[], message?.dateSent.nanoseconds??[]).toDate().getDate()}
@@ -40,7 +40,7 @@
         {:then url} 
             <img src={url} alt={message.messageContent} class="h-[200px]">
         {:catch error}
-            <div class="chat-bubble {message?.sender === $adminUser.email ? "chat-bubble-info" : "chat-bubble-neutral"}">
+            <div class="chat-bubble {message?.sender === $userStore.email ? "chat-bubble-info" : "chat-bubble-neutral"}">
                 <p>{error}</p>
             </div>
         {/await}
