@@ -31,7 +31,7 @@
             })
 
             if(event.detail.messageType === "file"){
-                await uploadBytes(ref(storage, event.detail.content), event.detail.file??[]);
+                await uploadBytes(ref(storage, event.detail.content), event.detail.file[0]??[]);
                 console.log("this is a file upload")
             }
         } catch (error) {
