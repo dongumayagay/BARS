@@ -1,8 +1,8 @@
 <script>
     import { addDoc, collection, onSnapshot, orderBy, query, Timestamp, where } from "firebase/firestore";
-    import {adminUser} from "$lib/stores.js"
     import {db, storage} from "$lib/firebase/client.js"
 	import ChatBubble from "./Chat-Bubble.svelte";
+    import ChatBubbleFile from "./Chat-Bubble-File.svelte";
 	import ChatBox from "./Chat-Box.svelte";
 	import { ref, uploadBytes } from "firebase/storage";
 
@@ -22,6 +22,11 @@
 
     async function sendHandler(event) {
         try {
+            if(event.detail.messageType === "file"){
+                await uploadBytes(ref(storage, event.detail.content), event.detail.file[0]??[]);
+                console.log("this is a file upload")
+            }
+
             await addDoc(collection(db, "requestMessages"),{
                 messageContent: event.detail.content,
                 sender: requesterFullName,
@@ -29,11 +34,6 @@
                 dateSent: Timestamp.now(),
                 messageType: event.detail.messageType
             })
-
-            if(event.detail.messageType === "file"){
-                await uploadBytes(ref(storage, event.detail.content), event.detail.file[0]??[]);
-                console.log("this is a file upload")
-            }
         } catch (error) {
             console.log(error.message)
         }
@@ -44,7 +44,11 @@
     <section class="overflow-y-auto h-[60vh] lg:h-[65vh] w-full">
         {#if messages.length > 0}
             {#each messages as message}
-                <ChatBubble {message} {requesterFullName} />
+                {#if message.messageType === "text"}
+                    <ChatBubble {message} {requesterFullName}/>
+                {:else}
+                    <ChatBubbleFile {message} {requesterFullName}/>
+                {/if}
             {/each}
         {:else}
             <div class="h-full w-full flex items-center">
