@@ -16,7 +16,6 @@
                 content, messageType
             })
         } else {
-            console.log("message_files/" +  requestId + "/" + file[0].name)
             dispatch("send-message", {
                 content: "message_files/" +  requestId + "/" + file[0].name,
                 messageType,
