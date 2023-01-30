@@ -42,9 +42,13 @@
     <div class="w-full flex flex-col items-center py-6" class:hidden={viewing}>
         <p class="w-max h-max text-center mb-4 p-2 rounded-lg font-bold">Approved Appointment Schedules</p>
         <div class="overflow-y-auto max-h-[400px] p-6 flex flex-col gap-4">
-            {#each approvedAppointments as approvedAppointment }
-                <RequestPreview requestData={approvedAppointment} on:view={viewHandler}/>
-            {/each}
+            {#if approvedAppointments.length !== 0}
+                {#each approvedAppointments as approvedAppointment }
+                    <RequestPreview requestData={approvedAppointment} on:view={viewHandler}/>
+                {/each}
+            {:else}
+                <p class="w-full h-[300px] flex items-center justify-center opacity-100">Nothing to show</p>
+            {/if}
         </div>
     </div>
     {#if viewing}

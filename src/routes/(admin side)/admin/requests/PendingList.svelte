@@ -56,18 +56,25 @@
         <div class="w-full p-4 flex flex-col items-center gap-4">
             <p class="font-bold">Document Requests</p>
             <div class=" overflow-y-auto max-h-[400px] w-full flex flex-col gap-4">
-                {#each pendingDocumentRequests as pendingDocument }
-                    <RequestPreview requestData={pendingDocument} on:view={viewHandler}/>
-                {/each}
-    
+                {#if pendingDocumentRequests.length !== 0}
+                    {#each pendingDocumentRequests as pendingDocument }
+                        <RequestPreview requestData={pendingDocument} on:view={viewHandler}/>
+                    {/each}
+                {:else}
+                    <p class="w-full h-[300px] flex items-center justify-center opacity-100">Nothing to show</p>
+                {/if}
             </div>
         </div> 
         <div class="w-full p-4 flex flex-col items-center gap-4 border-l-2">
             <p class="font-bold">Appointment Requests</p>
             <div class=" overflow-y-auto max-h-[400px] w-full flex flex-col gap-4">
-                {#each pendingAppointmentRequests as pendingAppointment}
-                    <RequestPreview requestData={pendingAppointment} on:view={viewHandler}/>
-                {/each}
+                {#if pendingAppointmentRequests.length !== 0}
+                    {#each pendingAppointmentRequests as pendingAppointment}
+                        <RequestPreview requestData={pendingAppointment} on:view={viewHandler}/>
+                    {/each}
+                {:else}
+                    <p class="w-full h-[300px] flex items-center justify-center opacity-100">Nothing to show</p>
+                {/if}
             </div>
         </div>
     </div>

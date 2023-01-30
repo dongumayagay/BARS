@@ -42,9 +42,13 @@
     <div class="w-full flex flex-col items-center py-6" class:hidden={viewing}>
         <p class="w-max h-max text-center mb-4 p-2 rounded-lg font-bold">Ready to claim documents</p>
         <div class=" overflow-y-auto max-h-[400px] flex flex-col gap-4">
-            {#each readyToClaimDocuments as readyToClaimDocument }
-                <RequestPreview requestData={readyToClaimDocument} on:view={viewHandler}/>
-            {/each}
+            {#if readyToClaimDocuments.length !== 0}
+                {#each readyToClaimDocuments as readyToClaimDocument }
+                    <RequestPreview requestData={readyToClaimDocument} on:view={viewHandler}/>
+                {/each}
+            {:else}
+                <p class="w-full h-[300px] flex items-center justify-center opacity-100">Nothing to show</p>
+            {/if}
         </div>
     </div>
     {#if viewing}
