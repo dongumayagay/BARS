@@ -51,7 +51,7 @@
     <div class="w-full bg-base-100 grid grid-cols-2 justify-center rounded-lg py-6" class:hidden={viewing}>
         <div class="w-full p-4 flex flex-col items-center gap-4">
             <p class="font-bold">Document Requests</p>
-            <div class=" overflow-y-auto max-h-[400px] w-full flex flex-col gap-4">
+            <div class=" overflow-y-auto h-[400px] w-full flex flex-col justify-center gap-4">
                 {#if trashedDocumentRequests.length !== 0}
                     {#each trashedDocumentRequests as trashedDocument }
                         <RequestPreview requestData={trashedDocument} on:view={viewHandler}/>
@@ -64,7 +64,7 @@
         </div> 
         <div class="w-full p-4 flex flex-col items-center gap-4 border-l-2">
             <p class="font-bold">Appointment Requests</p>
-            <div class=" overflow-y-auto max-h-[400px] w-full flex flex-col gap-4">
+            <div class=" overflow-y-auto h-[400px] w-full flex flex-col justify-center gap-4">
                 {#if trashedAppointmentRequests.length !== 0}  
                     {#each trashedAppointmentRequests as trashedAppointment}
                         <RequestPreview requestData={trashedAppointment} on:view={viewHandler}/>
