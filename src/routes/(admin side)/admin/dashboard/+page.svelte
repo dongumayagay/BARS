@@ -4,7 +4,7 @@
     import { onMount } from "svelte";
 
     
-    onMount(()=>{
+    onMount(()=>{   
         if(!$userStore){
             $currentPage = 0
             goto("../admin")

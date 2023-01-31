@@ -6,13 +6,11 @@
     import LoginForm from "$lib/components/LoginForm.svelte"
 
     import { signInWithEmailAndPassword } from "firebase/auth";
-	import { onMount } from "svelte";
 
-    onMount(()=>{
-        if(!!$userStore){
+    $:  if(!!$userStore){
+            console.log("Redirecting to dashboard")
             goto("../admin/dashboard")
         }
-    })
 
     function submitHandler(event) {
         signInWithEmailAndPassword(auth, event.detail.email, event.detail.password)

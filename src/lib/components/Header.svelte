@@ -54,7 +54,7 @@
 						</button>
 					</li>
 				  <li><button class="flex justify-center hover:bg-neutral hover:underline">
-						<small>Settings</small>
+						<small>Account Settings</small>
 				  </button></li>
 				  <!-- <li><a>Item 2</a></li> -->
 				</button>

@@ -11,7 +11,7 @@
 
     onMount(()=>{
         if(!$userStore){
-            $currentPage = 0
+            $currentPage = 1;
             goto("../admin")
         }
     })
