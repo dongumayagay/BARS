@@ -6,8 +6,9 @@
 
 <section class="w-[80%] flex flex-col gap-2">
     <section class="w-full bg-neutral flex flex-col rounded-xl shadow-lg z-10">
-        <div class="w-full h-[75px] border-b-[1px] border-primary p-4">
+        <div class="w-full h-[85px] flex flex-col justify-between border-b-[1px] border-primary p-4">
             <p class="font-semibold">{document.name}</p>
+            <small>Document Fee: P{document.fee}</small>
         </div>
         <label class="w-full px-4 flex justify-between items-center">
             <p>Requirements</p>
@@ -32,7 +33,7 @@
             <div class="bg-neutral flex items-center gap-4 rounded-xl shadow-lg p-4">
                 <i class="fa-solid fa-id-card"></i>
                 <div class="flex flex-col">
-                    <p>{requirement.name}</p>
+                    <p>{requirement}</p>
                 </div>
             </div>
         {/each}
