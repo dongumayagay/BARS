@@ -62,8 +62,8 @@
                     bind:value={selectedDateAndTime.date} 
                     required
                 />
-                <label class="label label-text-info w-full lg:w-[20rem] flex justify-start" for="date">
-                    <span class="label-text text-success">Note: Available range of date is 1 to 30 days prior to current date</span>
+                <label class="label w-full lg:w-[20rem] flex justify-start lg:hidden" for="date">
+                    <span class="label-text text-info">Available range of date is 1 to 30 days prior to current date</span>
                 </label>
             </div>
             <div class="w-full flex justify-center lg:justify-start lg:flex-col gap-2 lg:gap-0">
@@ -83,6 +83,9 @@
                 </select>
             </div>
         </div>
+        <label class="hidden w-full label label-text-info lg:flex justify-start" for="date">
+            <p class="w-full label-text text-center text-blue-700">Available range of date is 2 to 30 days prior from the current date</p>
+        </label>
     </div>
 
     <section class="w-full pt-4 flex flex-col lg:flex-row gap-4 justify-around items-center ">
