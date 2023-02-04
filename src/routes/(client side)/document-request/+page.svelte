@@ -8,6 +8,7 @@
     import { Timestamp, collection, addDoc} from "firebase/firestore";
     import { ref, uploadBytes } from "firebase/storage";
     import { sendEmail } from '$lib/utils';
+   
 
     let requestComplete = false;
     let page = 0;
@@ -69,7 +70,17 @@
             const errorMessage = error.message;
         }
     }
+
+    function beforeUnload(event) {
+    // Cancel the event as stated by the standard.
+    event.preventDefault();
+    // Chrome requires returnValue to be set.
+    event.returnValue = '';
+    // more compatibility
+    return '...';
+  }
 </script>
+<svelte:window on:beforeunload={beforeUnload}/>
 
 <svelte:head>
     <title>Document Request | B.A.R.S.</title>
