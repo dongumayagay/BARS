@@ -1,7 +1,12 @@
 <script>
 	import Header from "$lib/components/Header.svelte";
-	import { userStore, currentPage } from "$lib/stores.js";
+	import { userStore, currentPage, currentInterface } from "$lib/stores.js";
 	import {goto} from "$app/navigation"
+	import { onMount } from "svelte";
+
+	onMount(()=>{
+		$currentInterface = "admin";
+	}) 
 
 	let title;
 	const links = [

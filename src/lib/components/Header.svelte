@@ -1,5 +1,5 @@
 <script>
-	import {currentPage,userStore} from "$lib/stores.js";
+	import {currentPage,currentInterface,userStore} from "$lib/stores.js";
 	import {auth} from "$lib/firebase/client.js"
 	import { goto } from '$app/navigation'
 	import { createEventDispatcher } from "svelte";
@@ -40,7 +40,7 @@
 		<!--  -->
 		<div class="w-full h-full flex {$userStore === undefined || $userStore === null ? "justify-center" : "justify-end"} p-2">
 			<h1 class="w-full h-full text-center flex items-center justify-center flex-1 font-serif text-sm lg:text-xl">{title}</h1>
-			{#if !!$userStore}
+			{#if !!$userStore && $currentInterface === "admin"}
 			<div class="dropdown dropdown-end">
 				<button class="btn btn-sm w-max h-max">
 					<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
