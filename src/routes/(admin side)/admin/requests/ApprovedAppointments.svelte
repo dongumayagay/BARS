@@ -1,8 +1,8 @@
 <script>
-    import RequestPreview from "../../../../lib/components/RequestPreview.svelte";
     import RequestViewer from "./RequestViewer.svelte";
 	import { onSnapshot, query, collection, where } from "firebase/firestore";
     import { db } from "$lib/firebase/client.js"
+	import AppointmentRequestsTable from "./request-preview-components/AppointmentRequestsTable.svelte";
 
     export let page;
 
@@ -40,15 +40,8 @@
 
 <div class="w-full flex flex-col items-center" class:hidden={page !== 2}>
     <div class="w-full flex flex-col items-center py-6" class:hidden={viewing}>
-        <p class="w-max h-max text-center mb-4 p-2 rounded-lg font-bold">Approved Appointment Schedules</p>
-        <div class="overflow-y-auto max-h-[400px] p-6 flex flex-col gap-4">
-            {#if approvedAppointments.length !== 0}
-                {#each approvedAppointments as approvedAppointment }
-                    <RequestPreview requestData={approvedAppointment} on:view={viewHandler}/>
-                {/each}
-            {:else}
-                <p class="w-full h-[300px] flex items-center justify-center opacity-100">Nothing to show</p>
-            {/if}
+        <div class="overflow-y-auto w-full h-full p-6 flex flex-col gap-4">
+                <AppointmentRequestsTable appointmentRequests={approvedAppointments} on:view={viewHandler}/>
         </div>
     </div>
     {#if viewing}
