@@ -1,5 +1,6 @@
 <script>
     import {db} from '$lib/firebase/client.js'
+    import { months, weekDays } from '$lib/stores.js'
     import {createEventDispatcher} from "svelte";
     import { collection, getDocs, query, where, Timestamp } from "firebase/firestore"
 
@@ -14,6 +15,7 @@
         "8:00 AM", "9:00 AM", "10:00 AM", "11:00 AM", "12:00 PM", "1:00 PM", "2:00 PM", "3:00 PM", "4:00 PM", "5:00 PM"
     ]
     let unbookedHours = [];
+    let dateInput = "";
 
     let selectedDateAndTime = {
         date: "",
@@ -29,13 +31,22 @@
         })
     }
 
+    function formatDate(date) {
+        let appointmentDate = new Date(date)
+        let dateFormat = weekDays[appointmentDate.getDay()] + ", " + months[appointmentDate.getMonth()] + " " + appointmentDate.getDate();
+        console.log("Date: " + dateFormat)
+        return dateFormat;
+    }
+
     function submitHandler() {
         dispatch("next", {
             selectedDateAndTime
         })
     }
 
+    $: if(!!dateInput) selectedDateAndTime.date = formatDate(dateInput);
     $: if(!!selectedDateAndTime.date) filterHours(selectedDateAndTime.date)
+    $: if(!!selectedDateAndTime.time) console.log(selectedDateAndTime.date + " at " + selectedDateAndTime.time)
 </script>
 
 
@@ -59,7 +70,7 @@
                     max={maxDate}
                     placeholder="Type here" 
                     class="input input-bordered w-full lg:max-w-xs bg-neutral border-primary focus:outline-primary focus:ring-0 focus:border-secondary"
-                    bind:value={selectedDateAndTime.date} 
+                    bind:value={dateInput} 
                     required
                 />
                 <label class="label w-full lg:w-[20rem] flex justify-start lg:hidden" for="date">
