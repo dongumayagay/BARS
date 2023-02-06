@@ -5,6 +5,7 @@
 	import { onMount } from "svelte";
 
 	onMount(()=>{
+		$currentPage = 0;
 		$currentInterface = "admin";
 	}) 
 
@@ -27,7 +28,6 @@
 	$: title = "Welcome " + $userStore?.email
 
 	function logOutHandler() {
-		$currentPage = 0;
 		goto("../admin")
 	}
 </script>
