@@ -3,7 +3,7 @@
     import PendingList from './PendingList.svelte';
     import DocumentsToClaim from './DocumentsToClaim.svelte';
 	import ApprovedAppointments from './ApprovedAppointments.svelte';
-	import RequestsHistory from './RequestsHistory.svelte';
+    import ServedRequestsList from './ServedRequestsList.svelte';
 	import Trash from './Trash.svelte';
     import {goto} from '$app/navigation';
     import { userStore, currentPage } from '$lib/stores.js'
@@ -11,7 +11,6 @@
 
     onMount(()=>{
         if(!$userStore){
-            $currentPage = 1;
             goto("../admin")
         }
     })
@@ -31,7 +30,7 @@
             <PendingList {page} />
             <DocumentsToClaim {page} />
             <ApprovedAppointments {page} />
-            <RequestsHistory {page} />
+            <ServedRequestsList {page} />
             <Trash {page} />
 		</div>
 	</div>
