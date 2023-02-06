@@ -5,6 +5,7 @@ import { readable, writable } from "svelte/store";
 
 export let currentPage = writable(0);
 
+export let currentInterface = writable(null)
 export const userStore = readable(undefined, set => {
     const unsubscribe = onAuthStateChanged(
         auth,
@@ -30,12 +31,12 @@ export const months = [
 ]
 
 export const weekDays = [
-    "Sunday",
-    "Monday",
-    "Tuesday",
-    "Wednesday",
-    "Thursday",
-    "Friday",
-    "Saturday",
+    "Sun",
+    "Mon",
+    "Tue",
+    "Wed",
+    "Thu",
+    "Fri",
+    "Sat",
 
 ]

@@ -43,6 +43,7 @@
                 birthDate: appointmentRequest.contactInfo.birthdate,
                 email: appointmentRequest.contactInfo.email,
                 dateAdded: Timestamp.now(),
+                lastUpdated: Timestamp.now(),
                 appointmentDate: appointmentRequest.selectedDateAndTime.date,
                 appointmentTime: appointmentRequest.selectedDateAndTime.time,
                 appointmentPurpose: appointmentRequest.contactInfo.purpose,
@@ -59,8 +60,17 @@
         }
     }
 
+    function beforeUnload(event) {
+        // Cancel the event as stated by the standard.
+        event.preventDefault();
+        // Chrome requires returnValue to be set.
+        event.returnValue = '';
+        // more compatibility
+        return '...';
+    }
 </script>
 
+<svelte:window on:beforeunload={beforeUnload}/>
 <svelte:head>
     <title>Appointment Request | B.A.R.S.</title>
 </svelte:head>

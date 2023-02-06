@@ -109,7 +109,7 @@
             <label for="contact" class="label">
                 <span class="label-text">Phone Number</span>
               </label>
-            <input required title="Please enter your valid phone number" type="tel" id="contact" name="contact" placeholder="09** *** *** / 639** *** ****" class="input input-bordered input-md input-primary w-full bg-neutral focus:border-primary focus:outline-offset-[3px]"
+            <input required title="Please enter your valid phone number" type="tel" id="contact" name="contact" placeholder="09** *** ****" maxlength="11" class="input input-bordered input-md input-primary w-full bg-neutral focus:border-primary focus:outline-offset-[3px]"
             bind:value={contactInfo.contactNo}
               />
         </div>
@@ -117,9 +117,6 @@
             <label for="purpose" class="label">
                 <span class="label-text">Purpose of the Request</span>
               </label>
-            <!-- <input required title="Please enter the purpose of the requirement" type="textarea" id="purpose" name="purpose" placeholder="example: Job Requirement" class="input input-bordered input-md input-primary "
-            
-            /> -->
             <textarea class="textarea textarea-primary w-full bg-neutral focus:border-primary focus:outline-offset-[3px]" placeholder="example: Job Requirement" bind:value={contactInfo.purpose}></textarea>
         </div>
     </section>

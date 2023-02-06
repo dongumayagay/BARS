@@ -4,7 +4,7 @@
     let showMenu = false;
 </script>
 
-<section class="hidden w-[30%] h-[65vh] p-6 bg-neutral lg:flex flex-col gap-6 rounded-xl shadow-xl">
+<section class="hidden w-[30%] h-[65vh] p-6 bg-neutral lg:flex items-start rounded-xl shadow-xl tabs">
     <Links />
 </section>
 
@@ -13,17 +13,12 @@
         <Links on:closeMenu={() => showMenu = false} />
     </div>
     <label class="py-10 bg-neutral rounded-r-xl swap swap-rotate border-2 border-l-2 border-l-neutral mt-32 {showMenu ? "h-max right-[3.5px]" : ""}">
-
         <input type="checkbox" class="invisible" bind:checked={showMenu} />
-
-
         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 swap-off text-primary">
             <path stroke-linecap="round" stroke-linejoin="round" d="M11.25 4.5l7.5 7.5-7.5 7.5m-6-15l7.5 7.5-7.5 7.5" />
         </svg>
-
         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 swap-on text-primary">
             <path stroke-linecap="round" stroke-linejoin="round" d="M18.75 19.5l-7.5-7.5 7.5-7.5m-6 15L5.25 12l7.5-7.5" />
         </svg>
-          
     </label>
 </section>

@@ -7,7 +7,7 @@
 		{name: 'Waiting List'},
 		{name: 'To Claim Documents'},
 		{name: 'Approved Appointments'},
-        {name: 'History'},
+        {name: 'Served Requests'},
         {name: 'Trash'}
 	] 
 	

@@ -6,7 +6,6 @@
     
     onMount(()=>{   
         if(!$userStore){
-            $currentPage = 0
             goto("../admin")
         }
     })

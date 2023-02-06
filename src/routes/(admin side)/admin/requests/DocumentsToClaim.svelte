@@ -1,8 +1,8 @@
 <script>
-    import RequestPreview from "../../../../lib/components/RequestPreview.svelte";
     import RequestViewer from "./RequestViewer.svelte";
 	import { onSnapshot, query, collection, where } from "firebase/firestore";
     import { db } from "$lib/firebase/client.js"
+	import DocumentRequestsTable from "./request-preview-components/DocumentRequestsTable.svelte";
 
 
     export let page;
@@ -36,19 +36,41 @@
         viewing = false;
     }
 
+    let columnToSort;
+    let asc;
+	
+	$: sort = (column, asc) => {
+		let sortModifier = (asc) ? 1 : -1;
+		
+		let sort = (a, b) => 
+			(a[column] < b[column]) 
+			? -1 * sortModifier 
+			: (a[column] > b[column]) 
+			? 1 * sortModifier 
+			: 0;
+		
+		readyToClaimDocuments = readyToClaimDocuments.sort(sort);
+	}
+
+    $: sort(columnToSort, asc);
 </script>
 
 <div class="w-full flex flex-col items-center" class:hidden={page !== 1}>
     <div class="w-full flex flex-col items-center py-6" class:hidden={viewing}>
-        <p class="w-max h-max text-center mb-4 p-2 rounded-lg font-bold">Ready to claim documents</p>
-        <div class=" overflow-y-auto max-h-[400px] flex flex-col gap-4">
-            {#if readyToClaimDocuments.length !== 0}
-                {#each readyToClaimDocuments as readyToClaimDocument }
-                    <RequestPreview requestData={readyToClaimDocument} on:view={viewHandler}/>
-                {/each}
-            {:else}
-                <p class="w-full h-[300px] flex items-center justify-center opacity-100">Nothing to show</p>
-            {/if}
+        <div class="w-max flex items-center justify-end gap-2">
+            <small class="font-semibold">Sort by:</small>
+            <select class="select select-sm select-primary w-max" bind:value={columnToSort}>
+                <option value="dateAdded" selected>Date Requested</option>
+                <option value="lastName">Name</option>
+                <option value="lastUpdated">Last Updated</option>
+            </select>
+            <select class="select select-sm select-primary w-max" bind:value={asc}>
+                <option value={false} selected>Descending</option>
+                <option value={true}>Ascending</option>
+            </select>
+        </div>
+        <div class=" w-full flex flex-col gap-4 p-6">
+            <DocumentRequestsTable documentRequests={readyToClaimDocuments} on:view={viewHandler} />
         </div>
     </div>
     {#if viewing}

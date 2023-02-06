@@ -1,8 +1,8 @@
 <script>
-    import RequestPreview from "../../../../lib/components/RequestPreview.svelte";
     import RequestViewer from "./RequestViewer.svelte";
 	import { onSnapshot, query, collection, where } from "firebase/firestore";
     import { db } from "$lib/firebase/client.js"
+	import AppointmentRequestsTable from "./request-preview-components/AppointmentRequestsTable.svelte";
 
     export let page;
 
@@ -36,19 +36,42 @@
         dataToView = {};
         viewing = false;
     }
+
+    let columnToSort;
+    let asc;
+	
+	$: sort = (column, asc) => {
+		let sortModifier = (asc) ? 1 : -1;
+		
+		let sort = (a, b) => 
+			(a[column] < b[column]) 
+			? -1 * sortModifier 
+			: (a[column] > b[column]) 
+			? 1 * sortModifier 
+			: 0;
+		
+		approvedAppointments = approvedAppointments.sort(sort);
+	}
+
+    $: sort(columnToSort, asc);
 </script>
 
 <div class="w-full flex flex-col items-center" class:hidden={page !== 2}>
     <div class="w-full flex flex-col items-center py-6" class:hidden={viewing}>
-        <p class="w-max h-max text-center mb-4 p-2 rounded-lg font-bold">Approved Appointment Schedules</p>
-        <div class="overflow-y-auto max-h-[400px] p-6 flex flex-col gap-4">
-            {#if approvedAppointments.length !== 0}
-                {#each approvedAppointments as approvedAppointment }
-                    <RequestPreview requestData={approvedAppointment} on:view={viewHandler}/>
-                {/each}
-            {:else}
-                <p class="w-full h-[300px] flex items-center justify-center opacity-100">Nothing to show</p>
-            {/if}
+        <div class="w-max flex items-center justify-end gap-2">
+            <small class="font-semibold">Sort by:</small>
+            <select class="select select-sm select-primary w-max" bind:value={columnToSort}>
+                <option value="dateAdded" selected>Date Requested</option>
+                <option value="lastName">Name</option>
+                <option value="lastUpdated">Last Updated</option>
+            </select>
+            <select class="select select-sm select-primary w-max" bind:value={asc}>
+                <option value={false} selected>Descending</option>
+                <option value={true}>Ascending</option>
+            </select>
+        </div>
+        <div class="overflow-y-auto w-full h-full p-6 flex flex-col gap-4">
+                <AppointmentRequestsTable appointmentRequests={approvedAppointments} on:view={viewHandler}/>
         </div>
     </div>
     {#if viewing}
