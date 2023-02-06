@@ -43,6 +43,7 @@
                 birthDate: appointmentRequest.contactInfo.birthdate,
                 email: appointmentRequest.contactInfo.email,
                 dateAdded: Timestamp.now(),
+                lastUpdated: Timestamp.now(),
                 appointmentDate: appointmentRequest.selectedDateAndTime.date,
                 appointmentTime: appointmentRequest.selectedDateAndTime.time,
                 appointmentPurpose: appointmentRequest.contactInfo.purpose,

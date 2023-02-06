@@ -47,6 +47,7 @@
                 birthDate: documentRequest.contactInfo.birthdate,
                 email: documentRequest.contactInfo.email,
                 dateAdded: Timestamp.now(),
+                lastUpdated: Timestamp.now(),
                 docsRequested: documentRequest.listOfRequestedDocuments,
                 docPurpose: documentRequest.contactInfo.purpose,
                 totalFee: documentRequest.totalFee,
