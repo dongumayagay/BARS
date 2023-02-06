@@ -93,6 +93,7 @@
                     <select class="select select-sm select-primary w-max" bind:value={columnToSort}>
                         <option value="dateAdded" selected>Date Requested</option>
                         <option value="lastName">Name</option>
+                        <option value="lastUpdated">Last Updated</option>
                     </select>
                     <select class="select select-sm select-primary w-max" bind:value={asc}>
                         <option value={false} selected>Descending</option>

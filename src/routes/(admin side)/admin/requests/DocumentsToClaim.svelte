@@ -36,11 +36,40 @@
         viewing = false;
     }
 
+    let columnToSort;
+    let asc;
+	
+	$: sort = (column, asc) => {
+		let sortModifier = (asc) ? 1 : -1;
+		
+		let sort = (a, b) => 
+			(a[column] < b[column]) 
+			? -1 * sortModifier 
+			: (a[column] > b[column]) 
+			? 1 * sortModifier 
+			: 0;
+		
+		readyToClaimDocuments = readyToClaimDocuments.sort(sort);
+	}
+
+    $: sort(columnToSort, asc);
 </script>
 
 <div class="w-full flex flex-col items-center" class:hidden={page !== 1}>
-    <div class="w-full flex flex-col items-center p-4" class:hidden={viewing}>
-        <div class=" w-full flex flex-col gap-4">
+    <div class="w-full flex flex-col items-center py-6" class:hidden={viewing}>
+        <div class="w-max flex items-center justify-end gap-2">
+            <small class="font-semibold">Sort by:</small>
+            <select class="select select-sm select-primary w-max" bind:value={columnToSort}>
+                <option value="dateAdded" selected>Date Requested</option>
+                <option value="lastName">Name</option>
+                <option value="lastUpdated">Last Updated</option>
+            </select>
+            <select class="select select-sm select-primary w-max" bind:value={asc}>
+                <option value={false} selected>Descending</option>
+                <option value={true}>Ascending</option>
+            </select>
+        </div>
+        <div class=" w-full flex flex-col gap-4 p-6">
             <DocumentRequestsTable documentRequests={readyToClaimDocuments} on:view={viewHandler} />
         </div>
     </div>

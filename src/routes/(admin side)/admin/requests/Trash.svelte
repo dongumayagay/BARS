@@ -54,13 +54,33 @@
         ...trashedAppointmentRequests,
         ...trashedDocumentRequests
     ]
+
+    let columnToSort;
+    let asc;
+	
+	$: sort = (column, asc) => {
+		let sortModifier = (asc) ? 1 : -1;
+		
+		let sort = (a, b) => 
+			(a[column] < b[column]) 
+			? -1 * sortModifier 
+			: (a[column] > b[column]) 
+			? 1 * sortModifier 
+			: 0;
+		
+		trashedDocumentRequests = trashedDocumentRequests.sort(sort);
+        trashedAppointmentRequests = trashedAppointmentRequests.sort(sort);
+        allTrashedRequests = allTrashedRequests.sort(sort);
+	}
+
+    $: sort(columnToSort, asc);
 </script>
 
 <main class="w-full flex justify-center" class:hidden={page !== 4}>
-    <div class="w-full bg-base-100 justify-center rounded-lg py-6" class:hidden={viewing}>
-        <div class="w-full p-4 flex flex-col items-center gap-4">
+    <div class="w-full bg-base-100 justify-center rounded-lg" class:hidden={viewing}>
+        <div class="w-full p-6 flex flex-col items-center gap-4">
             <div class="w-full flex justify-between">
-                <div class="flex items-center gap-2">
+                <div class="w-max flex items-center gap-2">
                     <small class="font-semibold">Show: </small>
                     <select class="select select-sm select-primary w-full max-w-xs" bind:value={typeOfRequestToShow}>
                         <option value="all" selected>All</option>
@@ -68,8 +88,20 @@
                         <option value="appointments">Appointment Requests</option>
                     </select>
                 </div>
+                <div class="w-max flex items-center justify-end gap-2">
+                    <small class="font-semibold">Sort by:</small>
+                    <select class="select select-sm select-primary w-max" bind:value={columnToSort}>
+                        <option value="dateAdded" selected>Date Requested</option>
+                        <option value="lastName">Name</option>
+                        <option value="lastUpdated">Last Updated</option>
+                    </select>
+                    <select class="select select-sm select-primary w-max" bind:value={asc}>
+                        <option value={false} selected>Descending</option>
+                        <option value={true}>Ascending</option>
+                    </select>
+                </div>
             </div>
-            <div class="h-[400px] w-full flex flex-col gap-4">
+            <div class="h-[400px] w-full flex flex-col gap-4 py-2">
                 {#if typeOfRequestToShow === "all"}
                     <AllRequests allRequests={allTrashedRequests} on:view={viewHandler}/>
                 {:else if typeOfRequestToShow === "documents"}
