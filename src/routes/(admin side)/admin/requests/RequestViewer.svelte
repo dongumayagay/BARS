@@ -132,13 +132,6 @@
                 })
             }
             await deleteDoc(doc(db, dataToView.collectionReference, dataToView.requestId))
-            // await addDoc(collection( db, "history"), {
-            //     requesterFullName: dataToView.lastName + ", " + dataToView.firstName + " " +  dataToView.middleName,
-            //     update: "Request removed",
-            //     typeOfRequest: dataToView.typeOfRequest,
-            //     logDate: Timestamp.now(),
-            //     requestId: dataToView.requestId,
-            // })
             alert("Request removed successfully")
             dispatch("close")
         }catch(error){
@@ -181,7 +174,7 @@
     <div class="p-4 w-full h-full flex items-start justify-start gap-10">
         <NavigationButtons {page} on:navigate={(event) => page = event.detail.index}/>
         <section class="w-full" class:hidden={page !== 0}>
-            <RequestDetails {dataToView} />
+            <RequestDetails {dataToView} on:viewImage={(event)=>console.log(event.detail.url)}/>
         </section>
         <section class="h-full w-full" class:hidden={page !== 1}>
             <RequestMessages 

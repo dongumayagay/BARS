@@ -63,11 +63,7 @@
                 <i class="fa-brands fa-facebook text-[45px] text-blue-900"></i>
                 <div class="flex flex-col">
                     <p class="font-semibold text-blue-900 text-lg">{officialProfile.facebook.profileName}</p>
-                    <!-- <p class="text-sm">{officialProfile.facebook.profileName}</p> -->
                     <div class="w-full flex justify-center gap-2 lg:hidden">
-                        <!-- <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-3 h-3">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M18.75 19.5l-7.5-7.5 7.5-7.5m-6 15L5.25 12l7.5-7.5" />
-                        </svg> -->
                         <p class="font-light text-sm">{facebookTooltip}</p>
                     </div>
                 </div>

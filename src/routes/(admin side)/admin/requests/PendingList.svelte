@@ -53,11 +53,6 @@
         viewing = false;
     }
 
-    function sortRequests(a, b, col, ascending){
-        if(ascending) return a - b;
-        return b - a;
-    }
-
     $: allPendingRequests = [
         ...pendingDocumentRequests,
         ...pendingAppointmentRequests,
