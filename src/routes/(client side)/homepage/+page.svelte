@@ -8,9 +8,9 @@
     const announcementsFetcher = onSnapshot(collection(db, "announcements"), (querySnapshot)=>{
         announcements = [];
         querySnapshot.forEach((doc)=>{
-            console.log(doc.data())
             announcements = [...announcements, {
-                ...doc.data()
+                ...doc.data(),
+                announcementId: doc.id,
             }]
         })
     })
