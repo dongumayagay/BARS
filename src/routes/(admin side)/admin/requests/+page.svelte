@@ -15,6 +15,8 @@
         }
     })
 
+    $currentPage = 1;
+
     let page = 0;
 
     function navigate(event) {

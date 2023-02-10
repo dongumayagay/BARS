@@ -4,10 +4,10 @@
 	import {goto} from "$app/navigation"
 	import { onMount } from "svelte";
 
-	onMount(()=>{
+	// onMount(()=>{
 		$currentPage = 0;
 		$currentInterface = "admin";
-	}) 
+	// }) 
 
 	let title;
 	const links = [

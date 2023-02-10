@@ -7,6 +7,9 @@
     import {db} from '$lib/firebase/client.js'
     import {addDoc, collection, Timestamp} from 'firebase/firestore';
     import { sendEmail } from '$lib/utils.js';
+    import { currentPage } from "$lib/stores.js";
+ 
+    $currentPage = 2;
 
     let page = 0;
     let requestSubmitted = false;

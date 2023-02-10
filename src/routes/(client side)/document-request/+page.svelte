@@ -4,11 +4,13 @@
     import FileUpload from "./FileUpload.svelte";
     import Confirm from "./Confirm.svelte";
     import RequestCompleted from "$lib/components/RequestCompleted.svelte";
+    import { currentPage } from "$lib/stores.js";
     import { db,  storage } from "$lib/firebase/client.js";
     import { Timestamp, collection, addDoc} from "firebase/firestore";
     import { ref, uploadBytes } from "firebase/storage";
     import { sendEmail } from '$lib/utils';
    
+    $currentPage = 1;
 
     let requestComplete = false;
     let page = 0;
@@ -73,13 +75,13 @@
     }
 
     function beforeUnload(event) {
-    // Cancel the event as stated by the standard.
-    event.preventDefault();
-    // Chrome requires returnValue to be set.
-    event.returnValue = '';
-    // more compatibility
-    return '...';
-  }
+        // Cancel the event as stated by the standard.
+        event.preventDefault();
+        // Chrome requires returnValue to be set.
+        event.returnValue = '';
+        // more compatibility
+        return '...';
+    }
 </script>
 <svelte:window on:beforeunload={beforeUnload}/>
 
