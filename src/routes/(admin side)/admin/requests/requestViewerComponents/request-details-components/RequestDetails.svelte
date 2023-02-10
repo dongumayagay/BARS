@@ -1,5 +1,6 @@
 <script>
     import { createEventDispatcher } from "svelte";
+    import { zoom } from "$lib/zoom.js"
     import RequestBasicInfo from "./RequestBasicInfo.svelte";
 	import DocumentsRequested from "./DocumentsRequested.svelte";
 	import SelectedDateAndOfficial from "./SelectedDateAndOfficial.svelte";
@@ -87,7 +88,7 @@
                 </button>
             </div>
             <div class="flex flex-col items-center gap-4 z-10">
-                <img src={imageToEnlarge.imageUrl} alt={imageToEnlarge.requirementName} class="w-[70vw] lg:h-[70vh]">
+                <img src={imageToEnlarge.imageUrl} alt={imageToEnlarge.requirementName} class="w-[70vw] lg:h-[70vh] hover:cursor-zoom-in" use:zoom>
                 <p class="text-neutral text-lg underline">{imageToEnlarge.name}</p>
             </div>
         </div>
