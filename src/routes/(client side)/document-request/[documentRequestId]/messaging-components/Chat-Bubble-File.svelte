@@ -15,7 +15,7 @@
     let time = new Timestamp(message?.dateSent.seconds??[], message?.dateSent.nanoseconds??[]).toDate().getHours() + ":" + minutes;
 
     async function fetchURLHandler(){
-        const path = message.messageContent;
+        const path = message.filePath;
         const fileRef = ref(storage, path)
 
         const url = await getDownloadURL(fileRef)
@@ -37,7 +37,7 @@
                 <small>Loading image..</small>
             </div>
         {:then url} 
-            <img src={url} alt={message.messageContent} class="h-[200px]">
+            <img src={url} alt={message.filePath} class="h-[200px]">
         {:catch error}
             <div class="chat-bubble {message?.sender === requesterFullName ? "chat-bubble-info" : "chat-bubble-neutral"}">
                 <p>{error}</p>

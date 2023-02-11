@@ -24,16 +24,23 @@
         try {
             if(event.detail.messageType === "file"){
                 await uploadBytes(ref(storage, event.detail.content), event.detail.file[0]??[]);
-                console.log("this is a file upload")
+                await addDoc(collection(db, "requestMessages"),{
+                    filePath: event.detail.content,
+                    sender: requesterFullName,
+                    trackingId: "id-" + requestId,
+                    dateSent: Timestamp.now(),
+                    messageType: event.detail.messageType
+                })
+            } else {
+                await addDoc(collection(db, "requestMessages"),{
+                    messageContent: event.detail.content,
+                    sender: requesterFullName,
+                    trackingId: "id-" + requestId,
+                    dateSent: Timestamp.now(),
+                    messageType: event.detail.messageType
+                })
             }
 
-            await addDoc(collection(db, "requestMessages"),{
-                messageContent: event.detail.content,
-                sender: requesterFullName,
-                trackingId: "id-" + requestId,
-                dateSent: Timestamp.now(),
-                messageType: event.detail.messageType
-            })
         } catch (error) {
             console.log(error.message)
         }
