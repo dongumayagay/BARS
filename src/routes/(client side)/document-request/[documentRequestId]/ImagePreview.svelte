@@ -1,10 +1,13 @@
 <script>
     import { storage } from "$lib/firebase/client.js"
     import { ref, getDownloadURL } from "firebase/storage";
+    import { createEventDispatcher } from "svelte";
 
     export let requestId;
     export let documentName;
     export let requirementName;
+
+    const dispatch = createEventDispatcher();
 
     async function fetchURLHandler(){
         try {
@@ -25,10 +28,13 @@
         <small>Loading image..</small>
     </div>
 {:then url} 
-    <div class="flex flex-col items-center gap-2">
-        <img src={url} alt={requirementName} class="w-fit max-h-[150px]">
-        <p>{requirementName}</p>
-    </div>
+<div class="w-fit group relative">
+    <img src={url} alt={requirementName} class="h-[150px]">
+    <button class="opacity-0 bg-black/50 w-full absolute top-0 group-hover:opacity-100 transition-all ease-in duration-100 h-[150px]" on:click={()=>dispatch("viewImage", {url, requirementName})}>
+        <p class="text-neutral">Click to view</p>
+    </button>
+    <p class="w-full text-center">{requirementName}</p>
+</div>
 {:catch error}
     <p>{error}</p>
 {/await}
