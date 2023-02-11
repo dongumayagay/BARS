@@ -44,11 +44,19 @@
 		let sortModifier = (asc) ? 1 : -1;
 		
 		let sort = (a, b) => 
-			(a[column] < b[column]) 
-			? -1 * sortModifier 
-			: (a[column] > b[column]) 
-			? 1 * sortModifier 
-			: 0;
+        (column === "lastName")
+           ?
+                (JSON.stringify(a[column]).toLowerCase() < JSON.stringify(b[column]).toLowerCase()) 
+                ? -1 * sortModifier 
+                : (JSON.stringify(a[column]).toLowerCase() > JSON.stringify(b[column]).toLowerCase()) 
+                ? 1 * sortModifier 
+                : 0
+            :
+                (a[column] < b[column]) 
+                    ? -1 * sortModifier 
+                    : (a[column] > b[column]) 
+                    ? 1 * sortModifier 
+                    : 0
 		
 		approvedAppointments = approvedAppointments.sort(sort);
 	}
