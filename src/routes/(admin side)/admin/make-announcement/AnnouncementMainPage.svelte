@@ -15,9 +15,11 @@
         </svg>
         <p>Post an announcement</p>
     </button>
-    <div>
+    <div class="w-full flex justify-center">
         {#if postedAnnouncements.length !== 0}
             <Announcement announcements={postedAnnouncements}/> 
+        {:else}
+            <p>Nothing to show</p>
         {/if}
     </div>
 </div>
