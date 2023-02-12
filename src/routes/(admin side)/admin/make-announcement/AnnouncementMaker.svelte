@@ -11,16 +11,30 @@
     
     const dispatch = createEventDispatcher();
 
-    let showModal = false;
+    let showUploadingModal = false;
 
     async function submitHandler(event){
         try {
             let hasFiles = false;
+            let uploadFilesTimestamp;
+            let fileUploadPromises;
             let filePaths = []; 
-            
+
+            showUploadingModal = true
             if(event.detail.filesToUpload.length > 0) hasFiles = true;
 
-            console.log(hasFiles);
+            // console.log(uploadFilesTimestamp);
+
+            if(hasFiles){
+                uploadFilesTimestamp = Timestamp.now().toJSON().seconds + "." + Timestamp.now().toJSON().nanoseconds;
+
+                fileUploadPromises = event.detail.filesToUpload.map((value)=>{
+                    const pathName = "announcementFiles/" + uploadFilesTimestamp + "/" + value.file.name;
+                    const storageReference =  ref(storage, pathName);
+
+                    uploadBytes(storageReference, value.file);
+                })
+            }
             
             const announcementUploadRef = await addDoc(collection(db, "announcements"),{
                 title: event.detail.announcementTitle,
@@ -28,24 +42,19 @@
                 datePosted: Timestamp.now(),
                 postedBy: $userStore.email,
                 hasFiles,
-                
+                uploadFilesTimestamp,
             })
-            
-            let fileUploadPromises;
-            if(hasFiles){ 
-                fileUploadPromises = event.detail.filesToUpload.map((value)=>{
-                    const pathName = "announcementFiles/" + announcementUploadRef.id + "/" + value.file[0].name;
-                    const storageReference =  ref(storage, pathName);
 
-                    return uploadBytes(storageReference, value.file[0]);
-                })
+            if(hasFiles){ 
                 const fileUploadPromisesResult = await Promise.all(fileUploadPromises);
                 console.log(announcementUploadRef, fileUploadPromisesResult)
-                if(!!announcementUploadRef && !!fileUploadPromises){
+                if(!!announcementUploadRef && !!fileUploadPromisesResult){
+                    showUploadingModal = false;
                     dispatch("close")
                 }
             } else {
                 if(!!announcementUploadRef){
+                    showUploadingModal = false;
                     dispatch("close")
                 }
             }
@@ -99,5 +108,12 @@
                 <p class="text-neutral text-lg underline">{imageToEnlarge.name}</p>
             </div>
         </div>
+    {/if}
+    {#if showUploadingModal}
+        <section class="fixed top-0 left-0 w-screen h-screen bg-black/70 flex justify-center items-center z-20">
+            <div class="w-[50vw] h-[50vh] bg-neutral flex jusitfy-center items-center rounded-xl shadow-lg">
+                <p class="w-full font-bold text-center">Uploading announcement. Please wait...</p>
+            </div>
+        </section>
     {/if}
 </div>
