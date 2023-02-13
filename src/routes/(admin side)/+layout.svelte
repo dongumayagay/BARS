@@ -3,11 +3,10 @@
 	import { userStore, currentPage, currentInterface } from "$lib/stores.js";
 	import {goto} from "$app/navigation"
 	import { onMount } from "svelte";
-
+  
 	onMount(()=>{
 		$currentInterface = "admin";
 	}) 
-
 	let title;
 	const links = [
 		{
@@ -30,6 +29,7 @@
 		$currentPage = 0;
 		goto("../admin")
 	}
+
 </script>
 
 {#if !!$userStore}
