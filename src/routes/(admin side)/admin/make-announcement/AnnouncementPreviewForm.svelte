@@ -16,14 +16,21 @@
             announcementContent,
             filesToUpload,
         })
+        announcementTitle = "";
+        announcementContent = " ";
+        filesToUpload = [];
     }
 
     function changeHandler(file){
-        const result = filesToUpload.find((item)=>item.file[0] === file[0])
-        if(result){
-            result.file = file;
-        } else {
-            filesToUpload = [...filesToUpload, {file}]
+        for (let index = 0; index < file.length; index++) {
+            // const element = array[index];
+            const result = filesToUpload.find((item)=> item.file.name === file[index].name)
+            if(result){
+                result.file = file[index];
+            } else {
+                filesToUpload = [...filesToUpload, {file: file[index]}]
+            }
+            
         }
     }
 
@@ -34,7 +41,6 @@
     
     function deleteImageHandler(index){
         filesToUpload = filesToUpload.filter((element, elementIndex)=> elementIndex !== index)
-        console.timeLog();
     }
 
     function beforeUnload(event) {
@@ -72,8 +78,8 @@
             {#each filesToUpload as savedFile, index}
             <div class="min-w-[150px] w-max relative ">
                 <div class="min-w-[150px] w-full flex justify-center group relative">
-                    <img src={URL.createObjectURL(savedFile.file[0])} alt={savedFile.file[0].name} class="w-max h-[150px]">
-                    <button type="button" class="opacity-0 bg-black/50 min-w-[150px] w-full absolute top-0 group-hover:opacity-100 transition-all ease-in duration-100 h-[150px]" on:click={()=>dispatch("viewImage", {url: URL.createObjectURL(savedFile.file[0]), alt: savedFile.file[0].name})}>
+                    <img src={URL.createObjectURL(savedFile.file)} alt={savedFile.file.name} class="w-max h-[150px]">
+                    <button type="button" class="opacity-0 bg-black/50 min-w-[150px] w-full absolute top-0 group-hover:opacity-100 transition-all ease-in duration-100 h-[150px]" on:click={()=>dispatch("viewImage", {url: URL.createObjectURL(savedFile.file), alt: savedFile.file.name})}>
                         <p class="text-neutral">Click to view</p>
                     </button>
                 </div>
@@ -85,7 +91,7 @@
             </div>
             {/each}
             <button type="button" class="w-[150px] h-[150px] bg-base-200 flex flex-col items-center justify-center gap-2 relative">
-                <input type="file" class="opacity-0 absolute w-full h-full cursor-pointer" accept=".jpg, .jpeg, .png, .gif" on:change={(event)=>changeHandler(event.target.files)}>
+                <input title="Add Photos" type="file" class="opacity-0 absolute w-full h-full cursor-pointer" accept=".jpg, .jpeg, .png, .gif" multiple on:change={(event)=>changeHandler(event.target.files)}>
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5  text-inherit">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
                 </svg>

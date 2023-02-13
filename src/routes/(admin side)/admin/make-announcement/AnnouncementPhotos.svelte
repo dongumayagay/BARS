@@ -3,20 +3,20 @@
     import { getDownloadURL, listAll, ref } from "firebase/storage";
     import { createEventDispatcher } from "svelte";
     
-    export let announcementId;
+    export let timestamp;
 
     const dispatch = createEventDispatcher();
 
     let filePaths = [];
 
     function uploadedPhotosFetcher(){
-        listAll(ref(storage, "announcementFiles/" + announcementId))
+        listAll(ref(storage, "announcementFiles/" + timestamp))
         .then((files)=>{
             files.items.forEach((file)=>{
                 // const fileRef = getUrl()
                 filePaths = [...filePaths, file.fullPath];
             })
-            if(announcementId === "io2HUCTbIzvKPCXmFkQ4") console.log(filePaths);
+            // if(announcementId === "io2HUCTbIzvKPCXmFkQ4") console.log(filePaths);
         })
     }
 
@@ -31,7 +31,7 @@
 
 </script>
 
-<div class="w-full flex gap-1">
+<div class="w-full flex flex-wrap justify-center gap-1">
     {#each filePaths as fullPath, index}
         {#await getUrl(fullPath)}
             <p>Loading...</p>

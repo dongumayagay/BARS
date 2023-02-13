@@ -3,7 +3,7 @@
     import { db } from '$lib/firebase/client.js'
     import {goto} from '$app/navigation';
     import { onMount } from "svelte";
-	import { onSnapshot, query, where, collection } from 'firebase/firestore';
+	import { onSnapshot, query, where, collection, orderBy } from 'firebase/firestore';
 	import AnnouncementMainPage from './AnnouncementMainPage.svelte';
 	import AnnouncementMaker from './AnnouncementMaker.svelte';
 
@@ -20,7 +20,7 @@
 
     let postedAnnouncements = [];
 
-    const postedAnnouncementsFetcher = onSnapshot(query(collection(db, "announcements"), where("postedBy", "==", $userStore?.email??[])), (querySnapshot)=>{
+    const postedAnnouncementsFetcher = onSnapshot(query(collection(db, "announcements"), where("postedBy", "==", $userStore?.email??[]), orderBy("datePosted", "desc")), (querySnapshot)=>{
         postedAnnouncements = [];
         querySnapshot.forEach((doc)=>{
             postedAnnouncements = [...postedAnnouncements, {
