@@ -19,7 +19,7 @@
 
 	<section class="py-4">
 		<!-- logo -->
-		<img src="https://via.placeholder.com/100?text=BARS" alt="" class="mask mask-circle h-14 w-14 lg:w-[100px] lg:h-[100px]" />
+		<img src="/brgyLogo.png" alt="" class="mask mask-circle h-14 w-14 lg:w-[100px] lg:h-[100px]" />
 	</section>
 	<section class="flex flex-col flex-1 ">
 		<!--  -->

@@ -14,13 +14,13 @@ const config = {
           
           "secondary": "#fb923c",
                   
-          "accent": "#44403c",
+          "accent": "#6e6d6b",
                   
           "neutral": "#ffffff",
                   
           "base-100": "#fed7aa",
                   
-          "info": "#2563eb",
+          "info": "#53d3fd",
                   
           "success": "#16a34a",
                   
