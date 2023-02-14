@@ -1,7 +1,7 @@
 <script>
     /** @type {import('./$types').PageData} */
     import NavigationButtons from './NavigationButtons.svelte';
-    import RequestMessages from './messaging-components/RequestMessages.svelte';
+    import RequestMessages from '$lib/components/messaging-components/RequestMessages.svelte';
 
     export let data;
 

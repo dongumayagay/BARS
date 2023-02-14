@@ -1,8 +1,8 @@
 <script>
     /** @type {import('./$types').PageData} */
-    import {months, currentPage} from "$lib/stores.js"
+    import {currentPage} from "$lib/stores.js"
     import NavigationButtons from './NavigationButtons.svelte';
-    import RequestMessages from './messaging-components/RequestMessages.svelte';
+    import RequestMessages from '$lib/components/messaging-components/RequestMessages.svelte';
 	import ImagePreview from './ImagePreview.svelte';
     import { zoom } from "$lib/zoom.js"
 	import { onMount } from "svelte";
@@ -43,9 +43,9 @@
                 <p class="font-semibold hover:underline">{documentRequest.id}</p>
             </div>
             <div class="flex flex-col gap-5">
-                <div class="flex gap-2">
+                <div class="flex gap-2 items-center">
                     <p class="text-[14px]">Type of Request: </p>
-                    <p class="text-[14px] font-semibold">Appointment Request</p>
+                    <p class="text-[14px] font-semibold">Document Request</p>
                 </div>
                 <BasicInfoDisplay {documentRequest} />
                 <section class="w-full flex flex-col items-center gap-2">
