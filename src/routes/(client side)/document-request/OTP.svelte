@@ -25,6 +25,7 @@
 
     function submitHandler(){
         if(codeInput === code){
+            code = undefined;
             dispatch("emailVerified", email);
         } else {
             errorMessage = "Wrong code, please try again";
