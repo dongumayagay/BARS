@@ -2,6 +2,9 @@
     /** @type {import('./$types').PageData} */
     import NavigationButtons from './NavigationButtons.svelte';
     import RequestMessages from '$lib/components/messaging-components/RequestMessages.svelte';
+    import { currentPage } from "$lib/stores.js";
+
+    $currentPage = 3;
 
     export let data;
 

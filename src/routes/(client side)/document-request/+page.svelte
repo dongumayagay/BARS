@@ -27,10 +27,8 @@
 
     function nextHandler(event) {
         documentRequest = Object.assign(documentRequest, event.detail)
-        if(page === 1 && (!emailVerified || verifiedEmail !== event.detail.contactInfo.email)){
+        if(page === 0 && (!emailVerified || verifiedEmail !== event.detail.contactInfo.email)){
             showOTPModal = true;
-        }else if(page === 2 && !documentRequest.onlineRequest){
-            page += 2;
         }else{
             page += 1;
         }
