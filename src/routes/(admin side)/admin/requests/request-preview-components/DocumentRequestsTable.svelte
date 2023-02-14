@@ -25,17 +25,17 @@
         <tbody>
             {#each documentRequests as requestData, index}
                 <tr class="hover" on:click={dispatchHandler(requestData)}>
-                        <th>{index+1}</th>
-                        <td>{requestData.lastName}, {requestData.firstName} {requestData.middleName}</td>
-                        <td>{requestData.requestId  }</td>
-                        <td class="flex flex-col gap-2">
-                            {#each requestData.docsRequested as document}
-                                <div class="flex gap-2 items-center">
-                                    <i class="fa-solid fa-circle text-[8px]"></i>
-                                    <p>{document.name}</p>
-                                </div>
-                            {/each}
-                        </td>
+                    <th>{index+1}</th>
+                    <td>{requestData.lastName}, {requestData.firstName} {requestData.middleName}</td>
+                    <td>{requestData.requestId}</td>
+                    <td class="flex flex-col gap-2">
+                        {#each requestData.docsRequested as document}
+                            <div class="flex gap-2 items-center">
+                                <i class="fa-solid fa-circle text-[8px]"></i>
+                                <p>{document.name}</p>
+                            </div>
+                        {/each}
+                    </td>
                 </tr>
             {/each}
         </tbody>
