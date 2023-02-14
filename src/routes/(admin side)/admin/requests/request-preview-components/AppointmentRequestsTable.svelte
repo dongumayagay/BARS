@@ -18,7 +18,7 @@
             <tr>
                 <th></th>
                 <th>Name</th>
-                <th>Request ID</th>
+                <th>Requested Official</th>
                 <th>Requested Date</th>
                 <th>Requested Time</th>
             </tr>
@@ -28,7 +28,10 @@
             <tr class="hover" on:click={dispatchHandler(requestData)}>
                 <th>{index+1}</th>
                 <td>{requestData.lastName}, {requestData.firstName} {requestData.middleName}</td>
-                <td>{requestData.requestId}</td>
+                <td class="flex flex-col">
+                    <p>{requestData.selectedOfficial.name}</p>
+                    <small>{requestData.selectedOfficial.position}</small>
+                </td>
                 <td>{requestData.appointmentDate}</td>
                 <td>{requestData.appointmentTime}</td>
             </tr>
