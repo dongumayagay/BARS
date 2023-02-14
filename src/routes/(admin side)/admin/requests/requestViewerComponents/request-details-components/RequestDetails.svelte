@@ -88,7 +88,7 @@
                 </button>
             </div>
             <div class="flex flex-col items-center gap-4 z-10">
-                <img src={imageToEnlarge.imageUrl} alt={imageToEnlarge.requirementName} class="w-[70vw] lg:h-[70vh] hover:cursor-zoom-in" use:zoom>
+                <img src={imageToEnlarge.imageUrl} alt={imageToEnlarge.requirementName} class="w-[70vw] lg:w-max lg:h-[85vh] hover:cursor-zoom-in" use:zoom={1.1}>
                 <p class="text-neutral text-lg underline">{imageToEnlarge.name}</p>
             </div>
         </div>

@@ -1,4 +1,5 @@
 <script>
+    import {months} from "$lib/stores.js"
 
     export let documentRequest;
 

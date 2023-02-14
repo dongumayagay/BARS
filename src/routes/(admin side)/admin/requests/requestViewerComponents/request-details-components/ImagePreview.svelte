@@ -29,7 +29,9 @@
     </div>
 {:then url} 
 <div class="w-fit group relative">
-    <img src={url} alt={requirementName} class="h-[150px]">
+    <div class="min-w-[150px] flex justify-center items-center">
+        <img src={url} alt={requirementName} class="h-[150px]">
+    </div>
     <button class="opacity-0 bg-black/50 w-full absolute top-0 group-hover:opacity-100 transition-all ease-in duration-100 h-[150px]" on:click={()=>dispatch("viewImage", {url, requirementName})}>
         <p class="text-neutral">Click to view</p>
     </button>
