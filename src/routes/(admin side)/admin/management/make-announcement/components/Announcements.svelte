@@ -20,21 +20,23 @@
     }
 </script>
 
-<div class="w-full flex flex-col gap-2">
+<div class="w-full h-full flex flex-col gap-2">
     <p>Your posts:</p>
-    {#each announcements as announcement}
-        <section class="bg-base-100 w-full lg:w-full p-4 flex flex-col rounded-xl shadow-lg">
-            <div class="w-full pb-4 flex flex-col border-b-[2px] border-neutral">
-                <p class="text-xs lg:text-sm">{new Timestamp(announcement.datePosted.seconds, announcement.datePosted.nanoseconds).toDate()}</p>
-                <p class="text-xs lg:text-sm">Posted by: {announcement?.postedBy??[]}</p>
+    <section class="overflow-y-auto w-full max-h-[500px] flex flex-col p-4 gap-6">
+        {#each announcements as announcement}
+            <div class="bg-neutral w-full lg:w-full p-4 flex flex-col rounded-xl shadow-lg">
+                <div class="w-full pb-4 flex flex-col border-b-[2px] border-base-100">
+                    <p class="text-xs lg:text-sm">{new Timestamp(announcement.datePosted.seconds, announcement.datePosted.nanoseconds).toDate()}</p>
+                    <p class="text-xs lg:text-sm">Posted by: {announcement?.postedBy??[]}</p>
+                </div>
+                <p class="w-full text-center p-4 font-bold text-xl lg:text-2xl">{announcement?.title??[]}</p>
+                <p class="w-full min-h-[150px] text-sm lg:text-md whitespace-pre-wrap">{announcement?.content??[]}</p>
+                {#if announcement.hasFiles}
+                    <AnnouncementPhotos timestamp={announcement.uploadFilesTimestamp} on:viewImage={(event)=>viewHandler(event)}/>
+                {/if}
             </div>
-            <p class="w-full text-center p-4 font-bold text-xl lg:text-2xl">{announcement?.title??[]}</p>
-            <p class="w-full min-h-[150px] text-sm lg:text-md whitespace-pre-wrap">{announcement?.content??[]}</p>
-            {#if announcement.hasFiles}
-                <AnnouncementPhotos timestamp={announcement.uploadFilesTimestamp} on:viewImage={(event)=>viewHandler(event)}/>
-            {/if}
-        </section>
-    {/each}
+        {/each}
+    </section>
     {#if enlargeImage}
         <div class="w-screen h-screen fixed top-0 left-0 flex flex-col items-center justify-center bg-black/70 z-20">
             <div class="w-full flex justify-start">
@@ -46,7 +48,7 @@
                 </button>
             </div>
             <div class="flex flex-col items-center gap-4 z-10">
-                <img src={imageToEnlarge.imageUrl} alt={imageToEnlarge.requirementName} class="w-[70vw] lg:h-[70vh] hover:cursor-zoom-in" use:zoom={1.1}>
+                <img src={imageToEnlarge.imageUrl} alt={imageToEnlarge.requirementName} class="w-[70vw] lg:w-max lg:h-[70vh] hover:cursor-zoom-in" use:zoom={1.1}>
                 <p class="text-neutral text-lg underline">{imageToEnlarge.name}</p>
             </div>
         </div>

@@ -9,6 +9,7 @@
     let announcementContent;
     let filesToUpload = [];
     let linkList;
+    let required = true;
 
     function submitHandler() {
         dispatch("submit", {
@@ -23,7 +24,6 @@
 
     function changeHandler(file){
         for (let index = 0; index < file.length; index++) {
-            // const element = array[index];
             const result = filesToUpload.find((item)=> item.file.name === file[index].name)
             if(result){
                 result.file = file[index];

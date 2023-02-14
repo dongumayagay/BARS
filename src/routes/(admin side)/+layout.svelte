@@ -20,8 +20,8 @@
 			name: 'Requests'
 		},
 		{
-			path: '../admin/make-announcement',
-			name: 'Announcement'
+			path: '../admin/management',
+			name: 'Management'
 		}
 	] 
 
