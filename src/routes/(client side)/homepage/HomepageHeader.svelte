@@ -1,7 +1,7 @@
 <script>
 	import Links from "./Links.svelte";
 
-    let showMenu = false;
+    let showMenu = true;
 </script>
 
 <section class="hidden w-[30%] h-[65vh] p-6 bg-neutral lg:flex items-start rounded-xl shadow-xl tabs">
@@ -9,10 +9,10 @@
 </section>
 
 <section class="lg:hidden fixed top-0 h-[100%] flex items-center {showMenu ? "bg-black/50 w-screen " : ""} z-20">
-    <div class="bg-neutral flex flex-col gap-4 h-screen pt-[20vh] p-4 border-r-2" class:hidden={!showMenu}>
+    <div class="bg-neutral flex flex-col gap-4 h-screen pt-[20vh] p-4 border-r-2 border-primary" class:hidden={!showMenu}>
         <Links on:closeMenu={() => showMenu = false} />
     </div>
-    <label class="py-10 bg-neutral rounded-r-xl swap swap-rotate border-2 border-l-2 border-l-neutral mt-32 {showMenu ? "h-max right-[3.5px]" : ""}">
+    <label class="py-10 bg-neutral rounded-r-xl swap swap-rotate border-2 border-primary border-l-2 border-l-neutral mt-32 {showMenu ? "h-max right-[3.5px]" : ""}">
         <input type="checkbox" class="invisible" bind:checked={showMenu} />
         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 swap-off text-primary">
             <path stroke-linecap="round" stroke-linejoin="round" d="M11.25 4.5l7.5 7.5-7.5 7.5m-6-15l7.5 7.5-7.5 7.5" />
