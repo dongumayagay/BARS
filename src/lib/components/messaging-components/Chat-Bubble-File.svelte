@@ -1,4 +1,5 @@
 <script>
+    import { createEventDispatcher } from "svelte";
     import { storage } from "$lib/firebase/client.js"
     import { months } from "$lib/stores.js"
     import { ref, getDownloadURL } from "firebase/storage";
@@ -6,6 +7,9 @@
 
     export let requesterFullName;
     export let message;
+
+    const dispatch = createEventDispatcher();
+
     let minutes = new Timestamp(message?.dateSent.seconds??[], message?.dateSent.nanoseconds??[]).toDate().getMinutes();
 
     if(minutes < 10){
@@ -37,7 +41,13 @@
                 <small>Loading image..</small>
             </div>
         {:then url} 
-            <img src={url} alt={message.filePath} class="h-[200px]">
+            <!-- <img src={url} alt={message.filePath} class="h-[200px]"> -->
+            <div class="w-fit group relative">
+                <img src={url} alt={message.filePath} class="h-[200px]">
+                <button class="opacity-0 bg-black/50 w-full absolute top-0 group-hover:opacity-100 transition-all ease-in duration-100 h-[200px]" on:click={()=>dispatch("viewImage", {url, alt: message.filePath})}>
+                    <small class="text-neutral">Click to view</small>
+                </button>
+            </div>
         {:catch error}
             <div class="chat-bubble {message?.sender === requesterFullName ? "chat-bubble-info" : "chat-bubble-neutral"}">
                 <p>{error}</p>
