@@ -1,19 +1,22 @@
 <script>
+	import { collection, onSnapshot, orderBy, query } from "firebase/firestore";
     import { createEventDispatcher } from "svelte";
+    import { db } from "$lib/firebase/client.js"
 
     const dispatch = createEventDispatcher();
     
-    const officialsList = [
-        {name: "Official 1", position: "Barangay Captain"},
-        {name: "Official 2", position: "Barangay Vice Captain"},
-        {name: "Official 3", position: "Secretary"},
-        {name: "Official 4", position: "Administrator"},
-        {name: "Official 5", position: "Deputy/Kagawad"},
-        {name: "Official 6", position: "Deputy/Kagawad"},
-        {name: "Official 7", position: "Deputy/Kagawad"}
-    ];
+    let officialsList = [];
 
     let selectedOfficial;
+
+    const officialsListListener = onSnapshot(query(collection(db, "officialsList"), orderBy("positionOrder")), (querySnapshot)=>{
+        officialsList = [];
+        querySnapshot.forEach((doc)=>{
+            officialsList = [...officialsList, {
+                ...doc.data()
+            }]
+        })
+    })
 
     function submitHandler() {
         dispatch("next", {
@@ -35,7 +38,10 @@
             {#each officialsList as official}
                 <div class="flex items-center gap-2">
                     <input value={official} type="radio" name="officials" class="radio radio-secondary" bind:group={selectedOfficial}>
-                    <p class="bg-primary w-full p-2 rounded-xl">{official.name}<small>({official.position})</small></p>
+                    <div class="w-full border-b-2 border-primary flex flex-col itmes-start p-2">
+                        <p class="w-full p-2 font-semibold">{official.name}</p>
+                        <small class="pl-[15%]">({official.position})</small>
+                    </div>
                 </div>
             {/each}
         </div>

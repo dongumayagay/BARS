@@ -37,7 +37,7 @@
     <div class="w-full ">
         <p class=" text-center  font-bold">Documents List</p>
     </div>
-    <p class=" text-center">Kindly check the box of the documents you need to request</p>
+    <p class="text-center">Check the documents you need to request</p>
     <!-- <div>
         <p>Recommendations:</p>
     </div> -->
@@ -59,7 +59,7 @@
                         {#each document.requirements as requirement}
                         <div class="flex items-center gap-2">
                             <i class="fa-solid fa-circle text-[5px]"></i>
-                            <p>{requirement}</p>
+                            <p>{requirement.name}</p>
                         </div>
                         {/each}
                     </div>

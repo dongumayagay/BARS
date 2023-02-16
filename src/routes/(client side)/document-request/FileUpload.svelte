@@ -5,7 +5,8 @@
 
     export let listOfRequestedDocuments;
 
-    let filesToUpload = []
+    let filesToUpload = [];
+    let nodes = [];
 
     function submitHandler() {
         dispatch("next", {
@@ -22,6 +23,27 @@
             filesToUpload = [...filesToUpload, {requestedDocumentName, file, requirementName}]
         }
     }
+
+    $: if(nodes) {
+        try{
+            for(let documentIndex = 0; documentIndex < listOfRequestedDocuments.length; documentIndex++){
+                for(let requirementIndex = 0; requirementIndex < listOfRequestedDocuments[documentIndex].requirements.length; requirementIndex++){
+                    let requirementElement = listOfRequestedDocuments[documentIndex].requirements[requirementIndex];
+                    let nodeElement = nodes[documentIndex + (documentIndex + requirementIndex)]
+                    if(requirementElement.isRequired){
+                        nodeElement.setAttribute("required", "")
+                    }
+                }
+            }    
+        } catch(error) {
+            if(error.message !== "Cannot read properties of undefined (reading 'setAttribute')"){
+                alert(error.message)
+
+            }
+        }
+    }
+
+    // $: console.log(nodes)
 </script>
 
 <form class="w-full flex flex-col items-center justify-center" on:submit|preventDefault={submitHandler} on:reset={(event)=>event.target.reset()}>
@@ -30,21 +52,23 @@
     </div>
     <p class="text-center font-semibold">Please submit the following requirements</p>
     <div class="flex flex-col gap-3 ">
-            {#each listOfRequestedDocuments as document}
+            {#each listOfRequestedDocuments as document, documentIndex}
             <div class="pb-5 border-b-4 border-dotted border-secondary">
                 <div class="p-3">
                     <p class=" font-medium">{document.name}</p>
                 </div>
                 <div class="flex flex-col items-center gap-4">
-                    {#each document.requirements as requirement}
+                    {#each document.requirements as requirement, requirementIndex}
                     <div class="w-[85%] lg:w-[30vw] flex flex-col items-center gap-2">
-                        <p>{requirement}</p>
-                        <input required type="file" 
-                        on:change={(event)=>changeHandler(event.target.files, document.name, requirement)}
+                        <p>{requirement.name}</p>
+                        <input type="file" 
+                        bind:this={nodes[documentIndex + (documentIndex + requirementIndex)]}
+                        on:change={(event)=>changeHandler(event.target.files, document.name, requirement.name)}
                             accept=".jpg, .jpeg, .png" 
                             name="file" 
-                            class="file-input file-input-bordered file-input-primary w-full max-w-xs file:w-[40%]" 
+                            class="file-input file-input-bordered file-input-primary w-full max-w-xs file:w-[40%] peer" 
                         />
+                        <small class="w-full hidden text-error peer-required:block">This field is required</small>
                     </div>
                     {/each}
                 </div>

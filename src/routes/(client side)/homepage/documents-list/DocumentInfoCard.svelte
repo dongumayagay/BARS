@@ -32,8 +32,9 @@
         {#each document.requirements as requirement}
             <div class="bg-neutral flex items-center gap-4 rounded-xl shadow-lg p-4">
                 <i class="fa-solid fa-id-card"></i>
-                <div class="flex flex-col">
-                    <p>{requirement}</p>
+                <div class="flex items-center gap-2">
+                    <p>{requirement.name}</p>
+                    <small class="text-info" class:hidden={!requirement.isRequired}>(Required)</small>
                 </div>
             </div>
         {/each}
