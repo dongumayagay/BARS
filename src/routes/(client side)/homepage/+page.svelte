@@ -1,11 +1,11 @@
 <script>
-    import { collection, onSnapshot } from "firebase/firestore";
+    import { collection, onSnapshot, orderBy, query } from "firebase/firestore";
     import { db } from "$lib/firebase/client.js"
     import Announcement from './Announcement.svelte';
 
     let announcements = []
     
-    const announcementsFetcher = onSnapshot(collection(db, "announcements"), (querySnapshot)=>{
+    const announcementsFetcher = onSnapshot(query(collection(db, "announcements"), orderBy("datePosted", "desc")), (querySnapshot)=>{
         announcements = [];
         querySnapshot.forEach((doc)=>{
             announcements = [...announcements, {
