@@ -9,6 +9,7 @@
 		$currentInterface = "admin";
 	// }) 
 
+
 	let title;
 	const links = [
 		{
@@ -30,6 +31,7 @@
 	function logOutHandler() {
 		goto("../admin")
 	}
+
 </script>
 
 {#if !!$userStore}
