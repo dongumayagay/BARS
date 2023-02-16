@@ -18,7 +18,7 @@
     <p class="w-full text-center text-lg font-sans font-semibold">Admin Login</p>
     <div class="w-full flex flex-col gap-4">
         <input type="email" placeholder="Email" class="input input-bordered input-ghost focus:border-primary focus:ring-0 focus:bg-neutral" required bind:value={email} >
-        <input type="text" placeholder="Password" class="input input-bordered input-ghost focus:border-primary focus:ring-0 focus:bg-neutral" required bind:value={password}>
+        <input type="password" placeholder="Password" class="input input-bordered input-ghost focus:border-primary focus:ring-0 focus:bg-neutral" required bind:value={password}>
     </div>
     <button type="submit" class="btn btn-primary">Login</button>
 </form>
