@@ -39,7 +39,7 @@
         <div class="w-fit group relative">
             <img src={url} alt={"photo#" + index} class="w-[150px]">
             <button class="opacity-0 bg-black/50 w-full absolute top-0 group-hover:opacity-100 transition-all ease-in duration-100 h-full" on:click={()=>dispatch("viewImage", {url, alt: "photo#" + (index + 1)})}>
-                <p class="text-neutral">Click to view</p>
+                <p class="text-white">Click to view</p>
             </button>
         </div>
         {/await}

@@ -58,17 +58,17 @@
 <svelte:window on:beforeunload={beforeUnload}/>
 
 <form class="flex flex-col gap-4" on:submit|preventDefault={submitHandler} on:reset={resetHandler}>
-    <section class="bg-base-100 w-full lg:w-full p-4 flex flex-col rounded-xl shadow-lg gap-2">
-        <div class="w-full pb-4 flex flex-col border-b-[2px] border-neutral">
+    <section class="bg-neutral w-full lg:w-full p-4 flex flex-col rounded-xl shadow-lg gap-2">
+        <div class="w-full pb-4 flex flex-col border-b-[2px] border-base-100">
             <p class="text-xs lg:text-sm">{Timestamp.now().toDate()}</p>
             <p class="text-xs lg:text-sm">Posted by: {$userStore?.email}</p>
         </div>
         <input type="text" 
             placeholder="Type your title here" 
-            class="input input-ghost w-full text-center font-bold text-xl placeholder:text-center placeholder:text-inherit placeholder:opacity-70" 
+            class="input input-ghost w-full text-center font-bold text-xl focus:bg-inherit placeholder:text-center placeholder:text-inherit placeholder:opacity-70" 
             bind:value={announcementTitle}
             required />
-        <textarea class="textarea textarea-ghost w-full placeholder:text-inherit placeholder:opacity-70" 
+        <textarea class="textarea textarea-ghost w-full focus:bg-inherit placeholder:text-inherit placeholder:opacity-70" 
             rows="5"   
             placeholder="Type here" 
             bind:value={announcementContent} 

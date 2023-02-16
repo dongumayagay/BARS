@@ -28,25 +28,26 @@
                 <p class="text-xs lg:text-sm">Posted by: {announcement?.postedBy??[]}</p>
             </div>
             <p class="w-full text-center p-4 font-bold text-xl lg:text-2xl">{announcement?.title??[]}</p>
-            <p class="w-full min-h-[150px] text-sm lg:text-md">{announcement?.content??[]}</p>
+            <p class="w-full min-h-[150px] text-sm lg:text-md whitespace-pre-wrap">{announcement?.content??[]}</p>
             {#if announcement.hasFiles}
                 <AnnouncementPhotos announcementId={announcement.uploadFilesTimestamp} on:viewImage={(event)=>viewHandler(event)}/>
             {/if}
         </section>
     {/each}
     {#if enlargeImage}
-        <div class="w-screen h-screen fixed top-0 left-0 flex flex-col items-center justify-center bg-black/70 z-20">
+        <!-- svelte-ignore a11y-click-events-have-key-events -->
+        <div class="w-screen h-screen fixed top-0 left-0 flex flex-col items-center justify-center bg-black/70 z-20" on:click={closeHandler}>
             <div class="w-full flex justify-start">
                 <button class="btn btn-ghost hover:bg-transparent group" on:click={closeHandler}>
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 text-neutral ">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 text-white">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
                     </svg>
-                    <p class="text-neutral group-hover:underline">Close</p>
+                    <p class="text-white group-hover:underline">Close</p>
                 </button>
             </div>
             <div class="flex flex-col items-center gap-4 z-10">
-                <img src={imageToEnlarge.imageUrl} alt={imageToEnlarge.requirementName} class="w-[100vw] lg:h-[75vh] hover:cursor-zoom-in" use:zoom={1.1}>
-                <p class="text-neutral text-lg underline">{imageToEnlarge.name}</p>
+                <img src={imageToEnlarge.imageUrl} alt={imageToEnlarge.requirementName} class="w-[80vw] lg:w-max lg:h-[75vh] hover:cursor-zoom-in" use:zoom={1.1}>
+                <!-- <p class="text-neutral text-lg underline">{imageToEnlarge.name}</p> -->
             </div>
         </div>
     {/if}
