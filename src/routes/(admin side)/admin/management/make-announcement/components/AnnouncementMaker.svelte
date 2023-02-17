@@ -16,36 +16,33 @@
     async function submitHandler(event){
         try {
             let hasFiles = false;
-            let uploadFilesTimestamp;
-            let fileUploadPromises;
+            // let fileUploadPromises;
             let filePaths = []; 
 
             showUploadingModal = true
             if(event.detail.filesToUpload.length > 0) hasFiles = true;
 
-            // console.log(uploadFilesTimestamp);
+            // console.log(;
 
-            if(hasFiles){
-                uploadFilesTimestamp = Timestamp.now().toJSON().seconds + "." + Timestamp.now().toJSON().nanoseconds;
-
-                fileUploadPromises = event.detail.filesToUpload.map((value)=>{
-                    const pathName = "announcementFiles/" + uploadFilesTimestamp + "/" + value.file.name;
-                    const storageReference =  ref(storage, pathName);
-
-                    uploadBytes(storageReference, value.file);
-                })
-            }
             
+           
             const announcementUploadRef = await addDoc(collection(db, "announcements"),{
                 title: event.detail.announcementTitle,
                 content: event.detail.announcementContent,
                 datePosted: Timestamp.now(),
                 postedBy: $userStore.email,
                 hasFiles,
-                uploadFilesTimestamp,
+                
             })
 
             if(hasFiles){ 
+
+                const fileUploadPromises = event.detail.filesToUpload.map((value)=>{
+                    const pathName = "announcementFiles/" + announcementUploadRef.id + "/" + value.file.name;
+                    const storageReference =  ref(storage, pathName);
+
+                    return uploadBytes(storageReference, value.file);
+                })
                 const fileUploadPromisesResult = await Promise.all(fileUploadPromises);
                 console.log(announcementUploadRef, fileUploadPromisesResult)
                 if(!!announcementUploadRef && !!fileUploadPromisesResult){

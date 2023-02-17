@@ -3,20 +3,18 @@
     import { getDownloadURL, listAll, ref } from "firebase/storage";
     import { createEventDispatcher } from "svelte";
     
-    export let timestamp;
+    export let id;
 
     const dispatch = createEventDispatcher();
 
     let filePaths = [];
 
     function uploadedPhotosFetcher(){
-        listAll(ref(storage, "announcementFiles/" + timestamp))
+        listAll(ref(storage, "announcementFiles/" + id))
         .then((files)=>{
             files.items.forEach((file)=>{
-                // const fileRef = getUrl()
                 filePaths = [...filePaths, file.fullPath];
             })
-            // if(announcementId === "io2HUCTbIzvKPCXmFkQ4") console.log(filePaths);
         })
     }
 
