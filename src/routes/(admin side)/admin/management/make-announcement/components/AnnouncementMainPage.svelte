@@ -6,6 +6,7 @@
     export let page;
 
     const dispatch = createEventDispatcher();
+
 </script>
 
 <div class="w-full flex h-full flex-col gap-2" class:hidden={page!==0}>
@@ -17,7 +18,7 @@
     </button>
     <div class="w-full h-full flex justify-center">
         {#if postedAnnouncements.length !== 0}
-            <Announcements announcements={postedAnnouncements}/> 
+            <Announcements announcements={postedAnnouncements} on:edit={(event)=>dispatch("edit", {announcement: event.detail})}/> 
         {:else}
             <p>Nothing to show</p>
         {/if}
