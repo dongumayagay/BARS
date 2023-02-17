@@ -16,7 +16,7 @@
 		const result = await sendEmail({
 			to: email,
 			subject: 'Appointment Request Email Verification',
-			html: '<p>Your verification code: ' + {code} + '</p>'
+			html: '<p>Your verification code: ' + code + '</p>'
 		});
 
         console.log(JSON.stringify(result))
@@ -67,7 +67,7 @@
             <input type="text" id="code" class="w-max input input-ghost text-center focus:bg-neutral" placeholder="Enter code" maxlength="6" bind:value={codeInput}>
             <label for="code" class="h-[50px] text-error">{errorMessage}</label>
         </div>
-        <div class="">
+        <div class="w-full flex justify-center gap-2">
             <button type="submit" class="btn btn-info">Confirm</button>
             <button type="button" class="btn disabled:text-black/40" disabled={resendTimer > 0} on:click={resendHandler}>
                 <p>Resend {resendTimer > 0 ? resendTimer + "s": ""}</p> 
