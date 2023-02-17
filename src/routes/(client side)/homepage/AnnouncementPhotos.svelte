@@ -16,7 +16,6 @@
                 // const fileRef = getUrl()
                 filePaths = [...filePaths, file.fullPath];
             })
-            if(announcementId === "io2HUCTbIzvKPCXmFkQ4") console.log(filePaths);
         })
     }
 

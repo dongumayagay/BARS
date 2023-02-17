@@ -21,7 +21,7 @@
 </svelte:head>
 
 
-<section class="w-full min-h-screen lg:w-[70%] flex flex-col items-center justify-start gap-6 px-6 pb-6">
+<section class="w-full min-h-screen lg:w-[70%] flex flex-col items-end justify-start gap-6 px-6 pb-6">
     {#await emergencyHotlinesFetcher()}
         <p>Loading...</p>
     {:then hotlinesList} 

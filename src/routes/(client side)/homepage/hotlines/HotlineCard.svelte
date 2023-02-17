@@ -14,10 +14,10 @@
 
 </script>
 
-<div class="w-full flex items-center justify-center gap-4">
-    <div class="hidden lg:block w-max p-3">
+<div class="w-full flex flex-col items-center justify-center gap-4">
+    <!-- <div class="hidden lg:block w-max h-max p-3">
         <i class={hotline.iconClassName}></i>
-    </div>
+    </div> -->
     <div class="w-full h-max flex flex-col lg:flex-row justify-between bg-neutral p-4 rounded-xl shadow-xl">
         <div class="w-full border-b-2 lg:border-b-0 lg:border-r-2 border-primary pb-4 lg:pb-0">
             <p>{hotline.name}</p>

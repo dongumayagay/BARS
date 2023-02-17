@@ -23,7 +23,7 @@
 </script>
 
 <main class="w-full h-screen py-6">
-    <section class="w-full {managementPage === 1 ? "min-h-[90%] h-full" : "h-max"} bg-neutral rounded-xl">
+    <section class="w-full h-full  bg-neutral rounded-xl">
         <ManagementHeader  {managementPage} on:switchTab={navigate}/>
 
         <div class="w-full h-full bg-neutral min-h-screen flex justify-center pb-[5vh]">
@@ -34,3 +34,5 @@
         </div>
     </section>
 </main>
+
+<!-- {managementPage === 1 ? "min-h-[90%] h-full" : "h-max"} -->

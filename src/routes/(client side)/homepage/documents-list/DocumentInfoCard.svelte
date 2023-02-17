@@ -28,7 +28,7 @@
         </label>
     </section>
     
-    <section class="w-full flex flex-col gap-2 rounded-xl z-1 mb-10 {showList ? " " : "opacity-0 h-0  translate-y-[-6rem]"} transition-all ease-in-out duration-300 z-1">
+    <section class="w-full flex flex-col gap-2 rounded-xl z-1 {showList ? " " : "opacity-0 h-0  translate-y-[-6rem]"} transition-all ease-in-out duration-300 z-1">
         {#each document.requirements as requirement}
             <div class="bg-neutral flex items-center gap-4 rounded-xl shadow-lg p-4">
                 <i class="fa-solid fa-id-card"></i>
