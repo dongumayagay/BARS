@@ -17,9 +17,6 @@
     let filePathsDeleted = [];
     let filesToUpload = [];
 
-    // function closeHandler(){
-    //     dispatch("close");
-    // }
     function viewHandler(url){
         imageToEnlarge.imageUrl = url
         imageToEnlarge.name = url; 
@@ -78,7 +75,6 @@
     function undoHandler(){
         filesToUpload = [];
         filePathsDeleted.forEach((item, index)=>{
-            // filePaths.splice(item.filePathIndex + index, 0, item.filePath);
             filePaths = [...filePaths, item.filePath]
             console.log(filePaths)
         })
@@ -88,27 +84,28 @@
     }
 
     function updateDispatcher(){
-        // console.log(announcement)
-        // console.log(filePathsDeleted)
-        // console.log(filesToUpload)
         dispatch("update",{
             announcement: announcement,
             filePathsDeleted: filePathsDeleted,
             filesToUpload: filesToUpload
         })
     }
-
-    $: console.log(filePathsDeleted)
-    $: console.log(filesToUpload)
-    $: console.log(filePaths)
 </script>
 
 <form class="w-full h-max flex flex-col gap-2" on:submit|preventDefault={updateDispatcher}>
-    <section>
-        <button type="button" on:click={()=>dispatch("cancel")}>
+    <section class="w-full flex justify-between">
+        <button type="button" class="btn btn-ghost gap-2" on:click={()=>dispatch("cancel")}>
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+            </svg>
             <p>Cancel</p>
          </button>
-        <button type="button">Delete Announcement</button>
+        <button type="button" class="btn btn-ghost hover:btn-error gap-2" on:click={()=>dispatch("delete", {id: announcement.id})}>
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0" />
+            </svg>
+            <p>Delete Announcement</p>
+        </button>
     </section>
     <section class="bg-neutral w-full lg:w-full p-4 flex flex-col justify-start rounded-xl shadow-lg gap-2">
         <div class="w-full pb-4 flex flex-col border-b-[2px] border-base-100">
@@ -117,7 +114,7 @@
         </div>
         <input type="text"  placeholder="Type your title here"  class="input input-ghost w-full text-center font-bold text-xl focus:bg-inherit placeholder:text-center placeholder:text-inherit placeholder:opacity-70"  bind:value={announcement.title} required />
         <textarea class="textarea textarea-ghost w-full focus:bg-inherit placeholder:text-inherit placeholder:opacity-70"  rows="5" placeholder="Type here" bind:value={announcement.content} required></textarea>
-        <div class="h-max flex flex-wrap gap-5">
+        <div class="h-max flex justify-center flex-wrap gap-5">
             {#each filePaths as fullpath, index}
             <div class="min-w-[150px] w-max relative ">
                 {#await getUrl(fullpath)}
@@ -125,7 +122,7 @@
                 {:then url} 
                     <div class="min-w-[150px] w-full flex justify-center group relative">
                         <img src={url} alt={url} class="w-max h-[150px]">
-                        <button type="button" class="opacity-0 bg-black/50 min-w-[150px] w-full absolute top-0 group-hover:opacity-100 transition-all ease-in duration-100 h-[150px]" on:click={()=>viewHandler(url)}>
+                        <button type="button" class="opacity-0 bg-black/50 min-w-[150px] w-full absolute top-0 group-hover:opacity-100 transition-all ease-in duration-100 h-[150px] rounded-xl " on:click={()=>viewHandler(url)}>
                             <p class="text-neutral">Click to view</p>
                         </button>
                     </div>
@@ -141,7 +138,7 @@
             <div class="min-w-[150px] w-max relative ">
                 <div class="min-w-[150px] w-full flex justify-center group relative">
                     <img src={URL.createObjectURL(savedFile.file)} alt={savedFile.file.name} class="w-max h-[150px]">
-                    <button type="button" class="opacity-0 bg-black/50 min-w-[150px] w-full absolute top-0 group-hover:opacity-100 transition-all ease-in duration-100 h-[150px]" on:click={()=>dispatch("viewImage", {url: URL.createObjectURL(savedFile.file), alt: savedFile.file.name})}>
+                    <button type="button" class="opacity-0 bg-black/50 min-w-[150px] w-full absolute top-0 group-hover:opacity-100 transition-all ease-in duration-100 h-[150px] rounded-xl " on:click={()=>dispatch("viewImage", {url: URL.createObjectURL(savedFile.file), alt: savedFile.file.name})}>
                         <p class="text-neutral">Click to view</p>
                     </button>
                 </div>
@@ -161,15 +158,17 @@
             </button>
         </div>
     </section>
-    <section>
-        <div>
-            <button type="button" on:click={undoHandler}>
-                <p>Undo Changes</p>
-            </button>
-            <button type="submit">
-                <p>Save</p>
-            </button>
-        </div>
+    <section class="w-full flex justify-center gap-4">
+        <button type="button" class="btn btn-ghost hover:btn-info gap-2" on:click={undoHandler}>
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0l3.181 3.183a8.25 8.25 0 0013.803-3.7M4.031 9.865a8.25 8.25 0 0113.803-3.7l3.181 3.182m0-4.991v4.99" />
+            </svg>
+            <p>Undo Changes</p>
+        </button>
+        <button type="submit" class="btn btn-success gap-2">
+            <i class="fa-solid fa-floppy-disk text-xl"></i>
+            <p>Save</p>
+        </button>
     </section>
 </form>
 {#if enlargeImage}

@@ -1,8 +1,8 @@
 <script>
     import { userStore } from '$lib/stores.js';
     import { db, storage } from '$lib/firebase/client.js';
-	import { onSnapshot, query, where, collection, orderBy, updateDoc, Timestamp, doc } from 'firebase/firestore';
-    import { deleteObject, ref, uploadBytes } from "firebase/storage"
+	import { onSnapshot, query, where, collection, orderBy, updateDoc, Timestamp, doc, deleteDoc } from 'firebase/firestore';
+    import { deleteObject, listAll, ref, uploadBytes } from "firebase/storage"
 	import AnnouncementMainPage from './components/AnnouncementMainPage.svelte';
 	import AnnouncementMaker from './components/AnnouncementMaker.svelte';
 	import AnnouncementEditor from './components/AnnouncementEditor.svelte';
@@ -31,8 +31,7 @@
         showEditor = true;
     }
 
-    function cancelEditorHandler(event){
-        // console.log(event.detail.announcement)
+    function cancelEditorHandler(){
         announcementDetailsToEdit = {};
         showEditor = false;
     }
@@ -43,33 +42,41 @@
             const announcementDetails = event.detail.announcement;
             const deletedFiles = event.detail.filePathsDeleted;
             const filesToUpload = event.detail.filesToUpload;
-            // console.log(event.detail.announcement.title)
-            // console.log([...event.detail.filePathsDeleted])
-            // console.log([...event.detail.filesToUpload])
-
             const announcementUpdateRef = await updateDoc(doc(db, "announcements", announcementDetails.id), {
                 content: announcementDetails.content,
                 datePosted: Timestamp.now(),
                 title: announcementDetails.title
             })
-
-            // console.log(announcementUpdateRef)
-
             const deleteUploadedFilesRef = deletedFiles.map((item)=>{
                 return deleteObject(ref(storage, item.filePath));
             })
-
             const uploadFilesRef = filesToUpload.map((item)=>{
                 const filePath = "announcementFiles/" + announcementDetails.id + "/" + item.file.name;
                 return uploadBytes(ref(storage, filePath), item.file);
             })
-
             const deleteFilesResult = await Promise.all(deleteUploadedFilesRef);
             const uploadFilesResult = await Promise.all(uploadFilesRef);
-            console.log(announcementUpdateRef)
-            console.log(deleteFilesResult)
-            console.log(uploadFilesResult)
-            
+            // console.log(announcementUpdateRef)
+            // console.log(deleteFilesResult)
+            // console.log(uploadFilesResult)
+            announcementDetailsToEdit = {};
+            showEditor = false;
+        } catch (error) {
+            alert(error.message)
+        }
+    }
+
+    async function deleteHandler(event){
+        try {
+            const deleteAnnouncementDoc = await deleteDoc(doc(db, "announcements", event.detail.id))
+            listAll(ref(storage, "announcementFiles/" + event.detail.id + "/"))
+            .then((files)=>{
+                files.items.forEach((file)=>{
+                   deleteObject(ref(storage, file.fullPath));
+                })
+            })
+            announcementDetailsToEdit = {};
+            showEditor = false;
         } catch (error) {
             alert(error.message)
         }
@@ -83,7 +90,7 @@
     <AnnouncementMainPage {postedAnnouncements} {page} on:next={()=>page = 1} on:edit={showEditorHandler}/>
     <AnnouncementMaker {page} on:close={()=>page = 0}/>
     {:else}
-    <AnnouncementEditor announcement={announcementDetailsToEdit} on:cancel={cancelEditorHandler} on:update={updateHandler}/>
+    <AnnouncementEditor announcement={announcementDetailsToEdit} on:cancel={cancelEditorHandler} on:update={updateHandler} on:delete={deleteHandler}/>
     {/if}
 </section>
 
