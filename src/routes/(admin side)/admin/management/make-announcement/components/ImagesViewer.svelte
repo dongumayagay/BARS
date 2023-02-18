@@ -11,11 +11,6 @@
 
     const dispatch = createEventDispatcher();
 
-    // let imageIndex = imageStartingIndex;
-
-    // goto("#slide" + imageIndex)
-   
-
     async function getUrl(fullPath){
         const fileRef = ref(storage, fullPath)
         const url = await getDownloadURL(fileRef);
@@ -34,8 +29,7 @@
             {imageIndex = 0}
             else {imageIndex = imageIndex + 1}
         }
-        console.log(imageIndex)
-        goto("#slide" + imageIndex )
+        // goto("#slide" + imageIndex )
     }
 
     function swipeHandler(event){
@@ -47,12 +41,10 @@
     }
 
     slideHandler()
-
-    $: console.log(filePaths)
 </script>
 
 <!-- svelte-ignore a11y-click-events-have-key-events -->
-<div class="w-screen h-screen fixed top-0 left-0 flex flex-col items-center justify-center bg-black/70 z-20" on:click={()=>dispatch("close")}>
+<!-- <div class="w-screen h-screen fixed top-0 left-0 flex flex-col items-center justify-center bg-black/70 z-20" on:click={()=>dispatch("close")}>
     <div class="w-full flex justify-start">
         <button class="btn btn-ghost hover:bg-transparent group" on:click={()=>dispatch("close")}>
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 text-white">
@@ -82,9 +74,9 @@
         {/await}
         {/each}
     </div>
-</div>
+</div> -->
 
-<!-- <div class="w-screen h-screen fixed top-0 left-0 flex flex-col items-center justify-start bg-black/70 z-20" on:click={()=>dispatch("close")}>
+<div class="w-screen h-screen fixed top-0 left-0 flex flex-col items-center justify-start bg-black/70 z-20" on:click={()=>dispatch("close")}>
     <div class="w-full h-[15%] flex justify-start p-2">
         <button class="btn btn-ghost hover:bg-transparent group" on:click={()=>dispatch("close")}>
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 text-white">
@@ -105,8 +97,8 @@
         {#await getUrl(filePath)}
             <p class:hidden={index!==imageIndex}>Loading...</p>
         {:then url} 
-        <div class="w-[80%] h-full absolute top-0 left-0 flex items-center justify-center p-4" class:hidden={index!==imageIndex}>
-            <div id={"slide" + index} class="max-w-[80%] min-w-[50%] flex justify-center max-h-[80%] z-1" class:hidden={index!==imageIndex}>
+        <div class="w-full h-full absolute top-0 left-0 flex items-center justify-center p-4" class:hidden={index!==imageIndex}>
+            <div id={"slide" + index} class="max-w-[90%] min-w-[50%] flex justify-center max-h-[80%] z-1" class:hidden={index!==imageIndex}>
                 <img src={url} alt={url} class="w-full" use:zoom={1.1} on:click|stopPropagation={()=>{}}  use:swipe={{ timeframe: 1000, minSwipeDistance: 100, touchAction: 'pan-y' }} on:swipe={swipeHandler} />
             </div> 
         </div>
@@ -114,4 +106,4 @@
         {/await}
         {/each}
     </div>
-</div> -->
+</div>
