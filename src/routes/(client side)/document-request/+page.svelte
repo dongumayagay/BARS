@@ -17,13 +17,13 @@
 
     let page = 0;
     let documentRequest = {};
-    let emailVerified = false;
     let verifiedEmail;
-    let requestComplete = false;
     let requestId;
     let showOTPModal = false;
+    let emailVerified = false;
     let showConsentModal = false;
     let consentAgreed = false;
+    let requestComplete = false;
 
     function nextHandler(event) {
         documentRequest = Object.assign(documentRequest, event.detail)
@@ -57,9 +57,8 @@
     // $: console.log(documentRequest)
     async function submitToDatabase(){
         try {
-
+            console.log("uploading...")
             const documentRequestRef = await addDoc(collection(db, 'documentRequests'),{
-                onlineRequest: documentRequest.onlineRequest,
                 lastName: documentRequest.contactInfo.lastName,
                 firstName: documentRequest.contactInfo.firstName,
                 middleName: documentRequest.contactInfo.middleName,
@@ -74,6 +73,7 @@
                 totalFee: documentRequest.totalFee,
                 status: "pending"
             })
+            if(!!documentRequestRef) console.log("uploaded request")
             const fileUploadPromises = documentRequest.filesToUpload.map((value)=>{
                 const pathName = "documentRequestsFiles/" + documentRequestRef.id + "/" + value.requestedDocumentName + "/" + value.requirementName + ".jpg"
                 const storageReference =  ref(storage, pathName);
@@ -90,11 +90,12 @@
             console.log(documentRequestRef.id)
         } catch (error) {
             const errorMessage = error.message;
+            console.log(error.message)
         }
     }
 
     function consentChecker(){
-        (consentAgreed) ? submitToDatabase() : showConsentModal = true;
+        if(consentAgreed){ submitToDatabase()} else { showConsentModal = true};
     }
 
     function beforeUnload(event) {
