@@ -95,15 +95,15 @@
             </button>
         </div>
         <div class="w-full flex flex-col gap-2">
-            <p class="font-semibold">Document Name:</p>
-            <input type="text" class="input input-ghost w-full text-center bg-neutral placeholder:opacity-75 focus:bg-neutral" placeholder="Document Name" required bind:value={editableDocumentDetails.name}>
+            <p class="w-full text-center font-semibold">Document Name:</p>
+            <input type="text" class="input input-bordered w-full text-center bg-neutral placeholder:opacity-75 focus:bg-neutral" placeholder="Document Name" required bind:value={editableDocumentDetails.name}>
         </div>
         <div class="w-full flex flex-col gap-2">
-            <p class="font-semibold">Requirements:</p>
+            <p class="w-full text-center font-semibold">Requirements:</p>
             {#each editableDocumentDetails.requirements as requirement, index}
             <div class="w-full flex flex-col gap-2">
                 <div class="w-full h-max flex justify-between items-center gap-2">
-                    <input type="text" class="input input-ghost bg-neutral w-full text-center placeholder:opacity-75" placeholder="Requirement Name" required bind:value={requirement.name}>
+                    <input type="text" class="input input-bordered bg-neutral w-full text-center placeholder:opacity-75" placeholder="Requirement Name" required bind:value={requirement.name}>
                     <div class="w-max flex items-center gap-2">
                         <input type="checkbox" class="checkbox checkbox-primary checkbox-xs" bind:checked={requirement.isRequired}>
                         <small class="w-max">Applicable to all</small>
@@ -127,7 +127,7 @@
             <p class="font-semibold">Document Fee:</p>
             <div class="flex items-center gap-2 pl-4" >
                 <p>₱</p>
-                <input type="number" min="0" max="1500" class="input input-ghost w-max focus:bg-inherit" bind:value={editableDocumentDetails.fee}>
+                <input type="number" min="0" max="1500" class="input input-bordered w-max bg-neutral" bind:value={editableDocumentDetails.fee}>
             </div>
         </div>
         <div class="w-full flex justify-end gap-2">

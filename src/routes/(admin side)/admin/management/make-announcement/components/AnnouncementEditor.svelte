@@ -9,19 +9,17 @@
     export let announcement;
 
     const dispatch = createEventDispatcher();
+    const originalAnnouncementDetail = {...announcement};
 
     let enlargeImage;
     let imageToEnlarge = {};
     let filePaths = [];
     let filePathsDeleted = [];
     let filesToUpload = [];
-    const timestamp = JSON.stringify(announcement.datePosted.seconds) + "." + JSON.stringify(announcement.datePosted.nanoseconds);
 
-    console.log(timestamp)
-
-    function closeHandler(){
-        dispatch("close");
-    }
+    // function closeHandler(){
+    //     dispatch("close");
+    // }
     function viewHandler(url){
         imageToEnlarge.imageUrl = url
         imageToEnlarge.name = url; 
@@ -48,7 +46,7 @@
     async function getUrl(fullPath){
         const fileRef = ref(storage, fullPath)
         const url = await getDownloadURL(fileRef)
-        console.log(url)
+        // console.log(url)
         return url;
     }
     uploadedPhotosFetcher();
@@ -62,33 +60,55 @@
             } else {
                 filesToUpload = [...filesToUpload, {file: file[index]}]
             }
-            
         }
     }
 
-    function deleteUploadedImageHandler(index){
-        filePathsDeleted = filePaths.filter((element, elementIndex)=> elementIndex === index)
+    function deleteUploadedImage(index){
+        filePathsDeleted = [...filePathsDeleted, {
+            filePath: filePaths.find((element, elementIndex)=> elementIndex === index),
+            filePathIndex: index
+        }]
         filePaths = filePaths.filter((element, elementIndex)=> elementIndex !== index)
     }
 
     function deleteImagesToBeUploaded(index){
         filesToUpload = filesToUpload.filter((element, elementIndex) => elementIndex !== index)
     }
+
+    function undoHandler(){
+        filesToUpload = [];
+        filePathsDeleted.forEach((item, index)=>{
+            // filePaths.splice(item.filePathIndex + index, 0, item.filePath);
+            filePaths = [...filePaths, item.filePath]
+            console.log(filePaths)
+        })
+        filePathsDeleted = [];
+        announcement = originalAnnouncementDetail;
+        console.log(announcement)
+    }
+
+    function updateDispatcher(){
+        // console.log(announcement)
+        // console.log(filePathsDeleted)
+        // console.log(filesToUpload)
+        dispatch("update",{
+            announcement: announcement,
+            filePathsDeleted: filePathsDeleted,
+            filesToUpload: filesToUpload
+        })
+    }
+
+    $: console.log(filePathsDeleted)
+    $: console.log(filesToUpload)
+    $: console.log(filePaths)
 </script>
 
-<form class="" on:submit|preventDefault={()=>alert("Saved Successfully")}>
+<form class="w-full h-max flex flex-col gap-2" on:submit|preventDefault={updateDispatcher}>
     <section>
-        <button type="button">
-           <p>Cancel</p>
-        </button>
-        <div>
-            <button type="button">
-                <p>Undo Changes</p>
-            </button>
-            <button type="submit">
-                <p>Save</p>
-            </button>
-        </div>
+        <button type="button" on:click={()=>dispatch("cancel")}>
+            <p>Cancel</p>
+         </button>
+        <button type="button">Delete Announcement</button>
     </section>
     <section class="bg-neutral w-full lg:w-full p-4 flex flex-col justify-start rounded-xl shadow-lg gap-2">
         <div class="w-full pb-4 flex flex-col border-b-[2px] border-base-100">
@@ -110,7 +130,7 @@
                         </button>
                     </div>
                 {/await}
-                <button type="button" class="absolute -top-5 -right-5" on:click={()=>deleteUploadedImageHandler(index)}>
+                <button type="button" class="absolute -top-5 -right-5" on:click={()=>deleteUploadedImage(index)}>
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-10 h-10 hover:scale-110 text-error">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M9.75 9.75l4.5 4.5m0-4.5l-4.5 4.5M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                     </svg>
@@ -142,7 +162,14 @@
         </div>
     </section>
     <section>
-        <button type="button">Delete Announcement</button>
+        <div>
+            <button type="button" on:click={undoHandler}>
+                <p>Undo Changes</p>
+            </button>
+            <button type="submit">
+                <p>Save</p>
+            </button>
+        </div>
     </section>
 </form>
 {#if enlargeImage}
