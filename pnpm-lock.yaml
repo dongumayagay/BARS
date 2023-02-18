@@ -16,6 +16,7 @@ specifiers:
   prettier: ^2.8.4
   prettier-plugin-svelte: ^2.9.0
   svelte: ^3.55.1
+  svelte-gestures: ^1.4.1
   svelte-loading-spinners: ^0.3.4
   svelte-preprocess: ^5.0.1
   tailwindcss: ^3.2.6
@@ -24,6 +25,7 @@ specifiers:
 dependencies:
   firebase: 9.17.1
   nodemailer: 6.9.1
+  svelte-gestures: 1.4.1
 
 devDependencies:
   '@sveltejs/adapter-auto': 2.0.0_@sveltejs+kit@1.5.5
@@ -2273,6 +2275,10 @@ packages:
     resolution: {integrity: sha512-ot0WnXS9fgdkgIcePe6RHNk1WA8+muPa6cSjeR3V8K27q9BB1rTE3R1p7Hv0z1ZyAc8s6Vvv8DIyWf681MAt0w==}
     engines: {node: '>= 0.4'}
     dev: true
+
+  /svelte-gestures/1.4.1:
+    resolution: {integrity: sha512-TAmfcz+DgdfrRDFSQ9UsXxhqDjQR7LaUaALauqITaTCVSHPWXIZ9WSBPP6DrXh9MYqgVZwy85wJdv7NQPwsZfA==}
+    dev: false
 
   /svelte-hmr/0.15.1_svelte@3.55.1:
     resolution: {integrity: sha512-BiKB4RZ8YSwRKCNVdNxK/GfY+r4Kjgp9jCLEy0DuqAKfmQtpL38cQK3afdpjw4sqSs4PLi3jIPJIFp259NkZtA==}
