@@ -38,7 +38,7 @@
 	</section>
 	<section class="flex flex-col flex-1 ">
 		<!--  -->
-		<div class="w-full h-full flex {$userStore === undefined || $userStore === null ? "justify-center" : "justify-end"} p-2">
+		<div class="w-full h-full flex {$userStore === undefined || $userStore === null ? "justify-center" : "justify-end"} items-center p-2">
 			<h1 class="w-full h-full text-center flex items-center justify-center flex-1 flex-sans font-bold text-sm lg:text-xl">{title}</h1>
 			{#if !!$userStore && $currentInterface === "admin"}
 			<div class="dropdown dropdown-end">

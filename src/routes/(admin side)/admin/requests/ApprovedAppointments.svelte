@@ -78,7 +78,7 @@
                 <option value={true}>Ascending</option>
             </select>
         </div>
-        <div class="overflow-y-auto w-full h-full p-6 flex flex-col gap-4">
+        <div class="overflow-auto w-full h-full p-6 flex flex-col gap-4">
                 <AppointmentRequestsTable appointmentRequests={approvedAppointments} on:view={viewHandler}/>
         </div>
     </div>

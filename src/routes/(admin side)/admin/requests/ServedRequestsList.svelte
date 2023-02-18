@@ -87,29 +87,32 @@
 <main class="w-full flex justify-center" class:hidden={page !== 3}>
     <div class="w-full bg-base-100 rounded-lg" class:hidden={viewing}>
         <div class="w-full p-6 flex flex-col items-center gap-4">
-            <div class="w-full flex justify-between">
-                <div class="w-max flex items-center gap-2">
-                    <small class="font-semibold">Show: </small>
-                    <select class="select select-sm select-primary w-full max-w-xs" bind:value={typeOfRequestToShow}>
-                        <option value="all" selected>All</option>
-                        <option value="documents">Document Requests</option>
-                        <option value="appointments">Appointment Requests</option>
-                    </select>
+            <div class="w-full flex flex-wrap justify-between gap-2">
+                <div class="w-full lg:w-max flex items-center justify-between lg:justify-center gap-2">
+                    <small class="w-[20%] text-center font-semibold">Show: </small>
+                    <div class="w-full flex justify-center items-center">
+                        <select class="select select-sm select-primary w-max" bind:value={typeOfRequestToShow}>
+                            <option value="all" selected>All</option>
+                            <option value="documents">Document Requests</option>
+                            <option value="appointments">Appointment Requests</option>
+                        </select>
+                    </div>
                 </div>
-                <div class="w-max flex items-center justify-end gap-2">
-                    <small class="font-semibold">Sort by:</small>
-                    <select class="select select-sm select-primary w-max" bind:value={columnToSort}>
-                        <option value="dateAdded" selected>Date Requested</option>
-                        <option value="lastName">Name</option>
-                        <option value="lastUpdated">Last Updated</option>
-                    </select>
-                    <select class="select select-sm select-primary w-max" bind:value={asc}>
-                        <option value={false} selected>Descending</option>
-                        <option value={true}>Ascending</option>
-                    </select>
+                <div class="w-full lg:w-max flex items-center justify-center lg:justify-end gap-2">
+                    <small class="w-[20%] text-center font-semibold">Sort by:</small>
+                    <div class="w-full flex flex-wrap lg:flex-nowrap justify-center items-center">
+                        <select class="select select-sm select-primary w-max" bind:value={columnToSort}>
+                            <option value="dateAdded" selected>Date Requested</option>
+                            <option value="lastName">Name</option>
+                        </select>
+                        <select class="select select-sm select-primary w-max" bind:value={asc}>
+                            <option value={false} selected>Descending</option>
+                            <option value={true}>Ascending</option>
+                        </select>
+                    </div>
                 </div>
             </div>
-            <div class=" overflow-y-auto max-h-[400px] w-full gap-4 py-2">
+            <div class=" overflow-auto max-h-[400px] w-full gap-4 py-2">
                     {#if typeOfRequestToShow === "all"}
                         <AllRequests allRequests={allServedRequests} on:view={viewHandler}/>
                     {:else if typeOfRequestToShow === "documents"}

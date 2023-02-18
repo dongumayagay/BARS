@@ -24,11 +24,11 @@
     }
 </script>
 
-<main class="w-full flex flex-col items-center p-4 px-1 ">
-	<DAHeader {page} on:switchTab={navigate}/>
+<main class="w-full h-full flex flex-col items-center p-4 px-1 ">
 
-	<div class="w-full bg-neutral min-h-screen flex justify-center pb-[5vh] rounded-b-lg">
-		<div class="w-[90%] bg-base-100 flex justify-center border-[1px] border-base-300 rounded-lg">
+	<div class="w-full h-full bg-neutral flex flex-col items-center pb-[5vh] rounded-b-lg">
+        <DAHeader {page} on:switchTab={navigate}/>
+		<div class="w-[90%] h-full bg-base-100 flex justify-center border-[1px] border-base-300 rounded-lg">
             <PendingList {page} />
             <DocumentsToClaim {page} />
             <ApprovedAppointments {page} />
