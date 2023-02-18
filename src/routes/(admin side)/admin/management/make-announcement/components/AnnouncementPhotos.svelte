@@ -34,12 +34,21 @@
         {#await getUrl(fullPath)}
             <p>Loading...</p>
         {:then url} 
-        <div class="w-fit group relative">
-            <img src={url} alt={"photo#" + index} class="h-[150px]">
-            <button class="opacity-0 bg-black/50 w-full absolute top-0 group-hover:opacity-100 transition-all ease-in duration-100 h-[150px]" on:click={()=>dispatch("viewImage", {url, alt: "photo#" + (index + 1)})}>
+        {#if index < 4}
+        <div class="w-[150px] h-[150px] flex items-center justify-center group relative rounded-xl ">
+            <img src={url} alt={"photo#" + index} class="max-w-[150px] max-h-[150px] shadow-md">
+            <button class="opacity-0 bg-black/50 w-full absolute top-0 group-hover:opacity-100 transition-all ease-in duration-100 h-full rounded-xl shadow-md" on:click={()=>dispatch("viewImage", {filePaths, index})}>
                 <p class="text-white">Click to view</p>
             </button>
         </div>
+        {:else if index === 5}
+        <div class="w-[150px] max-h-[150px] flex items-center justify-center group relative rounded-xl ">
+            <img src={url} alt={"photo#" + index} class="max-w-[150px] max-h-[150px] shadow-md">
+            <button class="opacity-70 bg-black/50 w-full hover:opacity-100 transition-opacity ease-in-out duration-100 absolute top-0 h-full rounded-xl shadow-md" on:click={()=>dispatch("viewImage", {filePaths, index})}>
+                <p class="text-white text-lg">{"+" + (filePaths.length - 5)}</p>
+            </button>
+        </div>
+        {/if}
         {/await}
     {/each}
 </div>
