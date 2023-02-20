@@ -1,8 +1,8 @@
 export const sendEmail = async (
 	mailOptions = {
-		to: 'dngumayagay@gmail.com',
+		to: 'emmanuelcalaycay17@gmail.com',
 		subject: 'Email Subject',
-		html: '<h1>Hello World</h1>'
+		html: '<h1>Ligaw na Message</h1>'
 	}
 ) =>
 	await (

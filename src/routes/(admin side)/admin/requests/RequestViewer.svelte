@@ -180,6 +180,7 @@
             <RequestMessages 
                 requestId = {dataToView.requestId} 
                 requesterFullName={dataToView.lastName + ", " + dataToView.firstName + " " + dataToView.middleName}
+                requestPath={dataToView.requestPath} requestorEmail = {dataToView.email}
             />
         </section>
     </div>

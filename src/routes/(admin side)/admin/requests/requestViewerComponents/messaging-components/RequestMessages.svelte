@@ -5,10 +5,11 @@
 	import ChatBubble from "./Chat-Bubble.svelte";
 	import ChatBox from "./Chat-Box.svelte";
 	import { ref, uploadBytes } from "firebase/storage";
+    import { sendEmail } from '$lib/utils';
 	import ChatBubbleFile from "./Chat-Bubble-File.svelte";
 
-    export let requestId;
-    export let requesterFullName;
+    export let requestId,  requesterFullName,  requestPath, requestorEmail;
+
     let messages = [];
 
     const fetchRequestMessages = onSnapshot(query(collection(db, "requestMessages"), where("trackingId", "==", "id-"+requestId??[]), orderBy("dateSent")), (querySnapshot) => {
@@ -20,6 +21,17 @@
         })
         console.log("id-" + requestId, messages)
     })
+
+    async function emailRequestId() {
+		const result = await sendEmail({
+			to: requestorEmail,
+			subject: 'New message to: ' + requesterFullName,
+			html: '<a href="https://bars-gf.vercel.app/' + requestPath + '/' + requestId + '">Click Here</a><p> to view your new message and track your request</p>'
+		});
+
+        console.log(JSON.stringify(result))
+        alert("An email containing this request's tracker link has been sent");
+	}
 
     async function sendHandler(event) {
         try {
@@ -44,7 +56,7 @@
                     messageType: event.detail.messageType
                 })
             }
-
+            emailRequestId()
         } catch (error) {
             console.log(error.message)
         }

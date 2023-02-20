@@ -18,6 +18,7 @@
                 ...doc.data(),
                 requestId: doc.id,
                 typeOfRequest: "Appointment Request",
+                requestPath: "appointment-request",
                 collectionReference: "appointmentRequests",
                 nextStatus: "Appointment Served",
                 nextStatusEmailContent: "Good Day! Your appointment has been served. We will mark this request as completed. We hope you had a nice experience. Thank you for using our system!!"

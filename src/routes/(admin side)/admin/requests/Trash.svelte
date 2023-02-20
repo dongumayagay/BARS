@@ -24,6 +24,7 @@
                 requestId: doc.id,
                 typeOfRequest: "Document Request",
                 collectionReference: "documentRequests",
+                requestPath: "document-request"
             }]
         })
     })
@@ -36,6 +37,7 @@
                 requestId: doc.id,
                 typeOfRequest: "Appointment Request",
                 collectionReference: "appointmentRequests",
+                requestPath: "appointment-request"
             }]
         })
     })

@@ -22,6 +22,7 @@
                 ...doc.data(), 
                 requestId: doc.id,
                 typeOfRequest: "Document Request",
+                requestPath: "document-request",
                 collectionReference: "documentRequests",
                 nextStatus: "Ready to claim",
                 nextStatusEmailContent: "Good Day! Your requested document/s are now ready. Please bring the original copy of requirements along with you."
@@ -36,6 +37,7 @@
                 ...doc.data(), 
                 requestId: doc.id,
                 typeOfRequest: "Appointment Request",
+                requestPath: "appointment-request",
                 collectionReference: "appointmentRequests",
                 nextStatus: "Approved",
                 nextStatusEmailContent: "Good Day! Your requested date and schedule is approved. Please come to the office on your scheduled time."
