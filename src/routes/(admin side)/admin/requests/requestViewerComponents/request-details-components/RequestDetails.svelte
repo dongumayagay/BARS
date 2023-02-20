@@ -64,14 +64,11 @@
             <div>
                 <p>{documentRequested.name}</p>
                 <div class="w-full h-max flex justify-center gap-2">
-                    {#each documentRequested.requirements as requirement}
-                        <ImagePreview 
-                            requestId={dataToView.requestId}
-                            documentName={documentRequested.name}
-                            requirementName={requirement}
-                            on:viewImage={viewHandler}
-                        />
-                    {/each}
+                    <ImagePreview 
+                        requestId={dataToView.requestId}
+                        documentName={documentRequested.name}
+                        on:viewImage={viewHandler}
+                    />
                 </div>
             </div>
             {/each}
