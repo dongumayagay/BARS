@@ -52,7 +52,7 @@
 </script>
 
 <section class="h-full w-full flex flex-col">
-    <section class="overflow-y-auto h-full w-full ">
+    <section class="overflow-y-auto h-[80vh] w-full ">
         {#if messages.length > 0}
             {#each messages as message}
                 {#if message.messageType === "text"}
