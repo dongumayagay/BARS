@@ -26,7 +26,7 @@
 		const result = await sendEmail({
 			to: requestorEmail,
 			subject: 'New message to: ' + requesterFullName,
-			html: '<a href="https://bars-gf.vercel.app/' + requestPath + '/' + requestId + '">Click Here</a><p> to view your new message and track your request</p>'
+			html: '<p><a href="https://bars-gf.vercel.app/' + requestPath + '/' + requestId + '">Click Here</a> to view your new message and track your request</p>'
 		});
 
         console.log(JSON.stringify(result))
