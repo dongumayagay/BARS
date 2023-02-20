@@ -1,42 +1,20 @@
 <script>
+    import { collection, onSnapshot } from "firebase/firestore";
+    import { db } from "$lib/firebase/client.js"
 	import DocumentInfoCard from "./DocumentInfoCard.svelte";
 
 
-const documentsList = [
-        {
-            id: "1",
-            name: "Document 1",
-            requirements: [
-                {name: "requirement1"},
-                {name: "requirement2"},
-            ]
-        },
-        {
-            id: "2",
-            name: "Document 2",
-            requirements: [
-                {name: "requirement1"},
-                {name: "requirement2"},
-                {name: "requirement3"}
-            ]
-        },
-        {
-            id: "3",
-            name: "Document 3",
-            requirements: [
-                {name: "requirement1"}
-            ]
-        },
-        {
-            id: "4",
-            name: "Document 4",
-            requirements: [
-                {name: "requirement1"},
-                {name: "requirement2"},
-                {name: "requirement3"}
-            ]
-        },
-    ]
+    let documentsList = []
+
+    const fetchDocumentsList = onSnapshot(collection(db, "documentsList"), (querySnapshot) => {
+        documentsList = []
+        querySnapshot.forEach((doc) => {
+            console.log(doc.data())
+            documentsList = [...documentsList, {
+                ...doc.data()
+            }]
+        })
+    })
 </script>
 
 <svelte:head>

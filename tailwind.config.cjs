@@ -20,7 +20,7 @@ const config = {
                   
           "base-100": "#fed7aa",
                   
-          "info": "#53d3fd",
+          "info": "#2563eb",
                   
           "success": "#16a34a",
                   

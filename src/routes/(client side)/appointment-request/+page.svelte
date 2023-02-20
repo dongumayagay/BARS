@@ -4,21 +4,45 @@
     import RequestCompleted from "$lib/components/RequestCompleted.svelte"; 
 	import OfficialsList from "./OfficialsList.svelte";
 	import ConfirmAppointment from "./ConfirmAppointment.svelte";
+    import Otp from "./OTP.svelte";
+    import DataPrivacyConsent from "./DataPrivacyConsent.svelte";
     import {db} from '$lib/firebase/client.js'
     import {addDoc, collection, Timestamp} from 'firebase/firestore';
     import { sendEmail } from '$lib/utils.js';
+    import { currentPage } from "$lib/stores.js";
+ 
+    $currentPage = 2;
 
     let page = 0;
-    let requestSubmitted = false;
-
     let appointmentRequest = [];
+    let requestSubmitted = false;
     let requestId;
+    let verifiedEmail;
+    let emailVerified = false;
+    let showOTPModal = false;
+    let showConsentModal = false;
+    let consentAgreed = false;
 
     function nextHandler(event) {
         appointmentRequest = Object.assign(appointmentRequest, event.detail)
-        page += 1;
+        if(page === 0 && (!emailVerified || verifiedEmail !== event.detail.contactInfo.email)){
+            showOTPModal = true;
+        }else{
+            page += 1;
+        }
+        console.log(event.detail, page)
+    }
 
-        console.log(appointmentRequest, page);
+    function emailVerifier(event){
+        emailVerified =  true;
+        verifiedEmail = event.detail;
+        showOTPModal = false;
+        alert("Your Email has been verified")
+        page += 1;
+    }
+
+    function consentChecker(){
+        (consentAgreed) ? submitToDatabase() : showConsentModal = true;
     }
 
     async function emailRequestId(email, appointmentRequestId) {
@@ -43,6 +67,7 @@
                 birthDate: appointmentRequest.contactInfo.birthdate,
                 email: appointmentRequest.contactInfo.email,
                 dateAdded: Timestamp.now(),
+                lastUpdated: Timestamp.now(),
                 appointmentDate: appointmentRequest.selectedDateAndTime.date,
                 appointmentTime: appointmentRequest.selectedDateAndTime.time,
                 appointmentPurpose: appointmentRequest.contactInfo.purpose,
@@ -59,8 +84,17 @@
         }
     }
 
+    function beforeUnload(event) {
+        // Cancel the event as stated by the standard.
+        event.preventDefault();
+        // Chrome requires returnValue to be set.
+        event.returnValue = '';
+        // more compatibility
+        return '...';
+    }
 </script>
 
+<svelte:window on:beforeunload={beforeUnload}/>
 <svelte:head>
     <title>Appointment Request | B.A.R.S.</title>
 </svelte:head>
@@ -77,6 +111,7 @@
         <div  class="w-[90%] lg:w-[45%] p-4 lg:px-10 bg-neutral rounded-xl flex flex-col justify-center shadow-xl gap-3" class:hidden={page !== 0}>
             <InfoForm on:next={nextHandler}/>
         </div>
+        <Otp email={appointmentRequest.contactInfo?.email??""} {showOTPModal} on:emailVerified={emailVerifier} on:close={()=>showOTPModal=false}/>
 
         <div class="w-[95%] lg:w-max p-4 bg-neutral rounded-xl shadow-xl" class:hidden={page !== 1}>
             <DatePicker on:next={nextHandler} on:back={()=>{page -= 1}}/>
@@ -91,11 +126,16 @@
                 <ConfirmAppointment 
                     {appointmentRequest}
                     on:back={()=>{page -= 1}}
-                    on:submit={submitToDatabase}
+                    on:submit={consentChecker}
                 />
             </div>
         </div>
-
+        {#if showConsentModal}
+            <DataPrivacyConsent on:decline={()=>showConsentModal = false} on:agree={()=>{
+                consentAgreed = true;
+                showConsentModal = false;
+            }} />
+        {/if}
     </section>
 
 {:else}

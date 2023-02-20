@@ -3,18 +3,19 @@
     import PendingList from './PendingList.svelte';
     import DocumentsToClaim from './DocumentsToClaim.svelte';
 	import ApprovedAppointments from './ApprovedAppointments.svelte';
-	import RequestsHistory from './RequestsHistory.svelte';
+    import ServedRequestsList from './ServedRequestsList.svelte';
 	import Trash from './Trash.svelte';
-
-    import { onMount } from "svelte";
-    import { adminUser } from '$lib/stores.js'
     import {goto} from '$app/navigation';
+    import { userStore, currentPage } from '$lib/stores.js'
+	import { onMount } from 'svelte';
 
-    onMount(() => {
-        if($adminUser === null){
+    onMount(()=>{
+        if(!$userStore){
             goto("../admin")
         }
     })
+
+    $currentPage = 1;
 
     let page = 0;
 
@@ -23,19 +24,16 @@
     }
 </script>
 
-<main class="w-full flex flex-col items-center p-4 px-1">
-	<DAHeader {page} on:switchTab={navigate}/>
+<main class="w-full h-full flex flex-col items-center p-4 px-1 ">
 
-	<div class="w-full bg-neutral h-screen flex justify-center pb-[5vh]">
-		<div class="w-[90%] bg-base-100 flex justify-center border-[1px] border-base-300 rounded-lg">
+	<div class="w-full h-full bg-neutral flex flex-col items-center pb-[5vh] rounded-b-lg">
+        <DAHeader {page} on:switchTab={navigate}/>
+		<div class="w-[90%] h-full bg-base-100 flex justify-center border-[1px] border-base-300 rounded-lg">
             <PendingList {page} />
             <DocumentsToClaim {page} />
             <ApprovedAppointments {page} />
-            <RequestsHistory {page} />
+            <ServedRequestsList {page} />
             <Trash {page} />
 		</div>
 	</div>
-
 </main>
-
-<!-- pendingDocumentRequests={documentRequests.filter(documentRequest => documentRequest.status === 'pending')} -->

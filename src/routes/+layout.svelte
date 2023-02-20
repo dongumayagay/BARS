@@ -9,6 +9,6 @@
 	/>
 </svelte:head>
 
-<main class="lg:p-6 min-h-full h-full bg-gradient-to-b from-base-200 to-base-100">
+<main class="lg:p-6 min-h-screen bg-gradient-to-b from-base-200 to-base-100">
 	<slot />
 </main>

@@ -1,26 +1,20 @@
 <script>
-    import {Timestamp} from 'firebase/firestore'
+    import { collection, onSnapshot, orderBy, query } from "firebase/firestore";
+    import { db } from "$lib/firebase/client.js"
     import Announcement from './Announcement.svelte';
-    const announcementSamples = [
-        {
-            title: "Announcement Title Sample",
-            content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc dictum varius varius. Curabitur accumsan non justo vitae aliquet. Fusce sit amet nibh suscipit, dignissim libero a, hendrerit dui. Ut vel mattis odio. Nullam ornare, ligula id posuere mollis, ligula ipsum bibendum tellus a interdum tortor felis at tortor. Mauris id",
-            dateAdded:  Timestamp.now().toDate(),
-            postedBy: "admin1"
-        },
-        {
-            title: "Breaking News!",
-            content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc dictum varius varius. Curabitur accumsan non justo vitae aliquet. Fusce sit amet nibh suscipit, dignissim libero a, hendrerit dui. Ut vel mattis odio. Nullam ornare, ligula id posuere mollis, ligula ipsum bibendum tellus a interdum tortor felis at tortor. Mauris id",
-            dateAdded:  Timestamp.now().toDate(),
-            postedBy: "admin1"
-        },
-        {
-            title: "Announcement Title Sample",
-            content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc dictum varius varius. Curabitur accumsan non justo vitae aliquet. Fusce sit amet nibh suscipit, dignissim libero a, hendrerit dui. Ut vel mattis odio. Nullam ornare, ligula id posuere mollis, ligula ipsum bibendum tellus a interdum tortor felis at tortor. Mauris id",
-            dateAdded:  Timestamp.now().toDate(),
-            postedBy: "admin1"
-        }
-    ]
+
+    let announcements = []
+    
+    const announcementsFetcher = onSnapshot(query(collection(db, "announcements"), orderBy("datePosted", "desc")), (querySnapshot)=>{
+        announcements = [];
+        querySnapshot.forEach((doc)=>{
+            announcements = [...announcements, {
+                ...doc.data(),
+                announcementId: doc.id,
+            }]
+        })
+    })
+
 </script>
 
 <svelte:head>
@@ -28,6 +22,12 @@
 </svelte:head>
 
 <section class=" lg:overflow-y-auto lg:max-h-[80vh] lg:w-[70%] flex flex-col gap-10 p-4">
-    <Announcement {announcementSamples}/>
+    {#if announcements.length !== 0}
+        <Announcement {announcements}/>
+    {:else}
+        <div class="w-full h-screen lg:h-[300px] flex items-center justify-center">
+            <p class="font-semibold opacity-60">Nothing to show for now</p>
+        </div>
+    {/if}
 </section>
 

@@ -1,24 +1,21 @@
 <script>
     import {db} from '$lib/firebase/client.js'
+    import { months, weekDays } from '$lib/stores.js'
     import {createEventDispatcher} from "svelte";
-    import { collection, getDocs, query, QuerySnapshot, where } from "firebase/firestore"
+    import { collection, getDocs, query, where, Timestamp } from "firebase/firestore"
 
     const dispatch = createEventDispatcher();
 
-    const today = new Date();
-    let tomorrowDateFormat = today.getDate() + 1
+    const today = new Date().valueOf();
 
-    // the date should be '0*' if it is less than 10 for it to be valid, otherwise the min value will be ignored
-    if(tomorrowDateFormat < 10){
-        tomorrowDateFormat = "0" + tomorrowDateFormat;
-    }
-
-    let tomorrow = today.getFullYear() + "-" + (today.getMonth() + 1) + "-" + tomorrowDateFormat;
+    let minDate = new Date(today + 172800000).toISOString().split("T")[0]
+    let maxDate = new Date(today + 2629756800).toISOString().split("T")[0]
 
     let barangayWorkingHours = [
-        "8:00 AM", "9:00 AM", "10:00 AM", "11:00 AM", "12:00 PM", "1:00 PM", "2:00 PM", "3:00 PM", "4:00 PM", "5:00 PM"
+        "8:00 AM", "9:00 AM", "10:00 AM", "11:00 AM", "12:00 PM", "1:00 PM", "2:00 PM", "3:00 PM", "4:00 PM"
     ]
-    let availableHours = [];
+    let unbookedHours = [];
+    let dateInput = "";
 
     let selectedDateAndTime = {
         date: "",
@@ -26,12 +23,19 @@
     };
 
     async function filterHours(date) {
-        availableHours = barangayWorkingHours;
+        unbookedHours = barangayWorkingHours;
         const findReservedDay = await getDocs(query(collection(db, 'appointmentRequests'), where("appointmentDate", "==", date))) 
 
         findReservedDay.forEach((doc) => {
-            availableHours = availableHours.filter(time => time != doc.data().appointmentTime);
+            unbookedHours = unbookedHours.filter(time => time != doc.data().appointmentTime);
         })
+    }
+
+    function formatDate(date) {
+        let appointmentDate = new Date(date)
+        let dateFormat = weekDays[appointmentDate.getDay()] + ", " + months[appointmentDate.getMonth()] + " " + appointmentDate.getDate();
+        console.log("Date: " + dateFormat)
+        return dateFormat;
     }
 
     function submitHandler() {
@@ -40,11 +44,13 @@
         })
     }
 
+    $: if(!!dateInput) selectedDateAndTime.date = formatDate(dateInput);
     $: if(!!selectedDateAndTime.date) filterHours(selectedDateAndTime.date)
+    $: if(!!selectedDateAndTime.time) console.log(selectedDateAndTime.date + " at " + selectedDateAndTime.time)
 </script>
 
 
-<form class="w-full h-max p-4 flex flex-col items-center gap-4" on:submit|preventDefault={submitHandler} on:reset={(event)=>{event.target.reset(); availableHours = []}}>
+<form class="w-full h-max p-4 flex flex-col items-center gap-4" on:submit|preventDefault={submitHandler} on:reset={(event)=>{event.target.reset(); unbookedHours = []}}>
     <p class=" font-bold">Appointment Schedule</p>
     <div class="w-full h-full lg:w-full flex flex-col gap-4">
 
@@ -60,12 +66,16 @@
                 </label>
                 <input type="date" 
                     id="date"  
-                    min={tomorrow}
+                    min={minDate}
+                    max={maxDate}
                     placeholder="Type here" 
                     class="input input-bordered w-full lg:max-w-xs bg-neutral border-primary focus:outline-primary focus:ring-0 focus:border-secondary"
-                    bind:value={selectedDateAndTime.date} 
+                    bind:value={dateInput} 
                     required
                 />
+                <label class="label w-full lg:w-[20rem] flex justify-start lg:hidden" for="date">
+                    <span class="label-text text-info">Available range of date is 1 to 30 days prior to current date</span>
+                </label>
             </div>
             <div class="w-full flex justify-center lg:justify-start lg:flex-col gap-2 lg:gap-0">
                 <label class="label" for="time">
@@ -78,12 +88,15 @@
                     required
                 >
                     <option disabled selected>Pick a time</option>
-                    {#each availableHours as availableHour}
+                    {#each unbookedHours as availableHour}
                         <option>{availableHour}</option>
                     {/each}
                 </select>
             </div>
         </div>
+        <label class="hidden w-full label label-text-info lg:flex justify-start" for="date">
+            <p class="w-full label-text text-center text-blue-700">Available range of date is 2 to 30 days prior from the current date</p>
+        </label>
     </div>
 
     <section class="w-full pt-4 flex flex-col lg:flex-row gap-4 justify-around items-center ">

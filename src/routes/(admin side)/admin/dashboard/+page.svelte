@@ -1,13 +1,15 @@
 <script>
-    import { adminUser } from '$lib/stores.js'
+    import { userStore, currentPage } from '$lib/stores.js'
     import {goto} from '$app/navigation';
     import { onMount } from "svelte";
 
-    onMount(() => {
-        if($adminUser === null){
+    onMount(()=>{   
+        if(!$userStore){
             goto("../admin")
         }
     })
+
+    $currentPage = 0;
 </script>
 
 dashboard

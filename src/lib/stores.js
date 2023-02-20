@@ -3,10 +3,9 @@ import { auth } from '$lib/firebase/client.js';
 import { browser } from '$app/environment';
 import { readable, writable } from "svelte/store";
 
-export let adminUser = writable(null);
-
 export let currentPage = writable(0);
 
+export let currentInterface = writable(null)
 export const userStore = readable(undefined, set => {
     const unsubscribe = onAuthStateChanged(
         auth,
@@ -14,3 +13,30 @@ export const userStore = readable(undefined, set => {
     )
     return () => unsubscribe()
 })
+
+
+export const months = [
+    "January", 
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December",
+]
+
+export const weekDays = [
+    "Sun",
+    "Mon",
+    "Tue",
+    "Wed",
+    "Thu",
+    "Fri",
+    "Sat",
+
+]

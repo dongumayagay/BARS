@@ -2,7 +2,10 @@
     import { doc, getDoc } from 'firebase/firestore';
     import { db } from '$lib/firebase/client';
     import {goto} from "$app/navigation"
+    import { currentPage } from "$lib/stores.js";
     import Tracker from "./Tracker.svelte";
+
+    $currentPage = 3;
 
     let errorMessage = "";
 

@@ -7,7 +7,7 @@
 		{name: 'Waiting List'},
 		{name: 'To Claim Documents'},
 		{name: 'Approved Appointments'},
-        {name: 'History'},
+        {name: 'Served Requests'},
         {name: 'Trash'}
 	] 
 	
@@ -15,24 +15,26 @@
 	let showMenu = false;
 </script>
 
-<div class="w-full flex pt-4 px-4 bg-neutral lg:rounded-t-lg" class:rounded-b-none={showMenu}>
-
-	<section class="flex flex-col flex-1 ">
-
-		<nav class="items-end flex-1 hidden lg:flex justify-evenly tabs">
+<div class="w-[90%] flex p-4 lg:pt-4 lg:pb-0 px-4 bg-neutral lg:rounded-t-lg relative" class:rounded-b-none={showMenu}>
+	<section class="w-full flex flex-col items-center justify-center flex-1">
+		<button class="w-[90%] lg:hidden btn btn-ghost hover:bg-neutral text-center relative">
+			<input type="checkbox" class=" absolute opacity-0 w-full" bind:checked={showMenu} />
+			<p class="font-bold">{links[page].name}</p>
+		</button>
+		<nav class="w-full items-end flex-1 hidden lg:flex justify-evenly tabs">
 			{#each links as link, index}
 				<button
 					on:click={()=>{
 						dispatch("switchTab", {index})
 					}}
-					class="tab tab-lifted border-b-0 font-semibold {page === index ? "tab-active translate-y-[1px]" : ""}"
+					class="tab tab-lifted border-b-0 font-semibold {page === index ? "tab-active translate-y-[1px] " : ""}"
 				>
 					{link.name}
 				</button>
 			{/each}
 		</nav>
 	</section>
-	<section class="flex flex-col items-center justify-center lg:hidden">
+	<section class="absolute right-[5%] flex flex-col items-center justify-center lg:hidden">
 		<label class="btn btn-circle btn-ghost swap swap-rotate">
 			<!-- this hidden checkbox controls the state -->
 			<input type="checkbox" class="invisible" bind:checked={showMenu} />
@@ -70,8 +72,10 @@
 			<button
 				class="bg-neutral border-none text-gray-500 hover:text-black hover:bg-neutral hover:underline btn"
 				on:click={()=>{
+					showMenu = false;
 					dispatch("switchTab", {index})
 				}}
+				class:hidden={page === index}
 			>
 				{link.name}
 			</button>

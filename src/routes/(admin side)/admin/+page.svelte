@@ -1,24 +1,25 @@
 <script>
     import { auth } from "$lib/firebase/client.js"
-    import { adminUser } from "$lib/stores.js";
+    import { userStore } from "$lib/stores.js";
     import { goto } from "$app/navigation";
 
     import LoginForm from "$lib/components/LoginForm.svelte"
 
     import { signInWithEmailAndPassword } from "firebase/auth";
 
-    // let email;
-    // let password;
+    $:  if(!!$userStore){
+            console.log("Redirecting to dashboard")
+            goto("../admin/dashboard")
+        }
 
-    async function submitHandler(event) {
-        await signInWithEmailAndPassword(auth, event.detail.email, event.detail.password)
-            .then((userCredential) => {
-                $adminUser = userCredential.user;
-                console.log($adminUser)
+    function submitHandler(event) {
+        signInWithEmailAndPassword(auth, event.detail.email, event.detail.password)
+            .then(() => {
+                alert("Logged In Successfully")
                 goto('../admin/dashboard')
             })
             .catch((error) => {
-                const errorMessage = error.message;
+                alert(error.message)
             })
 
         console.log(event.detail)
@@ -26,5 +27,8 @@
 </script>
 
 <main class="w-full h-full flex justify-center items-center">
-    <LoginForm on:submit={submitHandler}/>
+    {#if !$userStore}
+        <LoginForm on:submit={submitHandler}/>
+        
+    {/if}
 </main>
