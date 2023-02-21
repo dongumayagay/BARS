@@ -8,7 +8,7 @@
     import { sendEmail } from '$lib/utils';
 	import ChatBubbleFile from "./Chat-Bubble-File.svelte";
 
-    export let requestId,  requesterFullName,  requestPath, requestorEmail;
+    export let requestId,  requesterFullName,  requestPath, requestorEmail, status;
 
     let messages = [];
 
@@ -80,7 +80,10 @@
             </div>
         {/if}
     </section>
-    <section class="h-[15%] flex items-center border-t-2 p-2">
-        <ChatBox {requestId} on:send-message={sendHandler}/>
+    <section class="h-[15%] flex flex-col items-center border-t-2 p-2">
+        {#if status === "Request Completed" || status === "Appointment Served"}
+            <p class="w-full text-error text-center pb-2 text-sm">This request has been served, messaging is now disabled</p>
+        {/if}
+        <ChatBox {requestId} {status} on:send-message={sendHandler}/>
     </section>
 </section>

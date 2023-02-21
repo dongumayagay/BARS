@@ -38,17 +38,10 @@
                 })
             } else {
 
-                // Log to History
-                await addDoc(collection( db, "history"), {
-                    requesterFullName: dataToView.lastName + ", " + dataToView.firstName + " " +  dataToView.middleName,
-                    update: {
-                        previousStatus: dataToView.status,
-                        currentStatus: dataToView.nextStatus,
-                    },
-                    typeOfRequest: dataToView.typeOfRequest,
-                    logDate: Timestamp.now(),
-                    requestId: dataToView.requestId,
-                })
+                if(dataToView.nextStatus === "Request Completed"){ 
+                    clearDocumentRequestFiles();
+                     
+                }
 
                 await updateDoc(docRef, {
                     status: dataToView.nextStatus,
@@ -104,7 +97,7 @@
             requestMessages.forEach((message)=>{
                 deleteDoc(doc(db, "requestMessages", message.id))
             })
-            console.log("messages have ben successfully deleted")
+            console.log("messages have been successfully deleted")
 
             listAll(ref(storage, "message_files/" + requestId))
             .then((files)=>{
@@ -116,20 +109,7 @@
             })
 
             if(dataToView.typeOfRequest === "Document Request"){
-                listAll(ref(storage, "documentRequestsFiles/" + requestId))
-                .then((requirements)=>{
-                    requirements.prefixes.forEach((requirement) => {
-                        listAll(ref(storage, requirement.fullPath)).then((files)=>{
-                            files.items.forEach((file)=>{
-                                // console.log(file.fullPath);
-                                const fileRef = ref(storage, file.fullPath)
-                                deleteObject(fileRef)
-
-                            })
-                        })
-                    })
-                    console.log("message files have been successfully deleted")
-                })
+                clearDocumentRequestFiles()
             }
             await deleteDoc(doc(db, dataToView.collectionReference, dataToView.requestId))
             alert("Request removed successfully")
@@ -137,6 +117,22 @@
         }catch(error){
             alert(error.message)
         }
+    }
+
+    function clearDocumentRequestFiles(){
+        listAll(ref(storage, "documentRequestsFiles/" + dataToView.requestId))
+        .then((requirements)=>{
+            requirements.prefixes.forEach((requirement) => {
+                listAll(ref(storage, requirement.fullPath)).then((files)=>{
+                    files.items.forEach((file)=>{
+                        const fileRef = ref(storage, file.fullPath)
+                        deleteObject(fileRef)
+
+                    })
+                })
+            })
+            console.log("Files removed successfully");
+        })
     }
 </script>
 
@@ -171,7 +167,7 @@
             {/if}
         </div>
     </div>
-    <div class="p-4 w-full h-full flex items-start justify-start gap-10">
+    <div class="p-4 w-full h-max min-h-[80vh] flex items-start justify-start gap-10">
         <NavigationButtons {page} on:navigate={(event) => page = event.detail.index}/>
         <section class="w-full" class:hidden={page !== 0}>
             <RequestDetails {dataToView} on:viewImage={(event)=>console.log(event.detail.url)}/>
@@ -180,7 +176,7 @@
             <RequestMessages 
                 requestId = {dataToView.requestId} 
                 requesterFullName={dataToView.lastName + ", " + dataToView.firstName + " " + dataToView.middleName}
-                requestPath={dataToView.requestPath} requestorEmail = {dataToView.email}
+                requestPath={dataToView.requestPath} requestorEmail = {dataToView.email} status={dataToView.status}
             />
         </section>
     </div>

@@ -57,7 +57,7 @@
             </div>
         </div>
     </section>
-    {#if dataToView.typeOfRequest === "Document Request"}
+    {#if dataToView.typeOfRequest === "Document Request" && dataToView.status !== "Request Completed"}
         <section class="w-[60vw] h-fit flex flex-col bg-neutral p-4 rounded-2xl shadow-xl gap-4">
             <p class="font-semibold w-full text-center">Uploaded Requirements</p>
             {#each dataToView.docsRequested as documentRequested}
