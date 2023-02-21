@@ -37,19 +37,25 @@
             <p>Loading...</p>
         {:then url} 
             
-            {#if index <= 4}
-            <div class="max-w-[45%] max-h-[45%] lg:w-[150px] lg:max-h-[150px] flex items-center justify-center group relative rounded-xl ">
+            {#if index <= 2}
+            <div class="max-w-[45%] max-h-[45%] lg:w-[23%] lg:max-h-[23%] flex items-center justify-center group relative rounded-xl ">
                 <img src={url} alt={"photo#" + index} class="max-w-full max-h-full shadow-md">
                 <button class="opacity-0 bg-black/50 w-full absolute top-0 group-hover:opacity-100 transition-all ease-in duration-100 h-full rounded-xl shadow-md" on:click={()=>dispatch("viewImage", {filePaths, index})}>
                     <p class="text-white">Click to view</p>
                 </button>
             </div>
-            {:else if index === 5}
+            {:else if index === 3}
             <div class="max-w-[45%] max-h-[45%] lg:w-[150px] lg:max-h-[150px] flex items-center justify-center group relative rounded-xl ">
                 <img src={url} alt={"photo#" + index} class="max-w-full max-h-full shadow-md">
-                <button class="opacity-70 bg-black/50 w-full hover:opacity-100 transition-opacity ease-in-out duration-100 absolute top-0 h-full rounded-xl shadow-md" on:click={()=>dispatch("viewImage", {filePaths, index})}>
-                    <p class="text-white text-lg">{"+" + (filePaths.length - 5)}</p>
+                {#if index === filePaths.length -1}
+                <button class="opacity-0 bg-black/50 w-full absolute top-0 group-hover:opacity-100 transition-all ease-in duration-100 h-full rounded-xl shadow-md" on:click={()=>dispatch("viewImage", {filePaths, index})}>
+                    <p class="text-white">Click to view</p>
                 </button>
+                {:else if index < filePaths.length - 1}
+                <button class="opacity-70 bg-black/50 w-full hover:opacity-100 transition-opacity ease-in-out duration-100 absolute top-0 h-full rounded-xl shadow-md" on:click={()=>dispatch("viewImage", {filePaths, index})}>
+                    <p class="text-white text-lg">{"+" + (filePaths.length - 3)}</p>
+                </button>
+                {/if}
             </div>
             {/if}
         {/await}
