@@ -41,7 +41,7 @@
         </label>
     </section>
     
-    <section class="w-full flex flex-col gap-2 rounded-xl z-1 mb-10 {showContacts ? " " : "opacity-0 h-0  translate-y-[-7rem]"} transition-all ease-in-out duration-300 z-1" >
+    <section class="w-full flex flex-col gap-2 rounded-xl z-1 {showContacts ? " " : "opacity-0 h-0  translate-y-[-7rem]"} transition-all ease-in-out duration-300 z-1" >
         {#if !!officialProfile.email}
             <button class="bg-neutral flex flex-col items-center gap-4 rounded-xl p-4 lg:tooltip lg:tooltip-accent group z-10" data-tip={emailTooltip} class:hidden={!showContacts} on:click={copyToClipboard(officialProfile.email)}>
                 <!-- <i class="fa-solid fa-envelope text-red-600 text-[45px]"></i> -->

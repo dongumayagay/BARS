@@ -21,7 +21,7 @@
     <title>Homepage - Barangay Officials | B.A.R.S.</title>
 </svelte:head>
 
-<section class="lg:overflow-y-auto lg:max-h-[70vh] w-full lg:w-[70%] flex flex-col lg:flex-auto gap-6 items-center">
+<section class="lg:overflow-y-auto lg:max-h-[70vh] w-full lg:w-[70%] flex flex-col lg:flex-auto gap-10 items-center">
     {#await officialsListFetcher()}
         <p>Loading</p>
     {:then officialsList} 
