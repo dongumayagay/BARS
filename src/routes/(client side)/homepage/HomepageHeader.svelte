@@ -1,7 +1,7 @@
 <script>
 	import Links from "./Links.svelte";
 
-    let showMenu = true;
+    let showMenu = false;
 </script>
 
 <section class="hidden w-[30%] h-[65vh] p-6 bg-neutral lg:flex items-start rounded-xl shadow-xl tabs">
