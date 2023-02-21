@@ -71,6 +71,7 @@
                 </div>
             </div>
         </section>
+        {#if documentRequest.status !== "Request Completed"}
         <section class="w-[90vw] lg:w-[60vw] flex flex-col bg-neutral p-4 rounded-2xl shadow-xl gap-4" class:hidden={page !== 0}>
             <p class="font-semibold w-full text-center">Uploaded Requirements</p>
             {#each documentRequest.docsRequested as document}
@@ -80,6 +81,7 @@
                 </div>
             {/each}
         </section>
+        {/if}
         {#if enlargeImage}
             <div class="w-screen h-screen fixed top-0 left-0 flex flex-col items-center justify-center bg-black/70 z-20">
                 <div class="w-full flex justify-start">
@@ -98,6 +100,6 @@
         {/if}
     </section>
     <section class="w-full lg:w-[60vw] h-full flex justify-center" class:hidden={page !== 1}>
-        <RequestMessages requestId={documentRequest.id} {requesterFullName}/>
+        <RequestMessages requestId={documentRequest.id} {requesterFullName} status={documentRequest.status}/>
     </section>
 </main>

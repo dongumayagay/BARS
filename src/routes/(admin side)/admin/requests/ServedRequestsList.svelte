@@ -23,6 +23,7 @@
                 ...doc.data(),
                 requestId: doc.id,
                 typeOfRequest: "Document Request",
+                requestPath: "document-request",
                 collectionReference: "documentRequests",
             }];
         })
@@ -35,6 +36,7 @@
                 requestId: doc.id,
                 typeOfRequest: "Appointment Request",
                 collectionReference: "appointmentRequests",
+                requestPath: "appointment-request",
             }];
         })
     })

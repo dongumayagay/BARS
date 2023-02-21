@@ -7,8 +7,8 @@
 	import { ref, uploadBytes } from "firebase/storage";
     import { zoom } from "$lib/zoom.js";
 
-    export let requestId;
-    export let requesterFullName;
+    export let requestId, requesterFullName, status;
+
     let messages = [];
 
     const fetchRequestMessages = onSnapshot(query(collection(db, "requestMessages"), where("trackingId", "==", "id-"+requestId??[]), orderBy("dateSent")), (querySnapshot) => {
@@ -41,6 +41,8 @@
                     messageType: event.detail.messageType
                 })
             }
+
+
         } catch (error) {
             console.log(error.message)
         }
@@ -71,6 +73,7 @@
                     <ChatBubbleFile {message} {requesterFullName} on:viewImage={viewHandler}/>
                 {/if}
             {/each}
+            
         {:else}
             <div class="h-full w-full flex items-center">
                 <p class="w-full text-center opacity-70">Nothing to show</p>
@@ -94,6 +97,9 @@
         </div>  
     {/if}
     <section class="w-full h-[15%] border-t-2 p-2">
-        <ChatBox {requestId} on:send-message={sendHandler}/>
+        {#if status === "Request Completed" || status === "Appointment Served"}
+                <p class="w-full text-error text-center pb-2 text-sm">This request has been served, messaging is now disabled</p>
+        {/if}
+        <ChatBox {requestId} {status} on:send-message={sendHandler}/>
     </section>
 </section>

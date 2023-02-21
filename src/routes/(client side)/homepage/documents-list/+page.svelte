@@ -21,7 +21,7 @@
     <title>Homepage - Documents List | B.A.R.S.</title>
 </svelte:head>
 
-<main class="lg:overflow-y-auto lg:max-h-[70vh] w-full lg:w-[70%] flex flex-col lg:flex-auto gap-6 items-center">
+<main class="lg:overflow-y-auto lg:max-h-[70vh] w-full lg:w-[70%] flex flex-col lg:flex-auto gap-10 items-center">
     {#each documentsList as document}
         <DocumentInfoCard {document}/>
     {/each}
