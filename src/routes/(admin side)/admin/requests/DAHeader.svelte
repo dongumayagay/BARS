@@ -2,6 +2,8 @@
 	import {goto} from '$app/navigation'
 	import { createEventDispatcher } from 'svelte';
 
+	export let newRequestsCounter;
+
 	const dispatch = createEventDispatcher();
 	const links = [
 		{name: 'Waiting List'},
@@ -23,14 +25,17 @@
 		</button>
 		<nav class="w-full items-end flex-1 hidden lg:flex justify-evenly tabs">
 			{#each links as link, index}
-				<button
-					on:click={()=>{
-						dispatch("switchTab", {index})
-					}}
-					class="tab tab-lifted border-b-0 font-semibold {page === index ? "tab-active translate-y-[1px] " : ""}"
-				>
-					{link.name}
-				</button>
+				<div class="indicator">
+					<span class="indicator-item badge badge-error" class:hidden={index!==0 || newRequestsCounter === 0}>{(index===0)? newRequestsCounter : ""}</span>
+					<button
+						on:click={()=>{
+							dispatch("switchTab", {index})
+						}}
+						class="tab tab-lifted border-b-0 font-semibold {page === index ? "tab-active translate-y-[1px] " : ""}"
+					>
+						{link.name}
+					</button>
+				</div>
 			{/each}
 		</nav>
 	</section>

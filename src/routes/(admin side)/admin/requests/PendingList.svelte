@@ -1,24 +1,20 @@
 <script>
     import RequestViewer from "./RequestViewer.svelte"
     import { db } from '$lib/firebase/client.js'
-    import { collection, onSnapshot, orderBy, query, where } from "firebase/firestore";
+    import { collection, doc, onSnapshot, orderBy, query, updateDoc, where } from "firebase/firestore";
 	import AllRequests from "./request-preview-components/AllRequests.svelte";
 	import DocumentRequestsTable from "./request-preview-components/DocumentRequestsTable.svelte";
 	import AppointmentRequestsTable from "./request-preview-components/AppointmentRequestsTable.svelte";
+	import { onMount } from "svelte";
+    import { createEventDispatcher } from "svelte"
     
     export let page;
 
-    let viewing = false;
-    let dataToView = {};
+    const dispatch = createEventDispatcher();
 
-    let pendingDocumentRequests = [];
-    let pendingAppointmentRequests = [];
-    let allPendingRequests = [];
-
-    const unsubPendingDocRequestsFetcher = onSnapshot(query(collection(db, "documentRequests"), where("status", "==", "pending")), (querySnapshot) => {
-        pendingDocumentRequests = [];
-        querySnapshot.forEach((doc) => {
-            pendingDocumentRequests = [...pendingDocumentRequests, {
+    onMount(()=>{
+        const pendingDocumentRequestsUnsub = onSnapshot(query(collection(db, "documentRequests"), where("status", "==", "pending")), (querySnapshot) => {
+            pendingDocumentRequests = querySnapshot.docs.map((doc)=>({
                 ...doc.data(), 
                 requestId: doc.id,
                 typeOfRequest: "Document Request",
@@ -26,28 +22,57 @@
                 collectionReference: "documentRequests",
                 nextStatus: "Ready to claim",
                 nextStatusEmailContent: "Good Day! Your requested document/s are now ready. Please bring the original copy of requirements along with you."
-            }]
+            }))
+            querySnapshot.docs.map((doc)=>{
+                if(!doc.data().isViewed){dispatch("newDocRequest")}
+            })
         })
+        return()=>{
+            pendingDocumentRequestsUnsub();
+        }
     })
 
-    const unsubPendingAptRequestsFetcher = onSnapshot(query(collection(db, "appointmentRequests"), where("status", "==", "pending")), (querySnapshot) => {
-        pendingAppointmentRequests = []
-        querySnapshot.forEach((doc) => {
-            pendingAppointmentRequests = [...pendingAppointmentRequests, {
+    onMount(()=>{
+        const pendingAppointmentRequestsUnsub = onSnapshot(query(collection(db, "appointmentRequests"), where("status", "==", "pending")), (querySnapshot) => {
+            pendingAppointmentRequests = querySnapshot.docs.map((doc)=>({
                 ...doc.data(), 
                 requestId: doc.id,
                 typeOfRequest: "Appointment Request",
                 requestPath: "appointment-request",
                 collectionReference: "appointmentRequests",
-                nextStatus: "Approved",
-                nextStatusEmailContent: "Good Day! Your requested date and schedule is approved. Please come to the office on your scheduled time."
-            }]
+                nextStatus: "Ready to claim",
+                nextStatusEmailContent: "Good Day! Your requested document/s are now ready. Please bring the original copy of requirements along with you."
+            }))
+            querySnapshot.docs.map((doc)=>{
+                if(!doc.data().isViewed){dispatch("newAptRequest")}
+            })
         })
+        return ()=>{
+            pendingAppointmentRequestsUnsub()
+        }
     })
 
-    function viewHandler(event) {
+    let viewing = false;
+    let dataToView = {};
+    
+    let pendingDocumentRequests = [];
+    let pendingAppointmentRequests = [];
+    let allPendingRequests = [];
+
+    async function viewHandler(event) {
+        if(!event.detail.requestData?.isViewed){
+            const updateRef = await updateDoc(doc(db, event.detail.requestData.collectionReference, event.detail.requestData.requestId), {
+                isViewed: true,
+            })
+            if(event.detail.requestData.typeOfRequest === "Document Request"){
+                dispatch("minusDocNotifCounter")
+            } else {
+                dispatch("minuAptNotifCounter")
+            }
+        }
         dataToView = event.detail.requestData;
         viewing = true;
+
     }
 
     function closeHandler() {
@@ -81,7 +106,6 @@
                     : (a[column] > b[column]) 
                     ? 1 * sortModifier 
                     : 0
-        // }
 		
 		pendingDocumentRequests = pendingDocumentRequests.sort(sort);
         pendingAppointmentRequests = pendingAppointmentRequests.sort(sort);
@@ -89,8 +113,6 @@
 	}
 
     $: sort(columnToSort, asc);
-
-
 
 </script>
 

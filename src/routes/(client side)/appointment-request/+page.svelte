@@ -66,6 +66,7 @@
                 contactNo: appointmentRequest.contactInfo.contactNo,
                 birthDate: appointmentRequest.contactInfo.birthdate,
                 email: appointmentRequest.contactInfo.email,
+                isViewed: false,
                 dateAdded: Timestamp.now(),
                 lastUpdated: Timestamp.now(),
                 appointmentDate: appointmentRequest.selectedDateAndTime.date,
