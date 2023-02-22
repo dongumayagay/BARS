@@ -38,7 +38,8 @@
                     sender: requesterFullName,
                     trackingId: "id-" + requestId,
                     dateSent: Timestamp.now(),
-                    messageType: event.detail.messageType
+                    messageType: event.detail.messageType,
+                    isViewed: false,
                 })
             }
 
