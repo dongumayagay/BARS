@@ -83,7 +83,7 @@
         </section>
         {/if}
         {#if enlargeImage}
-            <div class="w-screen h-screen fixed top-0 left-0 flex flex-col items-center justify-center bg-black/70 z-20">
+            <div class="w-screen h-full fixed top-0 left-0 flex flex-col items-center justify-center bg-black/70 z-20">
                 <div class="w-full flex justify-start">
                     <button class="btn btn-ghost hover:bg-transparent group" on:click={closeHandler}>
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 text-neutral ">
@@ -92,7 +92,7 @@
                         <p class="text-neutral group-hover:underline">Close</p>
                     </button>
                 </div>
-                <div class="flex flex-col items-center gap-4 z-10">
+                <div class="w-full h-full flex flex-col items-center justify-center gap-4 z-10">
                     <img src={imageToEnlarge.imageUrl} alt={imageToEnlarge.requirementName} class="w-[75vw] lg:w-max lg:h-[65vh] hover:cursor-zoom-in" use:zoom>
                     <p class="text-neutral text-lg underline">{imageToEnlarge.name}</p>
                 </div>

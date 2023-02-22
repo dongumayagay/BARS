@@ -1,19 +1,20 @@
 <script>
-    import { collection, onSnapshot, orderBy, query } from "firebase/firestore";
-    import { db } from "$lib/firebase/client.js"
+    import { collection, doc, getDoc, getDocs, onSnapshot, orderBy, query } from "firebase/firestore";
+    import { db, storage } from "$lib/firebase/client.js"
     import Announcement from './Announcement.svelte';
+	import { onMount } from "svelte";
+	import { listAll, ref } from "firebase/storage";
 
-    let announcements = []
-    
-    const announcementsFetcher = onSnapshot(query(collection(db, "announcements"), orderBy("datePosted", "desc")), (querySnapshot)=>{
-        announcements = [];
-        querySnapshot.forEach((doc)=>{
-            announcements = [...announcements, {
-                ...doc.data(),
-                announcementId: doc.id,
-            }]
-        })
+    onMount(()=>{
+        getAnnouncements();
     })
+    let announcements = []
+    async function getAnnouncements(){
+        const querySnapshot = await getDocs(collection(db, "announcements"), orderBy("datePosted", "desc"));
+        querySnapshot.docs.map((doc)=>{
+            announcements = [...announcements, {...doc.data(), announcementId: doc.id}]
+        })
+    }
 
 </script>
 
