@@ -60,17 +60,17 @@
     let allPendingRequests = [];
 
     async function viewHandler(event) {
-        if(!event.detail.requestData?.isViewed){
-            const updateRef = await updateDoc(doc(db, event.detail.requestData.collectionReference, event.detail.requestData.requestId), {
-                isViewed: true,
-            })
-            if(event.detail.requestData.typeOfRequest === "Document Request"){
-                dispatch("minusDocNotifCounter")
-            }
-            if(event.detail.requestData.typeOfRequest === "Appointment Request") {
-                dispatch("minusAptNotifCounter")
-            }
-        }
+        // if(!event.detail.requestData?.isViewed){
+        //     const updateRef = await updateDoc(doc(db, event.detail.requestData.collectionReference, event.detail.requestData.requestId), {
+        //         isViewed: true,
+        //     })
+        //     if(event.detail.requestData.typeOfRequest === "Document Request"){
+        //         dispatch("minusDocNotifCounter")
+        //     }
+        //     if(event.detail.requestData.typeOfRequest === "Appointment Request") {
+        //         dispatch("minusAptNotifCounter")
+        //     }
+        // }
         dataToView = event.detail.requestData;
         viewing = true;
 
