@@ -66,8 +66,9 @@
             })
             if(event.detail.requestData.typeOfRequest === "Document Request"){
                 dispatch("minusDocNotifCounter")
-            } else {
-                dispatch("minuAptNotifCounter")
+            }
+            if(event.detail.requestData.typeOfRequest === "Appointment Request") {
+                dispatch("minusAptNotifCounter")
             }
         }
         dataToView = event.detail.requestData;

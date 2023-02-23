@@ -10,7 +10,7 @@
     })
     let announcements = []
     async function getAnnouncements(){
-        const querySnapshot = await getDocs(collection(db, "announcements"), orderBy("datePosted", "desc"));
+        const querySnapshot = await getDocs(query(collection(db, "announcements"), orderBy("datePosted", "desc")));
         querySnapshot.docs.map((doc)=>{
             announcements = [...announcements, {...doc.data(), announcementId: doc.id}]
         })
