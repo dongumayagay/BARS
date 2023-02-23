@@ -12,12 +12,7 @@
 
     const documentsListListener = onSnapshot(collection(db, "documentsList"), (querySnapshot)=>{
         documentsList = [];
-        querySnapshot.forEach((doc)=>{
-            documentsList = [...documentsList, {
-                ...doc.data(),
-                id: doc.id
-            }]
-        })
+        documentsList = querySnapshot.docs.map((doc)=>({...doc.data(), id: doc.id}))
     }) 
 </script>
 

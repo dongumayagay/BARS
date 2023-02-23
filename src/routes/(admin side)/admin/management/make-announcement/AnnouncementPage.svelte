@@ -16,7 +16,7 @@
         }
        const unsub =  onSnapshot(query(collection(db, "announcements"), where("postedBy", "==", $userStore.email), orderBy("datePosted", "desc")), (querySnapshot)=>{
             postedAnnouncements = querySnapshot.docs.map((doc)=>({...doc.data(), id: doc.id}))
-            console.log("realtimeListener Triggered")
+            // console.log("realtimeListener Triggered")
         })
         return()=>{
             unsub();
