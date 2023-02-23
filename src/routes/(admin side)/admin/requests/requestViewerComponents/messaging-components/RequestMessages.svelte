@@ -30,7 +30,7 @@
 		});
 
         console.log(JSON.stringify(result))
-        alert("An email containing this request's tracker link has been sent");
+        // alert("An email containing this request's tracker link has been sent");
 	}
 
     async function sendHandler(event) {

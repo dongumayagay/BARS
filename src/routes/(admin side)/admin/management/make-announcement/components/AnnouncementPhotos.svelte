@@ -35,14 +35,14 @@
             <p>Loading...</p>
         {:then url} 
         {#if index <= 2}
-        <div class="w-[150px] h-[150px] flex items-center justify-center group relative rounded-xl ">
+        <div class="w-[150px] h-[150px] flex items-center justify-center group relative rounded-xl z-20">
             <img src={url} alt={"photo#" + index} class="max-w-[150px] max-h-[150px] shadow-md">
             <button class="opacity-0 bg-black/50 w-full absolute top-0 group-hover:opacity-100 transition-all ease-in duration-100 h-full rounded-xl shadow-md" on:click={()=>dispatch("viewImage", {filePaths, index})}>
                 <p class="text-white">Click to view</p>
             </button>
         </div>
         {:else if index === 3}
-        <div class="w-[150px] max-h-[150px] flex items-center justify-center group relative rounded-xl ">
+        <div class="w-[150px] max-h-[150px] flex items-center justify-center group relative rounded-xl z-20">
             <img src={url} alt={"photo#" + index} class="max-w-[150px] max-h-[150px] shadow-md">
             {#if index === filePaths.length -1}
             <button class="opacity-0 bg-black/50 w-full absolute top-0 group-hover:opacity-100 transition-all ease-in duration-100 h-full rounded-xl shadow-md" on:click={()=>dispatch("viewImage", {filePaths, index})}>

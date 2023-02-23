@@ -58,17 +58,20 @@
 <svelte:window on:beforeunload={beforeUnload}/>
 
 <form class="flex flex-col gap-4" on:submit|preventDefault={submitHandler} on:reset={resetHandler}>
-    <section class="bg-neutral w-full lg:w-full p-4 flex flex-col rounded-xl shadow-lg gap-2">
+    <section class="bg-neutral w-full lg:w-full p-4 flex flex-col rounded-xl shadow-lg gap-2 relative">
+        <div class="absolute top-0 left-0 w-full h-full flex items-center justify-center overflow-hidden z-0">
+            <img src="/brgyLogo.png" alt="brgyLogo" class="w-[75%] lg:w-[50%] opacity-10">
+        </div>
         <div class="w-full pb-4 flex flex-col border-b-[2px] border-base-100">
             <p class="text-xs lg:text-sm">{Timestamp.now().toDate()}</p>
             <p class="text-xs lg:text-sm">Posted by: {$userStore?.email}</p>
         </div>
         <input type="text" 
             placeholder="Type your title here" 
-            class="input input-ghost w-full text-center font-bold text-xl focus:bg-inherit placeholder:text-center placeholder:text-inherit placeholder:opacity-70" 
+            class="input input-ghost w-full text-center font-bold text-xl placeholder:text-center placeholder:text-inherit placeholder:opacity-70 focus:bg-transparent z-10" 
             bind:value={announcementTitle}
             required />
-        <textarea class="textarea textarea-ghost w-full focus:bg-inherit placeholder:text-inherit placeholder:opacity-70" 
+        <textarea class="textarea textarea-ghost w-full focus:bg-transparent placeholder:text-inherit placeholder:opacity-70 z-10" 
             rows="5"   
             placeholder="Type here" 
             bind:value={announcementContent} 
@@ -76,7 +79,7 @@
         ></textarea>
         <div class="h-max flex flex-wrap gap-5">
             {#each filesToUpload as savedFile, index}
-            <div class="min-w-[150px] w-max relative ">
+            <div class="min-w-[150px] w-max relative z-10">
                 <div class="min-w-[150px] w-full flex justify-center group relative">
                     <img src={URL.createObjectURL(savedFile.file)} alt={savedFile.file.name} class="w-max h-[150px]">
                     <button type="button" class="opacity-0 bg-black/50 min-w-[150px] w-full absolute top-0 group-hover:opacity-100 transition-all ease-in duration-100 h-[150px]" on:click={()=>dispatch("viewImage", {url: URL.createObjectURL(savedFile.file), alt: savedFile.file.name})}>
@@ -90,7 +93,7 @@
                 </button>  
             </div>
             {/each}
-            <button type="button" class="w-[150px] h-[150px] bg-base-200 flex flex-col items-center justify-center gap-2 relative">
+            <button type="button" class="w-[150px] h-[150px] bg-base-200 flex flex-col items-center justify-center gap-2 relative z-10">
                 <input title="Add Photos" type="file" class="opacity-0 absolute w-full h-full cursor-pointer" accept=".jpg, .jpeg, .png, .gif" multiple on:change={(event)=>changeHandler(event.target.files)}>
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5  text-inherit">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
@@ -99,7 +102,7 @@
             </button>
         </div>
     </section>
-    <div class="flex gap-2">
+    <div class="flex gap-2 z-10">
         <button type="submit" class="btn btn-success flex gap-2">
             <p>Post</p>
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">

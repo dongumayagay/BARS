@@ -61,7 +61,7 @@
                 </svg>
             </button>
         </div>
-        <small class="py-4 text-center text-info">To ensure that we will notify you regarding your request's status, we need to verify your email.</small>
+        <small class="py-4 text-center text-info">To ensure that we can notify you regarding your request's status, we need to verify your email.</small>
         <small class="w-full text-center">A code has been sent to:</small>
         <small class="w-full text-center font-bold underline">{email}</small>
         <div class="w-full flex flex-col items-center justify-center">

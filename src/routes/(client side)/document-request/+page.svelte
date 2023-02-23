@@ -66,6 +66,7 @@
                 contactNo: documentRequest.contactInfo.contactNo,
                 birthDate: documentRequest.contactInfo.birthdate,
                 email: documentRequest.contactInfo.email,
+                isViewed: false,
                 dateAdded: Timestamp.now(),
                 lastUpdated: Timestamp.now(),
                 docsRequested: documentRequest.listOfRequestedDocuments,

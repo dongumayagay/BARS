@@ -42,9 +42,9 @@
             </div>
         {:then url} 
             <!-- <img src={url} alt={message.filePath} class="h-[200px]"> -->
-            <div class="w-fit group relative">
-                <img src={url} alt={message.filePath} class="h-[200px]">
-                <button class="opacity-0 bg-black/50 w-full absolute top-0 group-hover:opacity-100 transition-all ease-in duration-100 h-[200px]" on:click={()=>dispatch("viewImage", {url, alt: message.filePath})}>
+            <div class="w-[50%] group relative">
+                <img src={url} alt={message.filePath} class="h-max ">
+                <button class="opacity-0 bg-black/50 w-full absolute top-0 group-hover:opacity-100 transition-all ease-in duration-100 h-full" on:click={()=>dispatch("viewImage", {url, alt: message.filePath})}>
                     <small class="text-neutral">Click to view</small>
                 </button>
             </div>

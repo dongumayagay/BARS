@@ -19,18 +19,6 @@
 
             if(dataToView.status === "Trashed"){
 
-                // Log to History
-                await addDoc(collection( db, "history"), {
-                    requesterFullName: dataToView.lastName + ", " + dataToView.firstName + " " +  dataToView.middleName,
-                    update: {
-                        previousStatus: dataToView.status,
-                        currentStatus: dataToView.previousStatus,
-                    },
-                    typeOfRequest: dataToView.typeOfRequest,
-                    logDate: Timestamp.now(),
-                    requestId: dataToView.requestId,
-                })
-
                 await updateDoc(docRef, {
                     status: dataToView?.previousStatus,
                     previousStatus: "",
@@ -56,7 +44,7 @@
             });
 
             console.log(JSON.stringify(result))
-            alert("This request's status has been successfully updated, click OK to close")
+            // alert("This request's status has been successfully updated, click OK to close")
             dispatch("close")
         } catch (error) {
             console.log(error)
@@ -67,22 +55,11 @@
         try {
             const docRef = doc(db, dataToView.collectionReference, dataToView.requestId);
 
-            await addDoc(collection( db, "history"), {
-                update: {
-                    previousStatus: dataToView.status,
-                    currentStatus: "Trashed",
-                },
-                requesterFullName: dataToView.lastName + ", " + dataToView.firstName + " " +  dataToView.middleName,
-                typeOfRequest: dataToView.typeOfRequest,
-                logDate: Timestamp.now(),
-                requestId: dataToView.requestId,
-            })
-
             await updateDoc(docRef, {
                 previousStatus: dataToView.status,
                 status: "Trashed",
             })
-            alert("Successfully moved to trash")
+            // alert("Successfully moved to trash")
             dispatch("close")
         } catch (error) {
             alert(error)
