@@ -34,7 +34,7 @@
         {#each announcements as announcement}
             <div class="bg-neutral w-full lg:w-full p-4 flex flex-col justify-start rounded-xl shadow-lg relative">
                 <div class="absolute top-0 left-0 w-full h-full flex items-center justify-center overflow-hidden z-10">
-                    <img src="/brgyLogo.png" alt="brgyLogo" class="w-[75%] lg:w-[50%] opacity-20">
+                    <img src="/brgyLogo.png" alt="brgyLogo" class="w-[75%] lg:w-[50%] opacity-10">
                 </div>
                 <div class="w-full flex justify-between z-20">
                     <div class="w-full pb-4 flex flex-col border-b-[2px] border-base-100">

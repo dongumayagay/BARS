@@ -109,14 +109,14 @@
     </section>
     <section class="bg-neutral w-full lg:w-full p-4 flex flex-col justify-start rounded-xl shadow-lg gap-2 relative">
         <div class="absolute top-0 left-0 w-full h-full flex items-center justify-center overflow-hidden">
-            <img src="/brgyLogo.png" alt="brgyLogo" class="w-[75%] lg:w-[50%] opacity-20">
+            <img src="/brgyLogo.png" alt="brgyLogo" class="w-[75%] lg:w-[50%] opacity-10 z-0">
         </div>
         <div class="w-full pb-4 flex flex-col border-b-[2px] border-base-100">
             <p class="text-xs lg:text-sm">{new Timestamp(announcement.datePosted.seconds, announcement.datePosted.nanoseconds).toDate()}</p>
             <p class="text-xs lg:text-sm">Posted by: {announcement?.postedBy??[]}</p>
         </div>
-        <input type="text"  placeholder="Type your title here"  class="input input-ghost w-full text-center font-bold text-xl focus:bg-inherit placeholder:text-center placeholder:text-inherit placeholder:opacity-70"  bind:value={announcement.title} required />
-        <textarea class="textarea textarea-ghost w-full focus:bg-inherit placeholder:text-inherit placeholder:opacity-70"  rows="5" placeholder="Type here" bind:value={announcement.content} required></textarea>
+        <input type="text"  placeholder="Type your title here"  class="input input-ghost w-full text-center font-bold text-xl focus:bg-transparent placeholder:text-center placeholder:text-inherit placeholder:opacity-70 z-10"  bind:value={announcement.title} required />
+        <textarea class="textarea textarea-ghost w-full focus:bg-transparent placeholder:text-inherit placeholder:opacity-70 z-10"  rows="5" placeholder="Type here" bind:value={announcement.content} required></textarea>
         <div class="h-max flex justify-center flex-wrap gap-5">
             {#each filePaths as fullpath, index}
             <div class="min-w-[150px] w-max relative ">
