@@ -144,7 +144,7 @@
             {/if}
         </div>
     </div>
-    <div class="p-4 w-full h-max min-h-[80vh] flex items-start justify-start gap-10">
+    <div class="p-4 w-full h-max min-h-[80vh] flex flex-col lg:flex-row items-start justify-start gap-10">
         <NavigationButtons {page} on:navigate={(event) => page = event.detail.index}/>
         <section class="w-full" class:hidden={page !== 0}>
             <RequestDetails {dataToView} on:viewImage={(event)=>console.log(event.detail.url)}/>

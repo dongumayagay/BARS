@@ -66,7 +66,7 @@
 
 <div class="w-full h-full flex flex-col items-center" class:hidden={page !== 1}>
     <div class="w-full h-full  flex flex-col items-center p-6" class:hidden={viewing}>
-        <div class="w-full flex justify-center">
+        <div class="w-full h-full flex justify-center">
             <div class="w-max flex items-center justify-end gap-2">
                 <small class="font-semibold">Sort by:</small>
                 <select class="select select-sm select-primary w-max" bind:value={columnToSort}>
@@ -80,7 +80,7 @@
                 </select>
             </div>
         </div>
-        <div class=" w-full overflow-auto flex flex-col gap-4 py-6">
+        <div class="w-full h-full overflow-auto flex flex-col gap-4 py-6">
             <DocumentRequestsTable documentRequests={readyToClaimDocuments} on:view={viewHandler} />
         </div>
     </div>

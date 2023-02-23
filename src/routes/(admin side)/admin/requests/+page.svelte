@@ -39,9 +39,9 @@
 
 <main class="w-full h-full flex flex-col items-center p-4 px-1 ">
 
-	<div class="w-full h-screen bg-neutral flex flex-col items-center pb-[5vh] rounded-b-lg">
+	<div class="w-full h-max min-h-screen bg-neutral flex flex-col items-center pb-[10vh] rounded-b-lg">
         <DAHeader {page} {newRequestsCounter} on:switchTab={navigate}/>
-		<div class="w-[90%] h-full bg-base-100 flex justify-center border-[1px] border-base-300 rounded-lg">
+		<div class="w-[90%] h-max min-h-[100vh] bg-base-100 flex justify-center border-[1px] border-base-300 rounded-lg">
             <PendingList {page} 
                 on:newDocRequest={()=>newDocumentRequestsCounter++} 
                 on:newAptRequest={()=>newAppointmentRequestsCounter++} 

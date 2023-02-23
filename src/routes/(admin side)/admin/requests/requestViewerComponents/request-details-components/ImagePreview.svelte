@@ -2,6 +2,7 @@
     import {createEventDispatcher} from "svelte"
     import { storage } from "$lib/firebase/client.js"
     import { ref, getDownloadURL, listAll } from "firebase/storage";
+    import { Circle } from "svelte-loading-spinners";
 
     export let requestId;
     export let documentName;
@@ -51,8 +52,8 @@
 {#if requirementsList.length > 0}
     {#each requirementsList as requirement}
         {#await fetchURLHandler(requirement.filePath)}
-            <div class="w-[150px] h-[150px] flex flex-col items-center justify-center">
-                <img src="/loading.png" alt="loader" class="h-[20%]">
+            <div class="w-[150px] h-[150px] flex flex-col items-center justify-center gap-2">
+                <Circle/>
                 <small>Loading image..</small>
             </div>
         {:then url} 
