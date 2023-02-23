@@ -26,7 +26,7 @@
 		<nav class="w-full items-end flex-1 hidden lg:flex justify-evenly tabs">
 			{#each links as link, index}
 				<div class="indicator">
-					<span class="indicator-item badge badge-error" class:hidden={index!==0 || newRequestsCounter === 0}>{(index===0)? newRequestsCounter : ""}</span>
+					<!-- <span class="indicator-item badge badge-error" class:hidden={index!==0 || newRequestsCounter === 0}>{(index===0)? newRequestsCounter : ""}</span> -->
 					<button
 						on:click={()=>{
 							dispatch("switchTab", {index})
