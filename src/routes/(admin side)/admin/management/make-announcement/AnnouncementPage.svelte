@@ -85,7 +85,7 @@
 </script>
 
 
-<section class="w-full h-full flex flex-col p-4 gap-6 rounded-lg shadow-lg" class:hidden={managementPage !== 0}>
+<section class="w-full h-full flex flex-col p-4 gap-6 rounded-lg" class:hidden={managementPage !== 0}>
     {#if !showEditor}
     <AnnouncementMainPage {postedAnnouncements} {page} on:next={()=> page = 1} on:edit={showEditorHandler}/>
     <AnnouncementMaker {page} on:close={()=> page = 0}/>
