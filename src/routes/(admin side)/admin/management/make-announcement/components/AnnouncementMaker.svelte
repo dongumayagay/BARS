@@ -5,6 +5,7 @@
 	import { addDoc, collection, Timestamp } from "firebase/firestore";
 	import { uploadBytes, ref } from "firebase/storage";
     import { createEventDispatcher } from "svelte";
+    import { Circle } from "svelte-loading-spinners";
 	import AnnouncementPreviewForm from "./AnnouncementPreviewForm.svelte";
 
     export let page;
@@ -109,6 +110,7 @@
     {#if showUploadingModal}
         <section class="fixed top-0 left-0 w-screen h-screen bg-black/70 flex justify-center items-center z-20">
             <div class="w-[50vw] h-[50vh] bg-neutral flex jusitfy-center items-center rounded-xl shadow-lg">
+                <Circle/>
                 <p class="w-full font-bold text-center">Uploading announcement. Please wait...</p>
             </div>
         </section>
