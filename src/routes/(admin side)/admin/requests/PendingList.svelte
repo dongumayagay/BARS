@@ -23,9 +23,9 @@
                 nextStatus: "Ready to claim",
                 nextStatusEmailContent: "Good Day! Your requested document/s are now ready. Please bring the original copy of requirements along with you."
             }))
-            querySnapshot.docs.map((doc)=>{
-                if(!doc.data().isViewed){dispatch("newDocRequest")}
-            })
+            // querySnapshot.docs.map((doc)=>{
+            //     if(!doc.data().isViewed){dispatch("newDocRequest")}
+            // })
         })
         return()=>{
             pendingDocumentRequestsUnsub();
@@ -43,9 +43,9 @@
                 nextStatus: "Ready to claim",
                 nextStatusEmailContent: "Good Day! Your requested document/s are now ready. Please bring the original copy of requirements along with you."
             }))
-            querySnapshot.docs.map((doc)=>{
-                if(!doc.data().isViewed){dispatch("newAptRequest")}
-            })
+            // querySnapshot.docs.map((doc)=>{
+            //     if(!doc.data().isViewed){dispatch("newAptRequest")}
+            // })
         })
         return ()=>{
             pendingAppointmentRequestsUnsub()
@@ -60,17 +60,17 @@
     let allPendingRequests = [];
 
     async function viewHandler(event) {
-        if(!event.detail.requestData?.isViewed){
-            const updateRef = await updateDoc(doc(db, event.detail.requestData.collectionReference, event.detail.requestData.requestId), {
-                isViewed: true,
-            })
-            if(event.detail.requestData.typeOfRequest === "Document Request"){
-                dispatch("minusDocNotifCounter")
-            } else {
-                dispatch("minuAptNotifCounter")
-            }
-        }
-        dataToView = event.detail.requestData;
+        // if(!event.detail.requestData?.isViewed){
+        //     const updateRef = await updateDoc(doc(db, event.detail.requestData.collectionReference, event.detail.requestData.requestId), {
+        //         isViewed: true,
+        //     })
+        //     if(event.detail.requestData.typeOfRequest === "Document Request"){
+        //         dispatch("minusDocNotifCounter")
+        //     } else {
+        //         dispatch("minuAptNotifCounter")
+        //     }
+        // }
+    dataToView = event.detail.requestData;
         viewing = true;
 
     }
