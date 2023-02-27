@@ -18,7 +18,15 @@
     let isAdd;
     onMount(()=>{
         const unsub = onSnapshot(collection(db, "officialsList"), (querySnapshot)=>{
-            officials = querySnapshot.docs.map((doc)=>({...doc.data(), id: doc.id}))
+            officials = querySnapshot.docs.map((doc)=>({
+                id: doc.id,
+                name: doc.data().name,
+                position: doc.data().position,
+                positionOrder: doc.data().positionOrder,
+                facebook: (doc.data().facebook === "" ? undefined : doc.data().facebook),
+                email: (doc.data().email === "" ? undefined : doc.data().email),
+                phone: (doc.data().phone === "" ? undefined : doc.data().phone),
+            }))
         })
         console.log(officials)
         return()=>{
