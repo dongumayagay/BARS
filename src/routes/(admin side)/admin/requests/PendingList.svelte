@@ -40,7 +40,7 @@
                 typeOfRequest: "Appointment Request",
                 requestPath: "appointment-request",
                 collectionReference: "appointmentRequests",
-                nextStatus: "Ready to claim",
+                nextStatus: "Approved",
                 nextStatusEmailContent: "Good Day! Your requested document/s are now ready. Please bring the original copy of requirements along with you."
             }))
             // querySnapshot.docs.map((doc)=>{
