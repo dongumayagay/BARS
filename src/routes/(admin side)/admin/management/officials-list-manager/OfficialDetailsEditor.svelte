@@ -22,20 +22,24 @@
                 const addOfficialRef =  await addDoc(collection(db, "officialsList"),{
                     name: officialDetails.name,
                     position: officialDetails.position,
+                    posisyon: officialDetails?.posisyon??"",
                     positionOrder: officialDetails.positionOrder, 
                     facebook: officialDetails?.facebook??"",
                     email: officialDetails?.email??"",
-                    phone: officialDetails?.phone??""
+                    phone: officialDetails?.phone??"",
+                    departments: officialDetails?.departments??""
 
                 })
             } else {
                 const updateOfficialRef = await updateDoc(doc(db, "officialsList", officialDetails.id),{
                     name: officialDetails.name,
                     position: officialDetails.position,
+                    posisyon: officialDetails?.posisyon??"",
                     positionOrder: officialDetails.positionOrder, 
                     facebook: officialDetails?.facebook??"",
                     email: officialDetails?.email??"",
-                    phone: officialDetails?.phone??""
+                    phone: officialDetails?.phone??"",
+                    departments: officialDetails?.departments??""
                 })
             }
         } catch (error) {
@@ -82,6 +86,11 @@
             <div class="w-full flex flex-col items-center gap-2 border-b-2">
                 <p class="font-semibold">{officialDetails.position}'s Name:</p>
                 <input type="text" class="w-full text-center input input-ghost focus:bg-transparent focus:outline-0" placeholder="Type Here" required bind:value={officialDetails.name}>
+            </div>
+            <div class="w-full flex flex-col items-center gap-2 border-b-2">
+                <p class="font-semibold">{officialDetails.position}'s Departments</p>
+                <input type="text" class="w-full text-center input input-sm input-ghost focus:bg-transparent focus:outline-0" placeholder="Type Here" bind:value={officialDetails.departments}>
+            <!-- </input> -->
             </div>
             <div class="w-full flex justify-center py-1">
                 {#if !!officialDetails.facebook || officialDetails.facebook === ""}

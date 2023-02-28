@@ -26,6 +26,7 @@
                 facebook: (doc.data().facebook === "" ? undefined : doc.data().facebook),
                 email: (doc.data().email === "" ? undefined : doc.data().email),
                 phone: (doc.data().phone === "" ? undefined : doc.data().phone),
+                departments: (doc.data().departments === "" ? undefined : doc.data().departments),
             }))
         })
         console.log(officials)
@@ -37,6 +38,7 @@
     function addHandler(event){
         officialDetailToEdit = {
             position: event.detail.position,
+            posisyon: event.detail.posisyon,
             positionOrder: event.detail.positionOrder,
         }
         isAdd = true
@@ -55,7 +57,7 @@
         officialDetailToEdit = {};
         showEditor = false;
     }
-
+     $: console.log(officialDetailToEdit)
 </script>
 
 <section class="w-full h-full grid grid-rows-3 justify-cetner relative" class:hidden={managementPage !== 2}>

@@ -6,7 +6,8 @@
 
     function addHandler(){
         dispatch("add", {
-            position: "Barangay Secretary", 
+            position: "Barangay Captain",
+            posisyon: "Punong Barangay", 
             positionOrder: 3
         })
     }
