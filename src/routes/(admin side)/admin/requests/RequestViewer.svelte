@@ -1,19 +1,19 @@
 <script>
     import { createEventDispatcher } from "svelte";
-    import { jsPDF } from "jspdf"
-    import { addDoc, doc, Timestamp, updateDoc, collection, deleteDoc, query, where, getDoc } from "firebase/firestore"; 
+    import { addDoc, doc, Timestamp, updateDoc, collection, deleteDoc, query, where, getDoc, getDocs, orderBy } from "firebase/firestore"; 
     import { db, storage } from "$lib/firebase/client.js"
     import { sendEmail } from '$lib/utils';
 	import NavigationButtons from "./requestViewerComponents/NavigationButtons.svelte";
 	import RequestDetails from "./requestViewerComponents/request-details-components/RequestDetails.svelte";
 	import RequestMessages from "./requestViewerComponents/messaging-components/RequestMessages.svelte";
 	import { deleteObject, listAll, ref } from "firebase/storage";
+    import { jsPDF } from "jspdf"
+    import "jspdf-autotable";
     
     const dispatch = createEventDispatcher();
-    const document = new jsPDF();
-    const randomString = "ouarogfbvoejrf"
 
     export let dataToView;
+    export let officialsList;
     let page = 0;
 
     async function updateHandler() {
@@ -21,37 +21,114 @@
             const docRef = doc(db, dataToView.collectionReference, dataToView.requestId);
             // const something = await getDoc(docRef)
 
-            if(dataToView.status === "Trashed"){
+            // if(dataToView.status === "Trashed"){
 
-                await updateDoc(docRef, {
-                    status: dataToView?.previousStatus,
-                    previousStatus: "",
-                    lastUpdated: Timestamp.now()
-                })
-            } else {
+            //     await updateDoc(docRef, {
+            //         status: dataToView?.previousStatus,
+            //         previousStatus: "",
+            //         lastUpdated: Timestamp.now()
+            //     })
+            // } else {
 
-                if(dataToView.nextStatus === "Request Completed"){ 
-                    clearDocumentRequestFiles();
+            //     if(dataToView.nextStatus === "Request Completed"){ 
+            //         clearDocumentRequestFiles();
                      
-                }
-                await updateDoc(docRef, {
-                    status: dataToView.nextStatus,
-                    lastUpdated: Timestamp.now()
-                })
-            }
+            //     }
+            //     await updateDoc(docRef, {
+            //         status: dataToView.nextStatus,
+            //         lastUpdated: Timestamp.now()
+            //     })
+            // }
 
-            const result = await sendEmail({
-                to: dataToView.email,
-                subject: dataToView.typeOfRequest + 'Status Update',
-                html: '<p>' + dataToView.nextStatusEmailContent??[] + '<p>'
-            });
+            // const result = await sendEmail({
+            //     to: dataToView.email,
+            //     subject: dataToView.typeOfRequest + 'Status Update',
+            //     html: '<p>' + dataToView.nextStatusEmailContent??[] + '<p>'
+            // });
 
             // document.addImage("/brgyLogo.png", "PNG", 15, 40, 180, 180);
             // document.text(JSON.stringify(something.data().firstName), 50, 85,)
-            // document.save("sample.pdf")
-            console.log(JSON.stringify(result))
-            alert("This request's status has been successfully updated, click OK to close")
-            dispatch("close")
+
+
+            // const pdf = new jsPDF();
+
+            // get the current page size
+            // const pageSize = document.internal.pageSize.;
+
+            // extract the width and height from the page size object
+            const officialsList = await getDocs(query(collection(db, "officialsList"), orderBy("positionOrder", "asc")))
+            const document = new jsPDF("p", "px", "letter");
+            // const fontList = document.getFontList();
+
+            const pageWidth = document.internal.pageSize.width;
+            const pageHeight = document.internal.pageSize.height;
+            
+            // document.rect(headerBoxX, headerBoxY, pageWidth, headerBoxHeight);
+            document.setFont("times", "normal")
+            document.setFontSize(8)
+            document.text("REPUBLIC OF THE PHILIPPINES", pageWidth/2 ,10, { maxWidth: pageWidth, align: "center",})
+
+            document.text("PROVINCE OF LAGUNA", pageWidth/2 ,18, { maxWidth: pageWidth, align: "center",})
+
+            document.text("CITY OF SAN PEDRO", pageWidth/2 ,26, { maxWidth: pageWidth, align: "center",})
+
+            document.text("BARANGAY UNITED BAYANIHAN", pageWidth/2 ,34, { maxWidth: pageWidth, align: "center",})
+
+            document.setFont("helvetica", "bold")
+            document.setFontSize(14)
+            document.setTextColor("#16a34a")
+            document.text("OFFICE OF THE BARANGAY CHAIRMAN", pageWidth/2 ,48, { maxWidth: pageWidth, align: "center",})
+
+            document.setFont("times", "italic")
+            document.setFontSize(8)
+            document.setTextColor("")
+            document.text("Tel No. (02) 961-43-44", pageWidth/2 ,58, { maxWidth: pageWidth, align: "center",})
+            document.addImage("/brgyLogo.png", 15,5,60,60)
+            
+            document.setLineWidth(1.5)
+            document.setDrawColor("#2563eb")
+            document.line( 0, 70, pageWidth, 70)
+            document.line(pageWidth * 0.28, 70, pageWidth * 0.28, pageHeight - 20)
+
+            document.setFont("helvetica", "bold")
+            document.setFontSize(10)
+            document.setTextColor("#b91c1c")
+            document.text("Sanguniang Barangay", (pageWidth * 0.28)/2, 80, {maxWidth: (pageWidth * 0.28) * 0.80, align: "center" })
+
+
+            // console.log(document.getFontList())
+
+            let totalOfficialsBoxHeight = 85;
+
+            officialsList.docs.map((doc, index)=>{
+                let rectHeight; 
+                if(doc.data().departments === "") {rectHeight = 20} else {rectHeight = 47}
+                // document.rect( (pageWidth * 0.28) * 0.05, 5 + totalOfficialsBoxHeight, (pageWidth * 0.28)*0.9, rectHeight)
+
+                document.setFont("helvetica", "bold")
+                document.setFontSize(8      )
+                document.setTextColor("")
+                document.text("HON. " + doc.data().name.toUpperCase(), (pageWidth * 0.28)/2, 10 + totalOfficialsBoxHeight,  {maxWidth: (pageWidth * 0.28) * 0.90, align: "center" })
+
+                document.setFont("helvetica", "normal")
+                document.setFontSize(8)
+                document.setTextColor("#b91c1c")
+                document.text((doc.data().posisyon == "" ? doc.data().position : doc.data().posisyon), (pageWidth * 0.28)/2, 18 + totalOfficialsBoxHeight, {maxWidth: (pageWidth * 0.28) * 0.80, align: "center" })
+
+                document.setFontSize(8)
+                document.setTextColor("")
+                document.text(doc.data().departments??"", (pageWidth * 0.28)/2, 26 + totalOfficialsBoxHeight, {maxWidth: (pageWidth * 0.28) * 0.80, align: "center" })
+
+                totalOfficialsBoxHeight += 5 + rectHeight;
+            })
+
+
+            document.save("sample.pdf")
+
+
+            // console.log(JSON.stringify(result))
+            // alert("This request's status has been successfully updated, click OK to close")
+            // dispatch("close")
         } catch (error) {
             console.log(error)
         }  
@@ -110,7 +187,6 @@
                     files.items.forEach((file)=>{
                         const fileRef = ref(storage, file.fullPath)
                         deleteObject(fileRef)
-
                     })
                 })
             })

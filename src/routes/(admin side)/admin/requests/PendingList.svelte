@@ -9,6 +9,7 @@
     import { createEventDispatcher } from "svelte"
     
     export let page;
+    // export let officialsList;
 
     const dispatch = createEventDispatcher();
 
@@ -157,6 +158,7 @@
     </div>
     {#if viewing}
         <RequestViewer {dataToView} on:close={closeHandler}/>
+        <!-- {officialsList} -->
     {/if}
 
 </main>
