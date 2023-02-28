@@ -36,7 +36,7 @@
                     </div>
                     <div class="w-full flex flex-col items-start justify-start gap-2">
                         <p class="w-full font-semibold lg:text-md">Purpose of the request: </p>
-                        <p class="w-full text-center lg:text-md">{documentRequest.contactInfo.purpose}</p>
+                        <p class="w-full text-center lg:text-md">{documentRequest.selectedPurpose}</p>
                     </div>
                 </div>
             </div>

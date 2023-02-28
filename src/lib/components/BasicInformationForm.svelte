@@ -1,5 +1,54 @@
 <script>
-    import { createEventDispatcher } from 'svelte';
+    import { createEventDispatcher, onMount } from 'svelte';
+    import { userStore } from "$lib/stores.js"
+    import { db } from "$lib/firebase/client.js"
+	import { collection, getDoc, where, query, doc } from 'firebase/firestore';
+	// import { onMount } from 'svelte/types/runtime/internal/lifecycle';
+
+    export let isDocumentRequest, isRequestForSomeone;
+
+    let contactInfo = {}
+
+    onMount(()=>{
+        if(isDocumentRequest){
+            if(!isRequestForSomeone){
+                if(!!$userStore){
+                    getUser()
+                }
+            } else {
+                contactInfo = {
+                    lastName: "",
+                    firstName: "",
+                    middleName: "",
+                    address: "",
+                    birthdate: "",
+                    email: "",
+                    contactNo: "",
+                    purpose: "",
+                }
+            }
+        } 
+
+
+        if(!isDocumentRequest) {
+            if(!!$userStore){
+                getUser()
+            } else {
+                contactInfo = {
+                    lastName: "",
+                    firstName: "",
+                    middleName: "",
+                    address: "",
+                    birthdate: "",
+                    email: "",
+                    contactNo: "",
+                    purpose: "",
+                }
+            }
+        }
+    })
+
+    
 
     const dispatch = createEventDispatcher()
 
@@ -19,22 +68,32 @@
     
     let todayFormat = today.getFullYear() + "-" + monthFormat + "-" + dateFormat;
     
-    let contactInfo = {
-        lastName: "",
-        firstName: "",
-        middleName: "",
-        address: "",
-        birthdate: "",
-        email: "",
-        contactNo: "",
-        purpose: "",
-    }
+    
     
     function submitHandler() {
         dispatch("next", {
             contactInfo
         })
     }
+
+    async function getUser(){
+        if(!!$userStore){
+            const userCredentials = await getDoc(doc(db, "users", $userStore.uid))
+            contactInfo = Object.assign(contactInfo, {
+                lastName: userCredentials.data().lastName,
+                firstName: userCredentials.data().firstName,
+                middleName: userCredentials.data().middleName??"",
+                address: userCredentials.data().address,
+                birthdate: userCredentials.data().birthdate,
+                email: $userStore.email,
+                contactNo: userCredentials.data().contactNo,
+                purpose: "",
+
+            })
+        }
+    }
+
+    $: console.log($userStore, contactInfo)
 
 //  $: console.log(JSON.stringify(contactInfo))
 </script>
@@ -89,7 +148,7 @@
         </div>
         <div class="group flex flex-col flex-1 ">
             <label for="email" class="label">
-                <span class="label-text">Email Address</span>
+                <span class="label-text">Contact Email Address</span>
               </label>
             <input required title="Please enter your valid Email address" type="email" id="email" name="email" placeholder="example@email.com" class="input input-bordered input-md input-primary w-full bg-neutral focus:border-primary focus:outline-offset-[3px]"
             bind:value={contactInfo.email}
@@ -113,12 +172,14 @@
             bind:value={contactInfo.contactNo}
               />
         </div>
-        <div class="flex flex-col flex-1 ">
-            <label for="purpose" class="label">
-                <span class="label-text">Purpose of the Request</span>
-              </label>
-            <textarea class="textarea textarea-primary w-full bg-neutral focus:border-primary focus:outline-offset-[3px]" placeholder="example: Job Requirement" bind:value={contactInfo.purpose}></textarea>
-        </div>
+        {#if !isDocumentRequest}
+            <div class="flex flex-col flex-1 ">
+                <label for="purpose" class="label">
+                    <span class="label-text">Purpose of the Request</span>
+                </label>
+                <textarea class="textarea textarea-primary w-full bg-neutral focus:border-primary focus:outline-offset-[3px]" placeholder="example: Job Requirement" bind:value={contactInfo.purpose}></textarea>
+            </div>
+        {/if}
     </section>
     
     <section class="flex gap-4">
