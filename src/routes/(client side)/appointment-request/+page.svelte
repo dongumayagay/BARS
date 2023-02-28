@@ -4,8 +4,8 @@
     import RequestCompleted from "$lib/components/RequestCompleted.svelte"; 
 	import OfficialsList from "./OfficialsList.svelte";
 	import ConfirmAppointment from "./ConfirmAppointment.svelte";
-    import Otp from "./OTP.svelte";
-    import DataPrivacyConsent from "./DataPrivacyConsent.svelte";
+    import Otp from "$lib/components/OTP.svelte";
+    import DataPrivacyConsent from "$lib/components/DataPrivacyConsent.svelte";
     import {db} from '$lib/firebase/client.js'
     import {addDoc, collection, Timestamp} from 'firebase/firestore';
     import { sendEmail } from '$lib/utils.js';
@@ -110,7 +110,7 @@
         </ul>
 
         <div  class="w-[90%] lg:w-[45%] p-4 lg:px-10 bg-neutral rounded-xl flex flex-col justify-center shadow-xl gap-3" class:hidden={page !== 0}>
-            <InfoForm on:next={nextHandler}/>
+            <InfoForm on:next={nextHandler} isDocumentRequest={false}/>
         </div>
         <Otp email={appointmentRequest.contactInfo?.email??""} {showOTPModal} on:emailVerified={emailVerifier} on:close={()=>showOTPModal=false}/>
 

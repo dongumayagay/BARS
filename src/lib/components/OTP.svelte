@@ -13,10 +13,10 @@
 
     async function sendCode() {
         code = JSON.stringify(Math.floor(Math.random() * 999999))
-        // console.log(code)
+        console.log(code)
 		const result = await sendEmail({
 			to: email,
-			subject: 'Appointment Request Email Verification',
+			subject: 'Document Request Email Verification',
 			html: '<p>Your verification code: ' + code + '</p>'
 		});
 
