@@ -1,6 +1,7 @@
 <script>
     import { createEventDispatcher } from "svelte";
-    import { addDoc, doc, Timestamp, updateDoc, collection, deleteDoc, query, where, getDocs } from "firebase/firestore"; 
+    import { jsPDF } from "jspdf"
+    import { addDoc, doc, Timestamp, updateDoc, collection, deleteDoc, query, where, getDoc } from "firebase/firestore"; 
     import { db, storage } from "$lib/firebase/client.js"
     import { sendEmail } from '$lib/utils';
 	import NavigationButtons from "./requestViewerComponents/NavigationButtons.svelte";
@@ -9,6 +10,8 @@
 	import { deleteObject, listAll, ref } from "firebase/storage";
     
     const dispatch = createEventDispatcher();
+    const document = new jsPDF();
+    const randomString = "ouarogfbvoejrf"
 
     export let dataToView;
     let page = 0;
@@ -16,6 +19,7 @@
     async function updateHandler() {
         try {
             const docRef = doc(db, dataToView.collectionReference, dataToView.requestId);
+            // const something = await getDoc(docRef)
 
             if(dataToView.status === "Trashed"){
 
@@ -30,7 +34,6 @@
                     clearDocumentRequestFiles();
                      
                 }
-
                 await updateDoc(docRef, {
                     status: dataToView.nextStatus,
                     lastUpdated: Timestamp.now()
@@ -43,8 +46,11 @@
                 html: '<p>' + dataToView.nextStatusEmailContent??[] + '<p>'
             });
 
+            // document.addImage("/brgyLogo.png", "PNG", 15, 40, 180, 180);
+            // document.text(JSON.stringify(something.data().firstName), 50, 85,)
+            // document.save("sample.pdf")
             console.log(JSON.stringify(result))
-            // alert("This request's status has been successfully updated, click OK to close")
+            alert("This request's status has been successfully updated, click OK to close")
             dispatch("close")
         } catch (error) {
             console.log(error)
