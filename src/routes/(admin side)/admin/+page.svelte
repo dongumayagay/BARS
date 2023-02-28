@@ -28,7 +28,7 @@
 
 <main class="w-full h-full flex justify-center items-center">
     {#if !$userStore}
-        <LoginForm on:submit={submitHandler}/>
+        <LoginForm title={'Admin Login'} on:submit={submitHandler}/>
         
     {/if}
 </main>
