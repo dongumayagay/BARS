@@ -48,8 +48,6 @@
         }
     })
 
-    
-
     const dispatch = createEventDispatcher()
 
     const today = new Date();
