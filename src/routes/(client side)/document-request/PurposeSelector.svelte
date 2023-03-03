@@ -22,7 +22,7 @@
     <p>Select the purpose of your document</p>
     <select class="select select-neutral" required bind:value={selectedPurpose}>
         <option value="" disabled selected>Select Purpose</option>
-        <option value="Iskolar ng Lungsod ng San Pedro Scholarship" >ILSP Scholarship</option>
+        <option value="ILSP Scholarship" >ILSP Scholarship</option>
         <option value="Iskolar ng Laguna Scholarship" >Iskolar ng Laguna</option>
         <option value="Calamity Loan" >Calamity Loan</option>
         <option value="Proof of Residency" >Proof of Residency</option>

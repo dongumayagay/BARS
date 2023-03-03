@@ -8,8 +8,12 @@
     import {goto} from '$app/navigation';
     import { userStore, currentPage } from '$lib/stores.js'
 	import { onMount } from 'svelte';
-	import { collection, getDocs } from 'firebase/firestore';
+	import { collection, getDocs, onSnapshot } from 'firebase/firestore';
     import { db } from "$lib/firebase/client.js"
+
+    // onMount(()=>{
+    //     const documentunsub = onSnapshot(collection(db, ""))
+    // })
 
     $currentPage = 1;
 

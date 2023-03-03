@@ -1,8 +1,14 @@
 import { onAuthStateChanged } from 'firebase/auth';
-import { auth } from '$lib/firebase/client.js';
+import { collection, getDocs} from "firebase/firestore"
+import { auth, db } from '$lib/firebase/client.js';
 import { browser } from '$app/environment';
 import { readable, writable } from "svelte/store";
+import { onMount } from 'svelte';
 
+// onMount(async ()=>{
+//     const userEmails = await getDocs(collection(db, "adminUsers"))
+//     adminUsers = userEmails.docs.map((doc)=>({...doc.data()}))
+// })
 export let currentPage = writable(0);
 
 export let currentInterface = writable(null)
@@ -13,6 +19,12 @@ export const userStore = readable(undefined, set => {
     )
     return () => unsubscribe()
 })
+
+export let adminUsers = readable([
+    {email: "user@sample.com"}
+]);
+
+
 
 
 export const months = [
@@ -39,4 +51,8 @@ export const weekDays = [
     "Fri",
     "Sat",
 
+]
+
+export const ordinals = [
+    "th", "st", "nd", "rd", "th", "th", "th", "th", "th", "th"
 ]
