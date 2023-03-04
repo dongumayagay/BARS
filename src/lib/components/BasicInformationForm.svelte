@@ -8,6 +8,9 @@
     export let isDocumentRequest, isRequestForSomeone;
 
     let contactInfo = {}
+    let authorizedRequestor;
+    let othersCivilStatus = "";
+    let othersNationality = "";
 
     onMount(()=>{
         if(isDocumentRequest){
@@ -20,11 +23,14 @@
                     lastName: "",
                     firstName: "",
                     middleName: "",
+                    suffix: "",
                     address: "",
                     birthdate: "",
                     email: "",
                     contactNo: "",
                     purpose: "",
+                    civilStatus: "",
+                    nationality: "",
                 }
             }
         } 
@@ -38,11 +44,14 @@
                     lastName: "",
                     firstName: "",
                     middleName: "",
+                    suffix: "",
                     address: "",
                     birthdate: "",
                     email: "",
                     contactNo: "",
                     purpose: "",
+                    civilStatus: "",
+                    nationality: "",
                 }
             }
         }
@@ -70,7 +79,8 @@
     
     function submitHandler() {
         dispatch("next", {
-            contactInfo
+            contactInfo, 
+            authorizedRequestor: authorizedRequestor??""
         })
     }
 
@@ -81,12 +91,14 @@
                 lastName: userCredentials.data().lastName,
                 firstName: userCredentials.data().firstName,
                 middleName: userCredentials.data().middleName??"",
+                suffix: userCredentials.data().suffix??"",
                 address: userCredentials.data().address,
                 birthdate: userCredentials.data().birthdate,
                 email: $userStore.email,
                 contactNo: userCredentials.data().contactNo,
                 purpose: "",
-
+                civilStatus: (contactInfo.civilStatus === "others" ? othersCivilStatus : contactInfo.civilStatus),
+                nationality: (contactInfo.nationality === "others" ? othersNationality : contactInfo.nationality),
             })
         }
     }
@@ -108,7 +120,18 @@
         <h1 class="font-bold text-center">Basic Information</h1>
     </section>
     <section class="flex flex-col gap-4">
-
+        {#if isRequestForSomeone}
+        <div class="flex flex-col flex-1">
+            <label for="lastName" class="label">
+                <span class="label-text">Authorized Requester's Full Name</span>
+                </label>
+            <input required title="Please enter your full name" type="text" 
+                placeholder="Last Name, First Name, M.I. Suffix"
+                class="input input-bordered input-md input-primary w-full bg-neutral focus:border-primary focus:outline-offset-[3px]"
+                bind:value={authorizedRequestor}
+                />
+        </div>
+        {/if}
         <div class="flex flex-col flex-1">
             <label for="lastName" class="label">
                 <span class="label-text">Last Name</span>
@@ -133,6 +156,14 @@
             </label>
             <input  type="text" title="Disregard if not applicable" id="middleName" name="middleName" placeholder="(optional)" class="input input-bordered input-md input-primary w-full bg-neutral focus:border-primary focus:outline-offset-[3px]"
             bind:value={contactInfo.middleName}
+             />
+        </div>
+        <div class="flex flex-col flex-1">
+            <label for="middleName" class="label">
+                <span class="label-text">Suffixes</span>
+            </label>
+            <input  type="text" title="Disregard if not applicable" id="middleName" name="middleName" placeholder="(optional) Jr, Sr, II, III, IV, etc." class="input input-bordered input-md input-primary w-full bg-neutral focus:border-primary focus:outline-offset-[3px]"
+            bind:value={contactInfo.suffix}
              />
         </div>
         <div class="flex flex-col flex-1">
@@ -162,13 +193,48 @@
                 />
             </div>
         </section>
+        <section>
+            <div class="flex flex-col flex-1 ">
+                <label for="civilStatus" class="label">
+                    <span class="label-text">Civil Status</span>
+                  </label>
+                  <div class="w-full flex justify-between gap-2">
+                      <select class="select select-bordered focus:bg-transparent border-primary select-ghost" required bind:value={contactInfo.civilStatus}>
+                        <option value="Single" selected>Single</option>
+                        <option value="Married" >Married</option>
+                        <option value="Separated" >Separated</option>
+                        <option value="Widowed" >Widowed</option>
+                        <option value="others" >Others</option>
+                    </select>
+                    {#if contactInfo.civilStatus === "others"}
+                        <input required type="text" id="specify" class="w-full lg:w-max bg-transparent border-b-2 focus:bg-transparent text-center" placeholder="Please specify" bind:value={othersCivilStatus}>
+                    {/if}
+                </div>
+            </div>
+        </section>
+        <section>
+            <div class="flex flex-col flex-1 ">
+                <label for="civilStatus" class="label">
+                    <span class="label-text">Nationality</span>
+                  </label>
+                  <div class="w-full flex justify-between gap-2">
+                    <select class="select select-bordered focus:bg-transparent border-primary select-ghost" required bind:value={contactInfo.nationality}>
+                      <option value="Filipino" selected>Filipino</option>
+                      <option value="others" >Others</option>
+                  </select>
+                  {#if contactInfo.nationality === "others"}
+                    <input required type="text" id="specify" class="w-full lg:w-max bg-transparent border-b-2 focus:bg-transparent text-center" placeholder="Please specify" bind:value={othersNationality}>
+                  {/if}
+                </div>
+            </div>
+        </section>
         <div class="flex flex-col flex-1 ">
             <label for="contact" class="label">
                 <span class="label-text">Phone Number</span>
-              </label>
+            </label>
             <input required title="Please enter your valid phone number" type="tel" id="contact" name="contact" placeholder="09** *** ****" maxlength="11" class="input input-bordered input-md input-primary w-full bg-neutral focus:border-primary focus:outline-offset-[3px]"
-            bind:value={contactInfo.contactNo}
-              />
+                bind:value={contactInfo.contactNo}
+            />
         </div>
         {#if !isDocumentRequest}
             <div class="flex flex-col flex-1 ">

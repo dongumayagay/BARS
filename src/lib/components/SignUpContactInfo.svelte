@@ -25,6 +25,7 @@
         lastName: "",
         firstName: "",
         middleName: "",
+        suffix: "",
         address: "",
         birthdate: "",
         contactNo: "",
@@ -74,6 +75,14 @@
             </label>
             <input  type="text" title="Disregard if not applicable" id="middleName" name="middleName" placeholder="(optional)" class="input input-bordered input-md input-primary w-full bg-neutral focus:border-primary focus:outline-offset-[3px]"
             bind:value={contactInfo.middleName}
+             />
+        </div>
+        <div class="flex flex-col flex-1">
+            <label for="middleName" class="label">
+                <span class="label-text">Suffixes</span>
+            </label>
+            <input  type="text" title="Disregard if not applicable" id="middleName" name="middleName" placeholder="(optional) Jr, Sr, II, III, IV, etc." class="input input-bordered input-md input-primary w-full bg-neutral focus:border-primary focus:outline-offset-[3px]"
+            bind:value={contactInfo.suffix}
              />
         </div>
         <div class="flex flex-col flex-1">
