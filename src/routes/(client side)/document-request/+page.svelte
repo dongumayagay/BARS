@@ -13,6 +13,7 @@
     import RequestCompleted from "$lib/components/RequestCompleted.svelte";
 	import Otp from "$lib/components/OTP.svelte";
 	import DataPrivacyConsent from "$lib/components/DataPrivacyConsent.svelte";
+	import MinorsForm from "./Minor'sForm.svelte";
 
     $currentPage = 1;
 
@@ -63,7 +64,9 @@
                 docsRequested: documentRequest.listOfRequestedDocuments,
                 docPurpose: documentRequest.selectedPurpose,
                 totalFee: documentRequest.totalFee,
-                status: "pending"
+                status: "pending",
+                guardianInfo: documentRequest.guardianInfo??{},
+                authorizedRequestor: documentRequest.authorizedRequestor??"",
             })
             if(!!documentRequestRef) console.log("uploaded request")
             const fileUploadPromises = documentRequest.filesToUpload.map((value)=>{
@@ -129,8 +132,25 @@
     </ul>
     {#if documentRequest.isRequestForSomeone !== undefined}
     <div  class="w-[90%] lg:w-[45%] p-4 lg:px-10 bg-neutral rounded-xl flex flex-col justify-center shadow-xl gap-3" class:hidden={page !== 1}>
+        <button class="btn btn-ghost hover:bg-transparent" on:click={()=>{documentRequest.isRequestForSomeone = undefined; page--;}}>
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0013.5 3h-6a2.25 2.25 0 00-2.25 2.25v13.5A2.25 2.25 0 007.5 21h6a2.25 2.25 0 002.25-2.25V15M12 9l-3 3m0 0l3 3m-3-3h12.75" />
+            </svg>
+            <p>Go Back</p>
+        </button>
         <InfoForm on:next={nextHandler} isDocumentRequest={true} isRequestForSomeone={documentRequest.isRequestForSomeone}/>
     </div>
+    {/if}
+    {#if documentRequest.minor}
+    <div class="w-[90%] lg:w-[45%] p-4 lg:px-10 bg-neutral rounded-xl flex flex-col justify-center shadow-xl gap-3" class:hidden={page !== 1}>
+        <button class="btn btn-ghost hover:bg-transparent" on:click={()=>{documentRequest.minor = undefined; page--;}}>
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0013.5 3h-6a2.25 2.25 0 00-2.25 2.25v13.5A2.25 2.25 0 007.5 21h6a2.25 2.25 0 002.25-2.25V15M12 9l-3 3m0 0l3 3m-3-3h12.75" />
+            </svg>
+            <p>Go Back</p>
+        </button>
+        <MinorsForm on:next={nextHandler} isDocumentRequest={true} isRequestForSomeone={documentRequest.isRequestForSomeone}/>
+    </div>  
     {/if}
     <Otp email={documentRequest.contactInfo?.email??""} {showOTPModal} on:emailVerified={emailVerifier} on:close={()=>showOTPModal=false}/>
     

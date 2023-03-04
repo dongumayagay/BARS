@@ -14,9 +14,16 @@
             
             <div class="p-4 flex flex-col gap-[50px] border-b-2 lg:border-b-0 lg:border-r-2 border-primary">
                 <div class="flex flex-col items-center justify-start gap-4">
+                    {#if !!documentRequest.authorizedRequestor}
+                    <div class="w-full flex flex-col items-start justify-start gap-2 ">
+                        <p class="w-full font-semibold lg:text-md">Authorized Requestor</p>
+                        <p class="w-full text-center lg:text-md">{documentRequest.authorizedRequestor??""}</p>
+                    </div>
+                        
+                    {/if}
                     <div class="w-full flex flex-col items-start justify-start gap-2 ">
                         <p class="w-full font-semibold lg:text-md">Full Name: </p>
-                        <p class="w-full text-center lg:text-md">{documentRequest.contactInfo.lastName}, {documentRequest.contactInfo.firstName} {documentRequest.contactInfo.middleName}</p>
+                        <p class="w-full text-center lg:text-md">{documentRequest.contactInfo.lastName}, {documentRequest.contactInfo.firstName} {documentRequest.contactInfo.middleName??""} {documentRequest.suffix??""}</p>
                     </div>
                     <div class="w-full flex flex-col items-start justify-start gap-2">
                         <p class="w-full font-semibold lg:text-md">Birthdate: </p>
@@ -62,9 +69,9 @@
                     {/each}
                 </div>
             </div>
-            <div class="">
-                <small>Total Document Fees: </small>
-                <small class="font-semibold">P{documentRequest.totalFee}</small>
+            <div class="w-full flex gap-2">
+                <p class="text-[15px]">Total Document Fees: </p>
+                <p class="font-semibold text-[15px]">P{documentRequest.totalFee}</p>
             </div>
         </div>
         {/if}

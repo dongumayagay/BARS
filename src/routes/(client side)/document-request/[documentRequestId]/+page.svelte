@@ -80,6 +80,18 @@
                     <ImagePreview requestId={documentRequest.id} documentName={document.name} on:viewImage={(event)=>viewHandler(event)}/>
                 </div>
             {/each}
+            {#if !!documentRequest.authorizedRequestor}
+            <div>
+                <p>Authorization Letter</p>
+                <div class="w-full h-max flex justify-center gap-2">
+                    <ImagePreview 
+                        requestId={documentRequest.id}
+                        documentName={"Authorization Letter"}
+                        on:viewImage={viewHandler}
+                    />
+                </div>
+            </div>
+            {/if}
         </section>
         {/if}
         {#if enlargeImage}

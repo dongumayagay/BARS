@@ -72,6 +72,18 @@
                 </div>
             </div>
             {/each}
+            {#if !!dataToView.authorizedRequestor}
+            <div>
+                <p>Authorization Letter</p>
+                <div class="w-full h-max flex justify-center gap-2">
+                    <ImagePreview 
+                        requestId={dataToView.requestId}
+                        documentName={"Authorization Letter"}
+                        on:viewImage={viewHandler}
+                    />
+                </div>
+            </div>
+            {/if}
         </section>
     {/if}
     {#if enlargeImage}

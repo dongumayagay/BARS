@@ -13,10 +13,16 @@
     <p class="text-[14px]">Type of Request: </p>
     <p class="text-[14px] font-semibold">{dataToView.typeOfRequest}</p>
 </div>
+{#if !!dataToView.authorizedRequestor}
+<div class="flex justify-start items-center gap-2">
+    <p class="text-[12px]">Authorized Requestor: </p>
+    <p class="text-[15px] font-semibold">{dataToView.authorizedRequestor}</p>
+</div>
+{/if}
 <div class="flex flex-col justify-between md:flex-row-reverse gap-3">
     <p class="text-[12px] w-full md:w-[25vw]">Date Requested: {new Timestamp(dataToView.dateAdded?.seconds??[], dataToView.dateAdded?.nanoseconds??[]).toDate()}</p>
     <div class="flex flex-col">
-        <p class="font-semibold">{dataToView.lastName}, {dataToView.firstName} {dataToView?.middleName??""}</p>
+        <p class="font-semibold">{dataToView.lastName}, {dataToView.firstName} {dataToView?.middleName??""} {dataToView?.suffix??""}</p>
         <div class="h-fit flex items-center gap-2">
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75" />
