@@ -90,6 +90,39 @@
             document.line( 0, 70, pageWidth, 70)
             document.line(pageWidth * 0.28, 70, pageWidth * 0.28, pageHeight - 20)
 
+            //copy mo nalang tong code cai, simula dito....
+
+            //for the header 
+            document.setFont("times", "bold")
+            document.setFontSize(18)
+            document.setTextColor("black")
+            document.text("CERTIFICATE OF INDIGENCY", (pageWidth * 0.63), 90, { maxWidth: pageWidth, align: "center",})
+            
+            //for the letter
+
+            let totalHeightOfLetter = 120;
+            document.setFont("times", "bold")
+            document.setFontSize(12)
+            document.text("Name nung nag request or guardian", (pageWidth * 0.30), totalHeightOfLetter, {maxWidth: (pageWidth*0.9) })
+            
+            document.setFont("times", "normal")
+            document.setFontSize(12)
+            document.text("This is to certify that the person mentioned above belongs to the low income group and has no permanent source of income", (pageWidth * 0.30), totalHeightOfLetter+25, {maxWidth: pageWidth*0.68})
+            
+            document.text("This is issued as per request for (Purpose ng docu) for the person below", (pageWidth * 0.30), totalHeightOfLetter+60, {maxWidth: pageWidth*0.68})
+            document.setFont("times", "bold")
+            document.text("Name ng resident", (pageWidth * 0.30), totalHeightOfLetter+75, {maxWidth: pageWidth*0.68})
+
+            //name of barangay captain
+            document.text("HON. (name ni kap)", (pageWidth * 0.80), totalHeightOfLetter+125, {maxWidth: pageWidth*0.80, align:"center"})
+            document.setLineWidth(1.5)
+            document.setDrawColor("black")
+            document.line(pageWidth * 0.70, totalHeightOfLetter+130, pageWidth * 0.90, totalHeightOfLetter+130)
+            document.setTextColor("#b91c1c")
+            document.text("Barangay Captain", (pageWidth * 0.80), totalHeightOfLetter+140, {maxWidth: pageWidth*0.80, align:"center"})
+            //...hanggang dito
+
+
             document.setFont("helvetica", "bold")
             document.setFontSize(10)
             document.setTextColor("#b91c1c")
