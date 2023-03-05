@@ -46,7 +46,7 @@
                 <button class="opacity-0 bg-black/50 w-full absolute top-0 group-hover:opacity-100 transition-all ease-in duration-100 h-[150px]" on:click={()=>dispatch("viewImage", {url, requirementName: requirement.name})}>
                     <p class="text-neutral">Click to view</p>
                 </button>
-                <p class="w-full text-center">{requirement.name}</p>
+                <p class="w-full text-center">{documentName === "Authorization Letter" ? "" : requirement.name}</p>
             </div>
         {:catch error}
             <p>{error}</p>

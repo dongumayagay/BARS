@@ -26,7 +26,7 @@
     {#await emergencyHotlinesFetcher()}
     <div class="w-full h-[70vh] flex flex-col items-center justify-center">
         <Circle />
-        <p class="">Loading Officials List...</p>
+        <p class="">Loading Hotlines...</p>
     </div>
     {:then hotlinesList} 
         {#each hotlinesList as hotline}

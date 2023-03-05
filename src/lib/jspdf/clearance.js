@@ -76,7 +76,6 @@ export function clearance(officialsList, dataToView){
     document.saveGraphicsState();
     document.setGState(new document.GState({opacity: 0.2}));
     document.setFontSize(50)
-    // document.text(text, x, y, {align: 'center', baseline: 'middle'})
     document.text("SAMPLE ONLY", ((pageWidth * 0.325) + ((pageWidth * 0.598)*0.60)), ((((pageHeight - 30) * 0.15) + 60) + (((pageHeight - 30) * 0.70)*0.3)), {align: "center", angle: 315})
     document.restoreGraphicsState();
 
@@ -101,7 +100,7 @@ export function clearance(officialsList, dataToView){
     document.setFontSize(15)
     document.setFont("Times", "bold")
     document.text(
-        dataToView.lastName.toUpperCase() + ", " + dataToView.firstName.toUpperCase() + " " + dataToView?.middleName??"".toUpperCase(),
+        dataToView.lastName.toUpperCase() + ", " + dataToView.firstName.toUpperCase() + " " + dataToView?.middleName??"".toUpperCase() + dataToView?.suffix??"".toUpperCase(),
         ((pageWidth * 0.315) + 9.5) + (document.getTextWidth("NAME: ") - 7), 
         210, 
         {maxWidth: (pageWidth * .72) * 0.80}

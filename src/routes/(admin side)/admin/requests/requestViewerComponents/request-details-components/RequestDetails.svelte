@@ -61,8 +61,11 @@
         <section class="w-[60vw] h-fit flex flex-col bg-neutral p-4 rounded-2xl shadow-xl gap-4">
             <p class="font-semibold w-full text-center">Uploaded Requirements</p>
             {#each dataToView?.docsRequested??[] as documentRequested}
-            <div>
-                <p>{documentRequested.name}</p>
+            <div class="flex flex-col gap-2">
+                <div class="flex gap-2">
+                    <p>For: </p>
+                    <p class="font-semibold">{documentRequested.name}</p>
+                </div>
                 <div class="w-full h-max flex justify-center gap-2">
                     <ImagePreview 
                         requestId={dataToView.requestId}
@@ -74,7 +77,7 @@
             {/each}
             {#if !!dataToView.authorizedRequestor}
             <div>
-                <p>Authorization Letter</p>
+                <p class="font-semibold">Authorization Letter</p>
                 <div class="w-full h-max flex justify-center gap-2">
                     <ImagePreview 
                         requestId={dataToView.requestId}

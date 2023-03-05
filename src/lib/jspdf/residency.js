@@ -65,8 +65,6 @@ export function residency(officialsList, dataToView){
 
         totalOfficialsBoxHeight += 5 + rectHeight;
     })
-    
-
 
     document.setFont("times", "normal")
     document.setFontSize(20)

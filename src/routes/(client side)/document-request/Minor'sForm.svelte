@@ -281,7 +281,7 @@
         {/if}
         {#if guardianInfo.guardianship === "guardian"}
         <div class="flex flex-col">
-            <label for="#guardian" class="label label-text">Guardian's Name (Last Name, First Name, Middle Initial)</label>
+            <label for="#guardian" class="label label-text">Guardian's Name</label>
             <input id="guardian" class="input input-ghost input-bordered border-primary bg-transparent" bind:value={guardianInfo.guardian}>
             <label for="#guardian" class="label-text-alt text-error">Format: Last Name, First Name, Middle Initial</label>
         </div>

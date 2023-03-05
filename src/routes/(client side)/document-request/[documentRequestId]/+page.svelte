@@ -75,14 +75,17 @@
         <section class="w-[90vw] lg:w-[60vw] flex flex-col bg-neutral p-4 rounded-2xl shadow-xl gap-4" class:hidden={page !== 0}>
             <p class="font-semibold w-full text-center">Uploaded Requirements</p>
             {#each documentRequest.docsRequested as document}
-                <p>{document.name}</p>
+                <div class="flex gap-2">
+                    <p>For: </p>
+                    <p class="font-semibold">{document.name}</p>
+                </div>
                 <div class="w-full flex justify-center gap-1 lg:gap-4">
                     <ImagePreview requestId={documentRequest.id} documentName={document.name} on:viewImage={(event)=>viewHandler(event)}/>
                 </div>
             {/each}
             {#if !!documentRequest.authorizedRequestor}
             <div>
-                <p>Authorization Letter</p>
+                <p class="font-semibold">Authorization Letter</p>
                 <div class="w-full h-max flex justify-center gap-2">
                     <ImagePreview 
                         requestId={documentRequest.id}
