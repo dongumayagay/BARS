@@ -224,6 +224,7 @@ export function indigency(officialsList, dataToView){
     const officials = officialsList.docs.map((doc)=>({...doc.data()}))
     const chairman = officials.find((item) => item.positionOrder === 1)
     console.log(chairman)
+    indigency.setDrawColor("")
     indigency.line(((pageWidth * 0.315) + 9.5) + 130, 520, 
         (((pageWidth * 0.315) + 9.5) + 130) + indigency.getTextWidth("HON. " + chairman.name.toUpperCase()) + 7.5, 520
     )

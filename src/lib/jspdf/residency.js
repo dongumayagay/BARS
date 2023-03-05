@@ -20,7 +20,7 @@ export function residency(officialsList, dataToView){
 
     document.setFont("helvetica", "bold")
     document.setFontSize(14)
-    document.setTextColor("#16a34a")
+    document.setTextColor("#2563eb")
     document.text("OFFICE OF THE BARANGAY CHAIRMAN", pageWidth/2 ,48, { maxWidth: pageWidth, align: "center",})
 
     document.setFont("times", "italic")
@@ -28,6 +28,7 @@ export function residency(officialsList, dataToView){
     document.setTextColor("")
     document.text("Tel No. (02) 961-43-44", pageWidth/2 ,58, { maxWidth: pageWidth, align: "center",})
     document.addImage("/brgyLogo.png", 15,5,60,60)
+    document.addImage("/PUP_San_Pedro_Logo.png", pageWidth-80,5,60,60)
     
     document.setLineWidth(1.5)
     document.setDrawColor("#2563eb")
@@ -70,7 +71,13 @@ export function residency(officialsList, dataToView){
     document.setFontSize(20)
     document.text("CERTIFICATE OF RESIDENCY",  (pageWidth * 0.28) + ((pageWidth * 0.72) / 2), 102.5, {maxWidth: (pageWidth * 72) * 0.80, align: "center"})
 
-    document.setDrawColor("")
+    document.saveGraphicsState();
+    document.setGState(new document.GState({opacity: 0.2}));
+    document.setFontSize(60)
+    document.text("SAMPLE ONLY", ((pageWidth * 0.325) + ((pageWidth * 0.598)*0.60)+15), ((((pageHeight - 30) * 0.15) + 60) + (((pageHeight - 30) * 0.70)*0.3)), {align: "center", angle: 315})
+    document.restoreGraphicsState();
+
+    // document.setDrawColor("")
     document.setLineWidth(0.5)
     document.rect((pageWidth * 0.28) + 9.5, 79.5, (pageWidth * 0.72) - 19, 36)
     document.setLineWidth(1.5)
@@ -78,7 +85,7 @@ export function residency(officialsList, dataToView){
     document.setLineWidth(0.5)
     document.rect((pageWidth * 0.28) + 13.5, 83.5, (pageWidth * 0.72) - 27, 28)
 
-    document.addImage( "/brgyWatermark3.png",(pageWidth * 0.28) + 9.5, 125.5, (pageWidth * 0.72) - 19, (pageWidth * 0.72) - 19)
+    // document.addImage( "/brgyWatermark3.png",(pageWidth * 0.28) + 9.5, 125.5, (pageWidth * 0.72) - 19, (pageWidth * 0.72) - 19)
 
     document.setFont("times", "bold")
     document.setFontSize(15)
@@ -164,12 +171,17 @@ export function residency(officialsList, dataToView){
     // document.rect((pageWidth * 0.28) + ((pageWidth * 0.72) / 2), 430, (pageWidth * 0.72) * 0.80, 0 )
     const officials = officialsList.docs.map((doc)=>({...doc.data()}))
     const chairman = officials.find((item) => item.positionOrder === 1)
+    document.setDrawColor("")
     document.line(((pageWidth * 0.315) + 9.5) + 130, 520, 
         (((pageWidth * 0.315) + 9.5) + 130) + document.getTextWidth("HON. " + chairman.name.toUpperCase()) + 7.5, 520
     )
     document.text("HON. " + chairman.name.toUpperCase(), ((pageWidth * 0.315) + 9.5) + 133, 530)
     document.setTextColor("#b91c1c")
     document.text("Barangay Chairman", ((pageWidth * 0.315) + 9.5) + 130 + ((document.getTextWidth("HON. " + chairman.name.toUpperCase()) + 7.5)/2), 540, {align: "center"})
+
+    document.setFontSize(10)
+    document.setTextColor("")
+    document.text("This document is issued for capstone requirements puposes only and does not represent any actual document issued by the office of Barangay United Bayanihan.", pageWidth/2, pageHeight -13, {maxWidth: (pageWidth - 80), align: "center"})
 
     document.save((dataToView.lastName.toUpperCase() + ", " + dataToView.firstName.toUpperCase() + " " + dataToView?.middleName??"".toUpperCase()) + "_Residency.pdf")
 }
