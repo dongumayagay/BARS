@@ -61,7 +61,8 @@
             const appointmentRequestRef = await addDoc(collection(db, 'appointmentRequests'),{
                 lastName: appointmentRequest.contactInfo.lastName,
                 firstName: appointmentRequest.contactInfo.firstName,
-                middleName: appointmentRequest.contactInfo.middleName,
+                middleName: appointmentRequest.contactInfo.middleName??"",
+                suffix: appointmentRequest.contactInfo.suffix??"",
                 completeAddress: appointmentRequest.contactInfo.address,
                 contactNo: appointmentRequest.contactInfo.contactNo,
                 birthDate: appointmentRequest.contactInfo.birthdate,

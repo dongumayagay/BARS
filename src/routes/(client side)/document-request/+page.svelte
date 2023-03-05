@@ -53,7 +53,8 @@
             const documentRequestRef = await addDoc(collection(db, 'documentRequests'),{
                 lastName: documentRequest.contactInfo.lastName,
                 firstName: documentRequest.contactInfo.firstName,
-                middleName: documentRequest.contactInfo.middleName,
+                middleName: documentRequest.contactInfo.middleName??"",
+                suffix: documentRequest.contactInfo.suffix??"",
                 completeAddress: documentRequest.contactInfo.address,
                 contactNo: documentRequest.contactInfo.contactNo,
                 birthDate: documentRequest.contactInfo.birthdate,
@@ -65,8 +66,10 @@
                 docPurpose: documentRequest.selectedPurpose,
                 totalFee: documentRequest.totalFee,
                 status: "pending",
-                guardianInfo: documentRequest.guardianInfo??{},
+                guardianInfo: documentRequest.guardianInfo??"",
                 authorizedRequestor: documentRequest.authorizedRequestor??"",
+                civilStatus: documentRequest.contactInfo.civilStatus,
+                nationality: documentRequest.contactInfo.nationality,
             })
             if(!!documentRequestRef) console.log("uploaded request")
             const fileUploadPromises = documentRequest.filesToUpload.map((value)=>{

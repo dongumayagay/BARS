@@ -15,7 +15,7 @@
                 <div class="flex flex-col items-center justify-start gap-4">
                     <div class="w-full flex flex-col items-start justify-start gap-2 ">
                         <p class="w-full font-semibold lg:text-md">Full Name: </p>
-                        <p class="w-full text-center underline underline-offset-[10px] lg:text-md">{appointmentRequest.contactInfo.lastName}, {appointmentRequest.contactInfo.firstName} {appointmentRequest.contactInfo.middleName}</p>
+                        <p class="w-full text-center underline underline-offset-[10px] lg:text-md">{appointmentRequest.contactInfo.lastName}, {appointmentRequest.contactInfo.firstName} {appointmentRequest.contactInfo.middleName??""} {appointmentRequest.contactInfo.suffix??""}</p>
                     </div>
                     <div class="w-full flex flex-col items-start justify-start gap-2">
                         <p class="w-full font-semibold lg:text-md">Birthdate: </p>

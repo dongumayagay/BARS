@@ -23,7 +23,7 @@
                     {/if}
                     <div class="w-full flex flex-col items-start justify-start gap-2 ">
                         <p class="w-full font-semibold lg:text-md">Full Name: </p>
-                        <p class="w-full text-center lg:text-md">{documentRequest.contactInfo.lastName}, {documentRequest.contactInfo.firstName} {documentRequest.contactInfo.middleName??""} {documentRequest.suffix??""}</p>
+                        <p class="w-full text-center lg:text-md">{documentRequest.contactInfo.lastName}, {documentRequest.contactInfo.firstName} {documentRequest.contactInfo.middleName??""} {documentRequest.contactInfo.suffix??""}</p>
                     </div>
                     <div class="w-full flex flex-col items-start justify-start gap-2">
                         <p class="w-full font-semibold lg:text-md">Birthdate: </p>
