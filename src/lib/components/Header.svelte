@@ -1,6 +1,6 @@
 <script>
-	import {currentPage,currentInterface,userStore} from "$lib/stores.js";
-	import {auth} from "$lib/firebase/client.js"
+	import { currentPage, currentInterface, userStore } from "$lib/stores.js";
+	import { auth } from "$lib/firebase/client.js"
 	import { goto } from '$app/navigation'
 	import { createEventDispatcher } from "svelte";
 	import { signOut } from "firebase/auth";
@@ -39,19 +39,21 @@
 	<section class="flex flex-col flex-1 ">
 		<!--  -->
 		<div class="w-full h-full flex {$userStore === undefined || $userStore === null ? "justify-center" : "justify-end"} items-center p-2">
-			<h1 class="w-full h-full text-center flex items-center justify-center flex-1 flex-sans font-bold text-sm lg:text-xl">{title}</h1>
+			<h1 class="hidden w-full h-full text-center lg:flex items-center justify-center flex-1 flex-sans font-bold text-sm lg:text-xl">{title}</h1>
+			<h1 class="lg:hidden w-full h-full text-center flex items-center justify-center flex-1 flex-sans font-bold text-sm lg:text-xl">{links[$currentPage].name}</h1>
 			{#if !!$userStore && $currentInterface === "admin"}
-			<ProfileIcon on:logout={logOutHandler}/>
+			<ProfileIcon on:logout={logOutHandler} on:openSettings={()=>dispatch("showSettings")}/>
 			{/if}
 			{#if $currentInterface === "client"}
-			{#if !$userStore}
-			<div class="hidden lg:flex gap-2">
-				<button class="btn btn-ghost" on:click={()=>dispatch("login")}>Login</button>
-				<button class="btn btn-success" on:click={()=>dispatch("signup")}>Sign-up</button>
-			</div>
-			{:else }
-			<ProfileIcon on:logout={logOutHandler}/>
-			{/if}
+				{#if !$userStore}
+				<div class="hidden lg:flex gap-2">
+					<button class="btn btn-sm btn-ghost hover:btn-info" on:click={()=>dispatch("login")}>Login</button>
+					<button class="btn btn-sm btn-success" on:click={()=>dispatch("signup")}>Sign-up</button>
+				</div>
+				<ProfileIcon on:login={()=>dispatch("login")} on:signup={()=>dispatch("signup")}/>
+				{:else }
+				<ProfileIcon on:logout={logOutHandler} on:openSettings={()=>dispatch("showSettings")}/>
+				{/if}
 			{/if}
 		</div>
 
@@ -71,7 +73,7 @@
 		</nav>
 	</section>
 	<section class="flex flex-col items-center justify-center lg:hidden">
-		<label class="btn btn-circle btn-ghost swap swap-rotate z-10">
+		<label class="btn btn-circle btn-ghost swap swap-rotate z-0">
 			<!-- this hidden checkbox controls the state -->
 			<input type="checkbox" class="invisible" bind:checked={showMenu} />
 

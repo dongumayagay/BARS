@@ -1,6 +1,7 @@
 <script>
     import { sendEmail } from '$lib/utils';
     import { createEventDispatcher } from 'svelte';
+    import { userStore } from "$lib/stores.js"
 
     export let email, showOTPModal;
 
@@ -40,7 +41,7 @@
         sendCode()
     }
 
-    $: if(!!email) sendCode();
+    $: if(!!email && email!==$userStore.email) sendCode();
 
     $: if(!!email && resendTimer !== 0){
         setTimeout(()=>{

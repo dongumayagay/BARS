@@ -9,7 +9,7 @@
     import {db} from '$lib/firebase/client.js'
     import {addDoc, collection, Timestamp} from 'firebase/firestore';
     import { sendEmail } from '$lib/utils.js';
-    import { currentPage } from "$lib/stores.js";
+    import { currentPage, userStore } from "$lib/stores.js";
  
     $currentPage = 2;
 
@@ -25,8 +25,17 @@
 
     function nextHandler(event) {
         appointmentRequest = Object.assign(appointmentRequest, event.detail)
-        if(page === 0 && (!emailVerified || verifiedEmail !== event.detail.contactInfo.email)){
-            showOTPModal = true;
+        if(page === 0){
+            if(!!$userStore){
+                if(event.detail.contactInfo.email !== $userStore.email){showOTPModal = true}
+                if(event.detail.contactInfo.email === $userStore.email){page+=1}
+                // return 0;
+            }
+            if(!$userStore){
+                if(!emailVerified || verifiedEmail !== event.detail.contactInfo.email){
+                    showOTPModal = true;
+                }
+            }
         }else{
             page += 1;
         }
@@ -74,7 +83,10 @@
                 appointmentTime: appointmentRequest.selectedDateAndTime.time,
                 appointmentPurpose: appointmentRequest.contactInfo.purpose,
                 selectedOfficial: appointmentRequest.selectedOfficial,
-                status: "pending"
+                civilStatus: appointmentRequest.contactInfo.civilStatus,
+                nationality: appointmentRequest.contactInfo.nationality,
+                status: "pending",
+                requestorUID: $userStore?.uid??"",
             })
 
             emailRequestId(appointmentRequest.contactInfo.email, appointmentRequestRef.id);

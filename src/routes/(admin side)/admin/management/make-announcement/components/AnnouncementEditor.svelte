@@ -92,7 +92,7 @@
     }
 </script>
 
-<form class="w-full h-max flex flex-col gap-2" on:submit|preventDefault={updateDispatcher}>
+<form class="w-full h-full flex flex-col gap-2" on:submit|preventDefault={updateDispatcher}>
     <section class="w-full flex justify-between">
         <button type="button" class="btn btn-ghost gap-2" on:click={()=>dispatch("cancel")}>
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4">

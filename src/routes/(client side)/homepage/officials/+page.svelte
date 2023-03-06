@@ -29,6 +29,7 @@
         <p class="">Loading Officials List...</p>
     </div>
     {:then officialsList} 
+    <p class="w-full text-center text-lg font-bold">Officials List</p>
         {#each officialsList as official}
             <Official officialProfile={official}/>
         {/each}

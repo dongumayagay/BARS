@@ -7,11 +7,11 @@
 	import DocumentRequests from './DocumentRequests.svelte';
 	import AppointmentRequests from './AppointmentRequests.svelte';
 
+    // $: 
     onMount(()=>{   
         if(!$userStore){
             goto("../admin")
         }
-
         const documentRequestsUnsub = onSnapshot(collection(db, "documentRequests"), (querySnapshot)=>{
             documentRequests = querySnapshot.docs.map((doc)=>({
                 dateAddedMillis: new Timestamp(doc.data().dateAdded.seconds, doc.data().dateAdded.nanoseconds).toMillis(), 

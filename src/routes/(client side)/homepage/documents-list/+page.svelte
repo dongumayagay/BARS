@@ -22,6 +22,7 @@
 </svelte:head>
 
 <main class="lg:overflow-y-auto lg:max-h-[70vh] w-full lg:w-[70%] flex flex-col lg:flex-auto gap-10 items-center">
+    <p class="w-full text-center text-lg font-bold">Documents List</p>
     {#each documentsList as document}
         <DocumentInfoCard {document}/>
     {/each}

@@ -70,6 +70,7 @@
                 authorizedRequestor: documentRequest.authorizedRequestor??"",
                 civilStatus: documentRequest.contactInfo.civilStatus,
                 nationality: documentRequest.contactInfo.nationality,
+                requestorUID: $userStore?.uid??"",
             })
             if(!!documentRequestRef) console.log("uploaded request")
             const fileUploadPromises = documentRequest.filesToUpload.map((value)=>{
@@ -95,12 +96,22 @@
     function nextHandler(event) {
         documentRequest = Object.assign(documentRequest, event.detail)
         // console.log((event.detail.contactInfo?.email??"" !== $userStore.email))
-        if(page === 1 && (!emailVerified || verifiedEmail !== event.detail.contactInfo.email)){
-            showOTPModal = true;
+        if(page === 1){
+            if(!!$userStore){
+                if(event.detail.contactInfo.email !== $userStore.email){showOTPModal = true}
+                if(event.detail.contactInfo.email === $userStore.email){page++}
+                // return 0;
+            }
+            if(!$userStore){
+                if(!emailVerified || verifiedEmail !== event.detail.contactInfo.email){
+                    showOTPModal = true;
+                }
+            }
         }else{
-            page += 1;
+            page ++;
         }
         console.log(documentRequest)
+        // && ((!emailVerified || verifiedEmail !== event.detail.contactInfo.email) || (!$userStore || (event.detail.contactInfo.email !== $userStore.email))) 
     }
 
     function consentChecker(){

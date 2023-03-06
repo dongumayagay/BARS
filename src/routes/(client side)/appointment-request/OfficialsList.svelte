@@ -38,9 +38,9 @@
             {#each officialsList as official}
                 <div class="flex items-center gap-2">
                     <input value={official} type="radio" name="officials" class="radio radio-secondary" bind:group={selectedOfficial}>
-                    <div class="w-full border-b-2 border-primary flex flex-col itmes-start p-2">
-                        <p class="w-full p-2 font-semibold">{official.name}</p>
-                        <small class="pl-[15%]">({official.position})</small>
+                    <div class="w-full border-b-2 border-primary flex flex-col p-2">
+                        <p class="w-full p-2 font-semibold text-center">{official.name}</p>
+                        <small class="w-full text-center">({official.position})</small>
                     </div>
                 </div>
             {/each}

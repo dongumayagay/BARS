@@ -23,6 +23,23 @@
         try {
             const docRef = doc(db, dataToView.collectionReference, dataToView.requestId);
             // const something = await getDoc(docRef)
+            const officialsList = await getDocs(query(collection(db, "officialsList"), orderBy("positionOrder", "asc")))
+            if(dataToView.nextStatus === "Ready to claim"){
+                dataToView.docsRequested.map((doc)=>{
+                    console.log(doc.name)
+                    switch(doc.name){
+                        case "Barangay Clearance":
+                            clearance(officialsList, dataToView);
+                            break;
+                        case "Certificate of Indigency":
+                            indigency(officialsList, dataToView);
+                            break;
+                        case "Certificate of Residency":
+                            residency(officialsList, dataToView);
+                            break;
+                    }
+                })
+            }
 
             // if(dataToView.status === "Trashed"){
 
@@ -48,26 +65,7 @@
             //     subject: dataToView.typeOfRequest + 'Status Update',
             //     html: '<p>' + dataToView.nextStatusEmailContent??[] + '<p>'
             // });
-            const officialsList = await getDocs(query(collection(db, "officialsList"), orderBy("positionOrder", "asc")))
             
-            if(dataToView.nextStatus === "Ready to claim"){
-                dataToView.docsRequested.map((doc)=>{
-                    console.log(doc.name)
-                    switch(doc.name){
-                        case "Barangay Clearance":
-                            clearance(officialsList, dataToView);
-                            break;
-                        case "Certificate of Indigency":
-                            indigency(officialsList, dataToView);
-                            break;
-                        case "Certificate of Residency":
-                            residency(officialsList, dataToView);
-                            break;
-                    }
-                })
-            }
-            
-
 
             // console.log(JSON.stringify(result))
             // alert("This request's status has been successfully updated, click OK to close")

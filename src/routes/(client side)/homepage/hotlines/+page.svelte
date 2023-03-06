@@ -29,6 +29,7 @@
         <p class="">Loading Hotlines...</p>
     </div>
     {:then hotlinesList} 
+    <p class="w-full text-center text-lg font-bold">Emergency Hotlines</p>
         {#each hotlinesList as hotline}
             <HotlineCard {hotline}/>
         {/each}
