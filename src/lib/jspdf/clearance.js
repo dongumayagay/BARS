@@ -100,7 +100,7 @@ export function clearance(officialsList, dataToView){
     document.setFontSize(15)
     document.setFont("Times", "bold")
     document.text(
-        dataToView.lastName.toUpperCase() + ", " + dataToView.firstName.toUpperCase() + " " + dataToView?.middleName??"".toUpperCase() + dataToView?.suffix??"".toUpperCase(),
+        dataToView.lastName.toUpperCase() + ", " + dataToView.firstName.toUpperCase() + " " + (dataToView.middleName !== "" ? dataToView.middleName.charAt(0).toUpperCase() + "." : "") + (dataToView.suffix !== "" ? dataToView.suffix.charAt(0).toUpperCase(): ""),
         ((pageWidth * 0.315) + 9.5) + (document.getTextWidth("NAME: ") - 7), 
         210, 
         {maxWidth: (pageWidth * .72) * 0.80}
@@ -212,7 +212,7 @@ export function clearance(officialsList, dataToView){
 
     document.setFontSize(10)
     document.setTextColor("")
-    document.text("This document is issued for research puposes only and does not represent any actual document issued by the office of Barangay United Bayanihan.", pageWidth/2, pageHeight -17, {maxWidth: (pageWidth - 80), align: "center"})
+    document.text("This document is generated for research puposes only and does not represent any actual document issued by the office of Barangay United Bayanihan.", pageWidth/2, pageHeight -17, {maxWidth: (pageWidth - 80), align: "center"})
 
-    document.save((dataToView.lastName + ", " + dataToView.firstName + " " + dataToView?.middleName??"") + "_Clearance.pdf")
+    document.save((dataToView.lastName + ", " + dataToView.firstName + " " + (dataToView.middleName !== "" ? dataToView.middleName.charAt(0).toUpperCase() : "") + (dataToView.suffix !== "" ? dataToView.suffix.charAt(0).toUpperCase(): "")) + "_Clearance.pdf")
 }

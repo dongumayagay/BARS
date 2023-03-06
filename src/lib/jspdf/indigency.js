@@ -107,7 +107,7 @@ export function indigency(officialsList, dataToView){
     indigency.setFontSize(15)
     indigency.setFont("Times", "bold")
     indigency.text(
-        dataToView.lastName.toUpperCase() + ", " + dataToView.firstName.toUpperCase() + " " + dataToView?.middleName??"".toUpperCase(),
+        dataToView.lastName.toUpperCase() + ", " + dataToView.firstName.toUpperCase() + " " + (dataToView.middleName !== "" ? dataToView.middleName.charAt(0).toUpperCase() + "." : "") + dataToView.suffix??"".toUpperCase(),
         ((pageWidth * 0.28) + 9.5) + (indigency.getTextWidth("NAME: ") - 7), 
         200, 
         {maxWidth: (pageWidth * .72) * 0.80}
@@ -236,7 +236,7 @@ export function indigency(officialsList, dataToView){
 
     indigency.setFontSize(10)
     indigency.setTextColor("")
-    indigency.text("This document is issued for capstone requirements puposes only and does not represent any actual document issued by the office of Barangay United Bayanihan.", pageWidth/2, pageHeight -13, {maxWidth: (pageWidth - 80), align: "center"})
+    indigency.text("This document is generated for research puposes only and does not represent any actual document issued by the office of Barangay United Bayanihan.", pageWidth/2, pageHeight -13, {maxWidth: (pageWidth - 80), align: "center"})
 
-    indigency.save("indigency.pdf")
+    indigency.save((dataToView.lastName.toUpperCase() + ", " + dataToView.firstName.toUpperCase() + " " + (dataToView.middleName !== "" ? dataToView.middleName.charAt(0).toUpperCase() : "") + (dataToView.suffix !== "" ? dataToView.suffix.charAt(0).toUpperCase(): "")) + "_Indigency.pdf")
 }

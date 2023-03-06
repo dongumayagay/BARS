@@ -98,7 +98,7 @@ export function residency(officialsList, dataToView){
     document.setFontSize(15)
     document.setFont("Times", "bold")
     document.text(
-        dataToView.lastName.toUpperCase() + ", " + dataToView.firstName.toUpperCase() + " " + dataToView?.middleName??"".toUpperCase(),
+        dataToView.lastName.toUpperCase() + ", " + dataToView.firstName.toUpperCase() + " " + (dataToView.middleName !== "" ? dataToView.middleName.charAt(0).toUpperCase() + "." : "") + (dataToView.suffix !== "" ? dataToView.suffix.charAt(0).toUpperCase(): ""),
         ((pageWidth * 0.28) + 9.5) + (document.getTextWidth("NAME: ") - 7), 
         200, 
         {maxWidth: (pageWidth * .72) * 0.80}
@@ -181,7 +181,7 @@ export function residency(officialsList, dataToView){
 
     document.setFontSize(10)
     document.setTextColor("")
-    document.text("This document is issued for capstone requirements puposes only and does not represent any actual document issued by the office of Barangay United Bayanihan.", pageWidth/2, pageHeight -13, {maxWidth: (pageWidth - 80), align: "center"})
+    document.text("This document is generated for research puposes only and does not represent any actual document issued by the office of Barangay United Bayanihan.", pageWidth/2, pageHeight -13, {maxWidth: (pageWidth - 80), align: "center"})
 
-    document.save((dataToView.lastName.toUpperCase() + ", " + dataToView.firstName.toUpperCase() + " " + dataToView?.middleName??"".toUpperCase()) + "_Residency.pdf")
+    document.save((dataToView.lastName.toUpperCase() + ", " + dataToView.firstName.toUpperCase() + " " + (dataToView.middleName !== "" ? dataToView.middleName.charAt(0).toUpperCase(): "") + (dataToView.suffix !== "" ? dataToView.suffix.charAt(0).toUpperCase(): "")) + "_Residency.pdf")
 }
