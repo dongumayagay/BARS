@@ -41,35 +41,35 @@
                 })
             }
 
-            // if(dataToView.status === "Trashed"){
+            if(dataToView.status === "Trashed"){
 
-            //     await updateDoc(docRef, {
-            //         status: dataToView?.previousStatus,
-            //         previousStatus: "",
-            //         lastUpdated: Timestamp.now()
-            //     })
-            // } else {
+                await updateDoc(docRef, {
+                    status: dataToView?.previousStatus,
+                    previousStatus: "",
+                    lastUpdated: Timestamp.now()
+                })
+            } else {
 
-            //     if(dataToView.nextStatus === "Request Completed"){ 
-            //         clearDocumentRequestFiles();
+                if(dataToView.nextStatus === "Request Completed"){ 
+                    clearDocumentRequestFiles();
                      
-            //     }
-            //     await updateDoc(docRef, {
-            //         status: dataToView.nextStatus,
-            //         lastUpdated: Timestamp.now()
-            //     })
-            // }
+                }
+                await updateDoc(docRef, {
+                    status: dataToView.nextStatus,
+                    lastUpdated: Timestamp.now()
+                })
+            }
 
-            // const result = await sendEmail({
-            //     to: dataToView.email,
-            //     subject: dataToView.typeOfRequest + 'Status Update',
-            //     html: '<p>' + dataToView.nextStatusEmailContent??[] + '<p>'
-            // });
+            const result = await sendEmail({
+                to: dataToView.email,
+                subject: dataToView.typeOfRequest + 'Status Update',
+                html: '<p>' + dataToView.nextStatusEmailContent??[] + '<p>'
+            });
             
 
-            // console.log(JSON.stringify(result))
-            // alert("This request's status has been successfully updated, click OK to close")
-            // dispatch("close")
+            console.log(JSON.stringify(result))
+            alert("This request's status has been successfully updated, click OK to close")
+            dispatch("close")
         } catch (error) {
             console.log(error)
         }  
