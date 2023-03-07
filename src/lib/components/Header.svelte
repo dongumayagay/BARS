@@ -1,17 +1,17 @@
 <script>
-	import {currentPage,currentInterface,userStore} from "$lib/stores.js";
-	import {auth} from "$lib/firebase/client.js"
+	import { currentPage, currentInterface, userStore } from "$lib/stores.js";
+	import { auth } from "$lib/firebase/client.js"
 	import { goto } from '$app/navigation'
 	import { createEventDispatcher } from "svelte";
 	import { signOut } from "firebase/auth";
+	import ProfileIcon from "./ProfileIcon.svelte";
 
-	export let title = "Welcome to Barangay Appointment and Request System"
+	export let title = "Welcome"
 	export let links = [
 		{
 			path: './',
 			name: 'Homepage'
 		},
-		
 	] 
 
 	const dispatch = createEventDispatcher();
@@ -39,26 +39,21 @@
 	<section class="flex flex-col flex-1 ">
 		<!--  -->
 		<div class="w-full h-full flex {$userStore === undefined || $userStore === null ? "justify-center" : "justify-end"} items-center p-2">
-			<h1 class="w-full h-full text-center flex items-center justify-center flex-1 flex-sans font-bold text-sm lg:text-xl">{title}</h1>
+			<h1 class="hidden w-full h-full text-center lg:flex items-center justify-center flex-1 flex-sans font-bold text-sm lg:text-xl">{title}</h1>
+			<h1 class="lg:hidden w-full h-full text-center flex items-center justify-center flex-1 flex-sans font-bold text-sm lg:text-xl">{links[$currentPage].name}</h1>
 			{#if !!$userStore && $currentInterface === "admin"}
-			<div class="dropdown dropdown-end">
-				<button class="btn btn-sm w-max h-max">
-					<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
-						<path stroke-linecap="round" stroke-linejoin="round" d="M17.982 18.725A7.488 7.488 0 0012 15.75a7.488 7.488 0 00-5.982 2.975m11.963 0a9 9 0 10-11.963 0m11.963 0A8.966 8.966 0 0112 21a8.966 8.966 0 01-5.982-2.275M15 9.75a3 3 0 11-6 0 3 3 0 016 0z" />
-					</svg>
-				</button>
-				<ul class="dropdown-content menu shadow-lg bg-primary rounded-box w-max h-max">
-					<li>
-						<button class="w-full flex justify-center hover:bg-primary hover:underline" on:click={logOutHandler}>
-							<small>Log Out</small>
-						</button>
-					</li>
-				  <li><button class="flex justify-center hover:bg-primary hover:underline">
-						<small>Account Settings</small>
-				  </button></li>
-				  <!-- <li><a>Item 2</a></li> -->
-				</ul>
-			  </div>
+			<ProfileIcon on:logout={logOutHandler} on:openSettings={()=>dispatch("showSettings")}/>
+			{/if}
+			{#if $currentInterface === "client"}
+				{#if !$userStore}
+				<div class="hidden lg:flex gap-2">
+					<button class="btn btn-sm btn-ghost hover:btn-info" on:click={()=>dispatch("login")}>Login</button>
+					<button class="btn btn-sm btn-success" on:click={()=>dispatch("signup")}>Sign-up</button>
+				</div>
+				<ProfileIcon on:login={()=>dispatch("login")} on:signup={()=>dispatch("signup")}/>
+				{:else }
+				<ProfileIcon on:logout={logOutHandler} on:openSettings={()=>dispatch("showSettings")}/>
+				{/if}
 			{/if}
 		</div>
 
@@ -78,7 +73,7 @@
 		</nav>
 	</section>
 	<section class="flex flex-col items-center justify-center lg:hidden">
-		<label class="btn btn-circle btn-ghost swap swap-rotate">
+		<label class="btn btn-circle btn-ghost swap swap-rotate z-0">
 			<!-- this hidden checkbox controls the state -->
 			<input type="checkbox" class="invisible" bind:checked={showMenu} />
 

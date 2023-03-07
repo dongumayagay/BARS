@@ -1,5 +1,63 @@
 <script>
-    import { createEventDispatcher } from 'svelte';
+    import { createEventDispatcher, onMount } from 'svelte';
+    import { userStore } from "$lib/stores.js"
+    import { db } from "$lib/firebase/client.js"
+	import { collection, getDoc, where, query, doc } from 'firebase/firestore';
+	// import { onMount } from 'svelte/types/runtime/internal/lifecycle';
+
+    export let isDocumentRequest, isRequestForSomeone;
+
+    let contactInfo = {}
+    let authorizedRequestor;
+    let othersCivilStatus = "";
+    let othersNationality = "";
+
+    const phoneNumberPattern = "^(09|639)+\\d{9}$"
+
+    onMount(()=>{
+        if(isDocumentRequest){
+            if(!isRequestForSomeone){
+                if(!!$userStore){
+                    getUser()
+                }
+            } else {
+                contactInfo = {
+                    lastName: "",
+                    firstName: "",
+                    middleName: "",
+                    suffix: "",
+                    address: "",
+                    birthdate: "",
+                    email: "",
+                    contactNo: "",
+                    purpose: "",
+                    civilStatus: "",
+                    nationality: "",
+                }
+            }
+        } 
+
+
+        if(!isDocumentRequest) {
+            if(!!$userStore){
+                getUser()
+            } else {
+                contactInfo = {
+                    lastName: "",
+                    firstName: "",
+                    middleName: "",
+                    suffix: "",
+                    address: "",
+                    birthdate: "",
+                    email: "",
+                    contactNo: "",
+                    purpose: "",
+                    civilStatus: "",
+                    nationality: "",
+                }
+            }
+        }
+    })
 
     const dispatch = createEventDispatcher()
 
@@ -19,22 +77,35 @@
     
     let todayFormat = today.getFullYear() + "-" + monthFormat + "-" + dateFormat;
     
-    let contactInfo = {
-        lastName: "",
-        firstName: "",
-        middleName: "",
-        address: "",
-        birthdate: "",
-        email: "",
-        contactNo: "",
-        purpose: "",
-    }
+    
     
     function submitHandler() {
         dispatch("next", {
-            contactInfo
+            contactInfo, 
+            authorizedRequestor: authorizedRequestor??""
         })
     }
+
+    async function getUser(){
+        if(!!$userStore){
+            const userCredentials = await getDoc(doc(db, "users", $userStore.uid))
+            contactInfo = Object.assign(contactInfo, {
+                lastName: userCredentials.data().lastName,
+                firstName: userCredentials.data().firstName,
+                middleName: userCredentials.data().middleName??"",
+                suffix: userCredentials.data().suffix??"",
+                address: userCredentials.data().address,
+                birthdate: userCredentials.data().birthdate,
+                email: $userStore.email,
+                contactNo: userCredentials.data().contactNo,
+                purpose: "",
+                civilStatus: (contactInfo.civilStatus === "others" ? othersCivilStatus : contactInfo.civilStatus),
+                nationality: (contactInfo.nationality === "others" ? othersNationality : contactInfo.nationality),
+            })
+        }
+    }
+
+    $: console.log($userStore, contactInfo)
 
 //  $: console.log(JSON.stringify(contactInfo))
 </script>
@@ -47,11 +118,23 @@
 
 
 <form class="flex flex-1 flex-col gap-5 h-max " on:submit|preventDefault={submitHandler} on:reset={(event)=>event.target.reset()}>
+    {#if isRequestForSomeone}
+    <div class="flex flex-col gap-4 flex-1">
+        <!-- <label for="lastName" class="label">
+            <span class="label-text">Authorized Requester's Full Name</span>
+            </label> -->
+        <h1 class="font-bold text-center">Authorized Requestor's Full Name</h1>
+        <input required title="Please enter your full name" type="text" 
+            placeholder="Last Name, First Name, M.I. Suffix"
+            class="input input-bordered input-md input-primary w-full bg-neutral focus:border-primary focus:outline-offset-[3px]"
+            bind:value={authorizedRequestor}
+            />
+    </div>
+    {/if}
     <section>
-        <h1 class="font-bold text-center">Basic Information</h1>
+        <h1 class="font-bold text-center">{isRequestForSomeone ? "Subject's " : ""}Basic Information</h1>
     </section>
     <section class="flex flex-col gap-4">
-
         <div class="flex flex-col flex-1">
             <label for="lastName" class="label">
                 <span class="label-text">Last Name</span>
@@ -79,6 +162,14 @@
              />
         </div>
         <div class="flex flex-col flex-1">
+            <label for="middleName" class="label">
+                <span class="label-text">Suffixes</span>
+            </label>
+            <input  type="text" title="Disregard if not applicable" id="middleName" name="middleName" placeholder="(optional) Jr, Sr, II, III, IV, etc." class="input input-bordered input-md input-primary w-full bg-neutral focus:border-primary focus:outline-offset-[3px]"
+            bind:value={contactInfo.suffix}
+             />
+        </div>
+        <div class="flex flex-col flex-1">
             <label for="address" class="label">
                 <span class="label-text">Complete Address</span>
               </label>
@@ -89,7 +180,7 @@
         </div>
         <div class="group flex flex-col flex-1 ">
             <label for="email" class="label">
-                <span class="label-text">Email Address</span>
+                <span class="label-text">Contact Email Address</span>
               </label>
             <input required title="Please enter your valid Email address" type="email" id="email" name="email" placeholder="example@email.com" class="input input-bordered input-md input-primary w-full bg-neutral focus:border-primary focus:outline-offset-[3px]"
             bind:value={contactInfo.email}
@@ -105,20 +196,57 @@
                 />
             </div>
         </section>
+        <section>
+            <div class="flex flex-col flex-1 ">
+                <label for="civilStatus" class="label">
+                    <span class="label-text">Civil Status</span>
+                  </label>
+                  <div class="w-full flex justify-between gap-2">
+                      <select class="select select-bordered focus:bg-transparent border-primary select-ghost" required bind:value={contactInfo.civilStatus}>
+                        <option value="Single" selected>Single</option>
+                        <option value="Married" >Married</option>
+                        <option value="Separated" >Separated</option>
+                        <option value="Widowed" >Widowed</option>
+                        <option value="others" >Others</option>
+                    </select>
+                    {#if contactInfo.civilStatus === "others"}
+                        <input required type="text" id="specify" class="w-full lg:w-max bg-transparent border-b-2 focus:bg-transparent text-center" placeholder="Please specify" bind:value={othersCivilStatus}>
+                    {/if}
+                </div>
+            </div>
+        </section>
+        <section>
+            <div class="flex flex-col flex-1 ">
+                <label for="civilStatus" class="label">
+                    <span class="label-text">Nationality</span>
+                  </label>
+                  <div class="w-full flex justify-between gap-2">
+                    <select class="select select-bordered focus:bg-transparent border-primary select-ghost" required bind:value={contactInfo.nationality}>
+                      <option value="Filipino" selected>Filipino</option>
+                      <option value="others" >Others</option>
+                  </select>
+                  {#if contactInfo.nationality === "others"}
+                    <input required type="text" id="specify" class="w-full lg:w-max bg-transparent border-b-2 focus:bg-transparent text-center" placeholder="Please specify" bind:value={othersNationality}>
+                  {/if}
+                </div>
+            </div>
+        </section>
         <div class="flex flex-col flex-1 ">
             <label for="contact" class="label">
                 <span class="label-text">Phone Number</span>
-              </label>
-            <input required title="Please enter your valid phone number" type="tel" id="contact" name="contact" placeholder="09** *** ****" maxlength="11" class="input input-bordered input-md input-primary w-full bg-neutral focus:border-primary focus:outline-offset-[3px]"
-            bind:value={contactInfo.contactNo}
-              />
+            </label>
+            <input required title="Please enter a valid phone number format: 09*********" pattern={phoneNumberPattern} type="tel" id="contact" name="contact" minlength="11" maxlength="12" placeholder="09*********" class="input input-bordered input-md input-primary w-full bg-neutral focus:border-primary focus:outline-offset-[3px]"
+                bind:value={contactInfo.contactNo}
+            />
         </div>
-        <div class="flex flex-col flex-1 ">
-            <label for="purpose" class="label">
-                <span class="label-text">Purpose of the Request</span>
-              </label>
-            <textarea class="textarea textarea-primary w-full bg-neutral focus:border-primary focus:outline-offset-[3px]" placeholder="example: Job Requirement" bind:value={contactInfo.purpose}></textarea>
-        </div>
+        {#if !isDocumentRequest}
+            <div class="flex flex-col flex-1 ">
+                <label for="purpose" class="label">
+                    <span class="label-text">Purpose of the Request</span>
+                </label>
+                <textarea class="textarea textarea-primary w-full bg-neutral focus:border-primary focus:outline-offset-[3px]" placeholder="example: Job Requirement" bind:value={contactInfo.purpose}></textarea>
+            </div>
+        {/if}
     </section>
     
     <section class="flex gap-4">

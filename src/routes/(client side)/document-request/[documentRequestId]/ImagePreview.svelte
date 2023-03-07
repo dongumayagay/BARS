@@ -1,21 +1,22 @@
 <script>
     import { storage } from "$lib/firebase/client.js"
     import { ref, getDownloadURL, listAll } from "firebase/storage";
-    import { createEventDispatcher } from "svelte";
+    import { createEventDispatcher, onMount } from "svelte";
 
     export let requestId;
     export let documentName;
 
     const dispatch = createEventDispatcher();
     let requirementsList = [];
-
-    listAll(ref(storage, "documentRequestsFiles/" + requestId + "/" + documentName + "/"))
-    .then((requirements)=>{
-        requirements.items.forEach((requirement)=>{
-            requirementsList = [...requirementsList, {
-                name: requirement.name.split(".")[0],
-                filePath: requirement.fullPath
-            }]
+    onMount(()=>{
+        listAll(ref(storage, "documentRequestsFiles/" + requestId + "/" + documentName + "/"))
+        .then((requirements)=>{
+            requirements.items.map((requirement)=>{
+                requirementsList = [...requirementsList, {
+                    name: requirement.name.split(".")[0],
+                    filePath: requirement.fullPath
+                }]
+            })
         })
     })
 
@@ -51,5 +52,5 @@
         {/await}
     {/each}
 {:else}
-    <p class="p-4">No Uploaded {documentName} requirements</p>
+    <p class="p-4">No uploaded {documentName} requirements</p>
 {/if}

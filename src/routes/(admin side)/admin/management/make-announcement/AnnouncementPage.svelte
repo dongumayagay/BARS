@@ -16,7 +16,7 @@
         }
        const unsub =  onSnapshot(query(collection(db, "announcements"), where("postedBy", "==", $userStore.email), orderBy("datePosted", "desc")), (querySnapshot)=>{
             postedAnnouncements = querySnapshot.docs.map((doc)=>({...doc.data(), id: doc.id}))
-            console.log("realtimeListener Triggered")
+            // console.log("realtimeListener Triggered")
         })
         return()=>{
             unsub();
@@ -48,7 +48,8 @@
             const announcementUpdateRef = await updateDoc(doc(db, "announcements", announcementDetails.id), {
                 content: announcementDetails.content,
                 datePosted: Timestamp.now(),
-                title: announcementDetails.title
+                title: announcementDetails.title,
+                hasFiles: (filesToUpload.length > 0 ? true : announcementDetails.hasFiles)
             })
             const deleteUploadedFilesRef = deletedFiles.map((item)=>{
                 return deleteObject(ref(storage, item.filePath));
@@ -85,12 +86,14 @@
 </script>
 
 
-<section class="w-full h-full flex flex-col p-4 gap-6 rounded-lg" class:hidden={managementPage !== 0}>
+<section class="w-full h-full flex flex-col p-4 gap-6 rounded-lg shadow-lg" class:hidden={managementPage !== 0}>
     {#if !showEditor}
     <AnnouncementMainPage {postedAnnouncements} {page} on:next={()=> page = 1} on:edit={showEditorHandler}/>
     <AnnouncementMaker {page} on:close={()=> page = 0}/>
     {:else}
-    <AnnouncementEditor announcement={announcementDetailsToEdit} on:cancel={cancelEditorHandler} on:update={updateHandler} on:delete={deleteHandler}/>
+    <section class="w-full h-full overflow-auto">
+        <AnnouncementEditor announcement={announcementDetailsToEdit} on:cancel={cancelEditorHandler} on:update={updateHandler} on:delete={deleteHandler}/>
+    </section>
     {/if}
 </section>
 

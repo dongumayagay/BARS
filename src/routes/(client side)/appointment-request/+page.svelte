@@ -4,12 +4,13 @@
     import RequestCompleted from "$lib/components/RequestCompleted.svelte"; 
 	import OfficialsList from "./OfficialsList.svelte";
 	import ConfirmAppointment from "./ConfirmAppointment.svelte";
-    import Otp from "./OTP.svelte";
-    import DataPrivacyConsent from "./DataPrivacyConsent.svelte";
+    import Otp from "$lib/components/OTP.svelte";
+    import DataPrivacyConsent from "$lib/components/DataPrivacyConsent.svelte";
+    import { Circle } from "svelte-loading-spinners";
     import {db} from '$lib/firebase/client.js'
     import {addDoc, collection, Timestamp} from 'firebase/firestore';
     import { sendEmail } from '$lib/utils.js';
-    import { currentPage } from "$lib/stores.js";
+    import { currentPage, userStore } from "$lib/stores.js";
  
     $currentPage = 2;
 
@@ -23,10 +24,22 @@
     let showConsentModal = false;
     let consentAgreed = false;
 
+    let showLoadingScreen = false;
+    let loadingStatement;
+
     function nextHandler(event) {
         appointmentRequest = Object.assign(appointmentRequest, event.detail)
-        if(page === 0 && (!emailVerified || verifiedEmail !== event.detail.contactInfo.email)){
-            showOTPModal = true;
+        if(page === 0){
+            if(!!$userStore){
+                if(event.detail.contactInfo.email !== $userStore.email){showOTPModal = true}
+                if(event.detail.contactInfo.email === $userStore.email){page+=1}
+                // return 0;
+            }
+            if(!$userStore){
+                if(!emailVerified || verifiedEmail !== event.detail.contactInfo.email){
+                    showOTPModal = true;
+                }
+            }
         }else{
             page += 1;
         }
@@ -58,10 +71,13 @@
 
     async function submitToDatabase() {
         try {
+            showLoadingScreen = true;
+            loadingStatement = "Uploading Your Request..."
             const appointmentRequestRef = await addDoc(collection(db, 'appointmentRequests'),{
                 lastName: appointmentRequest.contactInfo.lastName,
                 firstName: appointmentRequest.contactInfo.firstName,
-                middleName: appointmentRequest.contactInfo.middleName,
+                middleName: appointmentRequest.contactInfo.middleName??"",
+                suffix: appointmentRequest.contactInfo.suffix??"",
                 completeAddress: appointmentRequest.contactInfo.address,
                 contactNo: appointmentRequest.contactInfo.contactNo,
                 birthDate: appointmentRequest.contactInfo.birthdate,
@@ -73,12 +89,17 @@
                 appointmentTime: appointmentRequest.selectedDateAndTime.time,
                 appointmentPurpose: appointmentRequest.contactInfo.purpose,
                 selectedOfficial: appointmentRequest.selectedOfficial,
-                status: "pending"
+                civilStatus: appointmentRequest.contactInfo.civilStatus,
+                nationality: appointmentRequest.contactInfo.nationality,
+                status: "pending",
+                requestorUID: $userStore?.uid??"",
             })
 
+            loadingStatement = "Generating Request ID..."
             emailRequestId(appointmentRequest.contactInfo.email, appointmentRequestRef.id);
             requestId = appointmentRequestRef.id;
-            alert('Your request for an appointment has been submitted\n\nRequest ID: ' + appointmentRequestRef.id);
+            // alert('Your request for an appointment has been submitted\n\nRequest ID: ' + appointmentRequestRef.id);
+            showLoadingScreen = false;
             requestSubmitted = true; 
         } catch (error) {
             console.log(error)
@@ -110,7 +131,7 @@
         </ul>
 
         <div  class="w-[90%] lg:w-[45%] p-4 lg:px-10 bg-neutral rounded-xl flex flex-col justify-center shadow-xl gap-3" class:hidden={page !== 0}>
-            <InfoForm on:next={nextHandler}/>
+            <InfoForm on:next={nextHandler} isDocumentRequest={false}/>
         </div>
         <Otp email={appointmentRequest.contactInfo?.email??""} {showOTPModal} on:emailVerified={emailVerifier} on:close={()=>showOTPModal=false}/>
 
@@ -136,6 +157,12 @@
                 consentAgreed = true;
                 showConsentModal = false;
             }} />
+        {/if}
+        {#if showLoadingScreen}
+            <section class="fixed top-0 left-0 bg-black/70 w-screen h-screen flex flex-col justify-center items-center gap-2 rounded-xl">
+                <Circle color="#fff"/>
+                <p class="text-white">{loadingStatement}</p>
+            </section>
         {/if}
     </section>
 

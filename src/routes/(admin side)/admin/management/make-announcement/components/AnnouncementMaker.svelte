@@ -5,6 +5,7 @@
 	import { addDoc, collection, Timestamp } from "firebase/firestore";
 	import { uploadBytes, ref } from "firebase/storage";
     import { createEventDispatcher } from "svelte";
+    import { Circle } from "svelte-loading-spinners";
 	import AnnouncementPreviewForm from "./AnnouncementPreviewForm.svelte";
 
     export let page;
@@ -81,7 +82,7 @@
 </script>
 
 
-<div class="flex flex-col gap-2" class:hidden={page !== 1}>
+<div class="overflow-y-auto flex flex-col gap-2" class:hidden={page !== 1}>
     <button class="w-max btn btn-ghost flex gap-1 hover:bg-transparent group" on:click={()=>closeHandler()}>
         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
             <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0013.5 3h-6a2.25 2.25 0 00-2.25 2.25v13.5A2.25 2.25 0 007.5 21h6a2.25 2.25 0 002.25-2.25V15M12 9l-3 3m0 0l3 3m-3-3h12.75" />
@@ -108,7 +109,8 @@
     {/if}
     {#if showUploadingModal}
         <section class="fixed top-0 left-0 w-screen h-screen bg-black/70 flex justify-center items-center z-20">
-            <div class="w-[50vw] h-[50vh] bg-neutral flex jusitfy-center items-center rounded-xl shadow-lg">
+            <div class="w-[50vw] h-[50vh] bg-neutral flex flex-col justify-center items-center rounded-xl shadow-lg">
+                <Circle/>
                 <p class="w-full font-bold text-center">Uploading announcement. Please wait...</p>
             </div>
         </section>

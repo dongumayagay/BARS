@@ -12,7 +12,7 @@
     }
 </script>
 
-<div class="w-full">
+<div class="w-full h-full">
     <table class="table w-full">
         <thead>
             <tr>

@@ -1,6 +1,7 @@
 <script>
     import { sendEmail } from '$lib/utils';
     import { createEventDispatcher } from 'svelte';
+    import { userStore } from "$lib/stores.js"
 
     export let email, showOTPModal;
 
@@ -13,10 +14,10 @@
 
     async function sendCode() {
         code = JSON.stringify(Math.floor(Math.random() * 999999))
-        // console.log(code)
+        console.log(code)
 		const result = await sendEmail({
 			to: email,
-			subject: 'Appointment Request Email Verification',
+			subject: 'Document Request Email Verification',
 			html: '<p>Your verification code: ' + code + '</p>'
 		});
 
@@ -40,7 +41,7 @@
         sendCode()
     }
 
-    $: if(!!email) sendCode();
+    $: if(!!email && email!==$userStore.email) sendCode();
 
     $: if(!!email && resendTimer !== 0){
         setTimeout(()=>{

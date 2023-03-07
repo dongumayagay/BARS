@@ -5,6 +5,7 @@
 	import ManagementHeader from "./ManagementHeader.svelte";
 	import AnnouncementPage from "./make-announcement/AnnouncementPage.svelte";
 	import DocumentsListManagerMainPage from "./documents-list-manager/DocumentsListManagerMainPage.svelte";
+	import OfficialsListMainPage from "./officials-list-manager/OfficialsListMainPage.svelte";
 
 
     onMount(()=>{
@@ -27,9 +28,10 @@
         <ManagementHeader  {managementPage} on:switchTab={navigate}/>
 
         <div class="w-full h-full bg-neutral min-h-screen flex justify-center pb-[5vh]">
-            <div class="overflow-auto w-[90%] h-full bg-base-100 flex justify-center border-[1px] border-base-300 rounded-lg">
+            <div class="overflow-hidden w-[90%] h-full bg-base-100 flex justify-center border-[1px] border-base-300 rounded-lg">
                 <AnnouncementPage  {managementPage} />
                 <DocumentsListManagerMainPage {managementPage} />
+                <OfficialsListMainPage {managementPage} />
             </div>
         </div>
     </section>

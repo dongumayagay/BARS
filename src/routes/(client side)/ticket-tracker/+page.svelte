@@ -2,10 +2,20 @@
     import { doc, getDoc } from 'firebase/firestore';
     import { db } from '$lib/firebase/client';
     import {goto} from "$app/navigation"
-    import { currentPage } from "$lib/stores.js";
+    import { currentPage, userStore } from "$lib/stores.js";
     import Tracker from "./Tracker.svelte";
+	import { onMount } from 'svelte';
 
     $currentPage = 3;
+
+    let userDetails = {};
+
+    onMount(async ()=>{
+        if(!!$userStore){
+            const userRef = await getDoc(doc(db, "users", $userStore.uid));
+            userDetails = {...userRef.data()}
+        }
+    })
 
     let errorMessage = "";
 
@@ -29,6 +39,8 @@
             console.log(error)
         }
     }
+
+    $: console.log(userDetails)
 </script>
 
 <svelte:head>

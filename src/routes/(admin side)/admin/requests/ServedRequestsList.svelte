@@ -86,9 +86,9 @@
 </script>
 
 
-<main class="w-full flex justify-center" class:hidden={page !== 3}>
-    <div class="w-full bg-base-100 rounded-lg" class:hidden={viewing}>
-        <div class="w-full p-6 flex flex-col items-center gap-4">
+<main class="w-full h-full flex justify-center" class:hidden={page !== 3}>
+    <div class="w-full h-full bg-base-100 rounded-lg" class:hidden={viewing}>
+        <div class="w-full h-full p-6 flex flex-col items-center gap-4">
             <div class="w-full flex flex-wrap justify-between gap-2">
                 <div class="w-full lg:w-max flex items-center justify-between lg:justify-center gap-2">
                     <small class="w-[20%] text-center font-semibold">Show: </small>

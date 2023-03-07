@@ -3,7 +3,7 @@
     
     const dispatch = createEventDispatcher();
 
-    export let listOfRequestedDocuments;
+    export let listOfRequestedDocuments, isRequestForSomeone;
 
     let filesToUpload = [];
     let nodes = [];
@@ -74,6 +74,29 @@
                 </div>
             </div>
             {/each}
+            <!-- <div class="pb-5 border-b-4 border-dotted border-secondary">
+                <div class="p-3">
+                    <p class=" font-medium">{document.name}</p>
+                </div>
+                <div class="flex flex-col items-center gap-4">
+                    {#each document.requirements as requirement, requirementIndex} -->
+                    {#if isRequestForSomeone}
+                        <div class="w-[85%] lg:w-[30vw] flex flex-col items-center gap-2">
+                            <p>Authorization Letter</p>
+                            <!-- bind:this={nodes[nodes.length + 1]} -->
+                            <input type="file" 
+                            on:change={(event)=>changeHandler(event.target.files, "Authorization Letter", event.target.files[0].name.split(".")[0])}
+                                accept=".jpg, .jpeg, .png" 
+                                name="file"
+                                required 
+                                class="file-input file-input-bordered file-input-primary w-full max-w-xs file:w-[40%] peer" 
+                            />
+                            <small class="w-full hidden text-error peer-required:block">This field is required</small>
+                        </div>
+                    {/if}
+                    <!-- {/each}
+                </div>
+            </div> -->
     </div>
 
     <section class="w-full flex flex-col lg:flex-row justify-around p-4 gap-2">
