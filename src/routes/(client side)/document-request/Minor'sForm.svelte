@@ -102,12 +102,14 @@
     <section>
         <h1 class="font-bold text-center">Child's Basic Information</h1>
     </section>
+    {#if !!$userStore}
     <div class="form-control">
         <label class="w-max label cursor-pointer flex gap-2 group">
             <input type="checkbox" class="checkbox checkbox-primary" bind:checked={autofill}/>
             <span class="label-text group-hover:underline">Autofill Form</span> 
         </label>
     </div>
+    {/if}
     <section class="flex flex-col gap-4">
         <div class="flex flex-col flex-1">
             <label for="lastName" class="label">

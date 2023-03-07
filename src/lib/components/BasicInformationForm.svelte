@@ -130,7 +130,7 @@
     <section>
         <h1 class="font-bold text-center">{isRequestForSomeone ? "Subject's " : ""}Basic Information</h1>
     </section>
-    {#if !isRequestForSomeone}
+    {#if !isRequestForSomeone && !!$userStore}
     <div class="form-control">
         <label class="w-max label cursor-pointer flex gap-2 group">
             <input type="checkbox" class="checkbox checkbox-primary" bind:checked={autofill}/>
