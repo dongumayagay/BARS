@@ -12,6 +12,8 @@
     let othersCivilStatus = "";
     let othersNationality = "";
 
+    const phoneNumberPattern = "^(09|639)+\\d{9}$"
+
     onMount(()=>{
         if(isDocumentRequest){
             if(!isRequestForSomeone){
@@ -116,22 +118,23 @@
 
 
 <form class="flex flex-1 flex-col gap-5 h-max " on:submit|preventDefault={submitHandler} on:reset={(event)=>event.target.reset()}>
+    {#if isRequestForSomeone}
+    <div class="flex flex-col gap-4 flex-1">
+        <!-- <label for="lastName" class="label">
+            <span class="label-text">Authorized Requester's Full Name</span>
+            </label> -->
+        <h1 class="font-bold text-center">Authorized Requestor's Full Name</h1>
+        <input required title="Please enter your full name" type="text" 
+            placeholder="Last Name, First Name, M.I. Suffix"
+            class="input input-bordered input-md input-primary w-full bg-neutral focus:border-primary focus:outline-offset-[3px]"
+            bind:value={authorizedRequestor}
+            />
+    </div>
+    {/if}
     <section>
-        <h1 class="font-bold text-center">Basic Information</h1>
+        <h1 class="font-bold text-center">{isRequestForSomeone ? "Subject's " : ""}Basic Information</h1>
     </section>
     <section class="flex flex-col gap-4">
-        {#if isRequestForSomeone}
-        <div class="flex flex-col flex-1">
-            <label for="lastName" class="label">
-                <span class="label-text">Authorized Requester's Full Name</span>
-                </label>
-            <input required title="Please enter your full name" type="text" 
-                placeholder="Last Name, First Name, M.I. Suffix"
-                class="input input-bordered input-md input-primary w-full bg-neutral focus:border-primary focus:outline-offset-[3px]"
-                bind:value={authorizedRequestor}
-                />
-        </div>
-        {/if}
         <div class="flex flex-col flex-1">
             <label for="lastName" class="label">
                 <span class="label-text">Last Name</span>
@@ -232,7 +235,7 @@
             <label for="contact" class="label">
                 <span class="label-text">Phone Number</span>
             </label>
-            <input required title="Please enter your valid phone number" type="tel" id="contact" name="contact" placeholder="09** *** ****" maxlength="11" class="input input-bordered input-md input-primary w-full bg-neutral focus:border-primary focus:outline-offset-[3px]"
+            <input required title="Please enter a valid phone number format: 09*********" pattern={phoneNumberPattern} type="tel" id="contact" name="contact" minlength="11" maxlength="12" placeholder="09*********" class="input input-bordered input-md input-primary w-full bg-neutral focus:border-primary focus:outline-offset-[3px]"
                 bind:value={contactInfo.contactNo}
             />
         </div>

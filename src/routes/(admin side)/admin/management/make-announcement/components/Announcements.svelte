@@ -17,7 +17,7 @@
         enlargeImages = true;
         filePaths = [...event.detail.filePaths]
         imageIndex = event.detail.index
-        console.log(event.detail)
+        // console.log(event.detail)
     }
 
     function closeHandler(){
@@ -25,7 +25,7 @@
         enlargeImages = false;
     }
 
-    $: console.log(announcements)
+    // $: console.log(announcements)
 </script>
 
 <div class="w-full h-full flex flex-col gap-2">
@@ -48,7 +48,7 @@
                     </button>
                 </div>
                 <p class="w-full text-center p-4 font-bold text-xl lg:text-2xl">{announcement?.title??""}</p>
-                <p class="w-full min-h-[150px] text-sm lg:text-md whitespace-pre-wrap">{announcement?.content??""}</p>
+                <p class="w-full min-h-[150px] text-sm lg:text-md font-semibold whitespace-pre-wrap">{announcement?.content??""}</p>
                 {#if announcement.hasFiles}
                     <AnnouncementPhotos id={announcement.id} on:viewImage={viewHandler}/>
                 {/if}

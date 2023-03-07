@@ -46,17 +46,17 @@
 
         <!-- Document Requests This Month -->
         <DashboardCard requestsCount={documentRequestsThisMonth.length} cardColor={"primary"} title={"Requests This Month:"}/>
-        <DashboardCard requestsCount={Math.ceil(documentRequestsThisMonth.length / 7)} cardColor={"info"} title={"Average Requests per day:"}/>
+        <DashboardCard requestsCount={Math.ceil(documentRequestsThisMonth.length / 7)} cardColor={"blue-500"} title={"Average Requests per day:"}/>
     </div>
     <div class="w-full flex justify-center">
         <div class="w-1/4 flex justify-center">
-            <DashboardCard requestsCount={servedRequestsToday.length} cardColor={"success"} title={"Requests Served Today:"}/>
+            <DashboardCard requestsCount={servedRequestsToday.length} cardColor={"green-400"} title={"Requests Served Today:"}/>
         </div>
         <div class="w-1/4 flex justify-center">
-            <DashboardCard requestsCount={servedRequestsThisWeek.length} cardColor={"success"} title={"Requests Served This Week:"}/>
+            <DashboardCard requestsCount={servedRequestsThisWeek.length} cardColor={"green-400"} title={"Requests Served This Week:"}/>
         </div>
         <div class="w-1/4 flex justify-center">
-            <DashboardCard requestsCount={servedRequestsThisMonth.length} cardColor={"success"} title={"Requests Served This Month:"}/>
+            <DashboardCard requestsCount={servedRequestsThisMonth.length} cardColor={"green-400"} title={"Requests Served This Month:"}/>
         </div>
     </div>
 </section>

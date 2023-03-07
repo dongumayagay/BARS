@@ -6,6 +6,7 @@
 	import ConfirmAppointment from "./ConfirmAppointment.svelte";
     import Otp from "$lib/components/OTP.svelte";
     import DataPrivacyConsent from "$lib/components/DataPrivacyConsent.svelte";
+    import { Circle } from "svelte-loading-spinners";
     import {db} from '$lib/firebase/client.js'
     import {addDoc, collection, Timestamp} from 'firebase/firestore';
     import { sendEmail } from '$lib/utils.js';
@@ -22,6 +23,9 @@
     let showOTPModal = false;
     let showConsentModal = false;
     let consentAgreed = false;
+
+    let showLoadingScreen = false;
+    let loadingStatement;
 
     function nextHandler(event) {
         appointmentRequest = Object.assign(appointmentRequest, event.detail)
@@ -67,6 +71,8 @@
 
     async function submitToDatabase() {
         try {
+            showLoadingScreen = true;
+            loadingStatement = "Uploading Your Request..."
             const appointmentRequestRef = await addDoc(collection(db, 'appointmentRequests'),{
                 lastName: appointmentRequest.contactInfo.lastName,
                 firstName: appointmentRequest.contactInfo.firstName,
@@ -89,9 +95,11 @@
                 requestorUID: $userStore?.uid??"",
             })
 
+            loadingStatement = "Generating Request ID..."
             emailRequestId(appointmentRequest.contactInfo.email, appointmentRequestRef.id);
             requestId = appointmentRequestRef.id;
-            alert('Your request for an appointment has been submitted\n\nRequest ID: ' + appointmentRequestRef.id);
+            // alert('Your request for an appointment has been submitted\n\nRequest ID: ' + appointmentRequestRef.id);
+            showLoadingScreen = false;
             requestSubmitted = true; 
         } catch (error) {
             console.log(error)
@@ -149,6 +157,12 @@
                 consentAgreed = true;
                 showConsentModal = false;
             }} />
+        {/if}
+        {#if showLoadingScreen}
+            <section class="fixed top-0 left-0 bg-black/70 w-screen h-screen flex flex-col justify-center items-center gap-2 rounded-xl">
+                <Circle color="#fff"/>
+                <p class="text-white">{loadingStatement}</p>
+            </section>
         {/if}
     </section>
 

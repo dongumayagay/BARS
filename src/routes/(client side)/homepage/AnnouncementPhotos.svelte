@@ -53,7 +53,7 @@
                 </button>
                 {:else if index < filePaths.length - 1}
                 <button class="opacity-70 bg-black/50 w-full hover:opacity-100 transition-opacity ease-in-out duration-100 absolute top-0 h-full rounded-xl shadow-md" on:click={()=>dispatch("viewImage", {filePaths, index})}>
-                    <p class="text-white text-lg">{"+" + (filePaths.length - 2)}</p>
+                    <p class="text-white text-lg">{"+" + (filePaths.length - 3)}</p>
                 </button>
                 {/if}
             </div>

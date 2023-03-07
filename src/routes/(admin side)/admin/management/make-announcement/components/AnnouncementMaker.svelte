@@ -109,7 +109,7 @@
     {/if}
     {#if showUploadingModal}
         <section class="fixed top-0 left-0 w-screen h-screen bg-black/70 flex justify-center items-center z-20">
-            <div class="w-[50vw] h-[50vh] bg-neutral flex jusitfy-center items-center rounded-xl shadow-lg">
+            <div class="w-[50vw] h-[50vh] bg-neutral flex flex-col justify-center items-center rounded-xl shadow-lg">
                 <Circle/>
                 <p class="w-full font-bold text-center">Uploading announcement. Please wait...</p>
             </div>

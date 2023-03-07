@@ -38,24 +38,24 @@
     <p class="pl-4 text-xl font-semibold">Appointment Requests</p>
     <div class="w-full grid grid-cols-4 gap-2 ">
         <!-- Appointment Requests Today -->
-        <DashboardCard requestsCount={appointmentRequestsToday.length} cardColor={"primary"} title={"Appointments Recieved Today:"}/>
+        <DashboardCard requestsCount={appointmentRequestsToday.length} cardColor={0} title={"Appointments Recieved Today:"}/>
 
         <!-- Appointment Requests This Week -->
-        <DashboardCard requestsCount={appointmentRequestsThisWeek.length} cardColor={"primary"} title={"Appointments This Week:"}/>
+        <DashboardCard requestsCount={appointmentRequestsThisWeek.length} cardColor={0} title={"Appointments This Week:"}/>
 
         <!-- Appointment Requests This Month -->
-        <DashboardCard requestsCount={appointmentRequestsThisMonth.length} cardColor={"primary"} title={"Appointments This Month:"}/>
-        <DashboardCard requestsCount={Math.ceil(appointmentRequestsThisMonth.length / 7)} cardColor={"info"} title={"Average Requests per day:"}/>
+        <DashboardCard requestsCount={appointmentRequestsThisMonth.length} cardColor={0} title={"Appointments This Month:"}/>
+        <DashboardCard requestsCount={Math.ceil(appointmentRequestsThisMonth.length / 7)} cardColor={1} title={"Average Requests per day:"}/>
     </div>
     <div class="w-full flex justify-center">
         <div class="w-1/4 flex justify-center">
-            <DashboardCard requestsCount={servedRequestsToday.length} cardColor={"success"} title={"Appointments Served Today:"}/>
+            <DashboardCard requestsCount={servedRequestsToday.length} cardColor={2} title={"Appointments Served Today:"}/>
         </div>
         <div class="w-1/4 flex justify-center">
-            <DashboardCard requestsCount={servedRequestsThisWeek.length} cardColor={"success"} title={"Appointments Served This Week:"}/>
+            <DashboardCard requestsCount={servedRequestsThisWeek.length} cardColor={2} title={"Appointments Served This Week:"}/>
         </div>
         <div class="w-1/4 flex justify-center">
-            <DashboardCard requestsCount={servedRequestsThisMonth.length} cardColor={"success"} title={"Appointments Served This Month:"}/>
+            <DashboardCard requestsCount={servedRequestsThisMonth.length} cardColor={2} title={"Appointments Served This Month:"}/>
         </div>
     </div>
 </section>
