@@ -1,5 +1,9 @@
 <script>
     import {createEventDispatcher} from "svelte";
+    import { userStore } from "$lib/stores.js";
+    import { db, } from "$lib/firebase/client.js"
+	import { Circle } from "svelte-loading-spinners";
+	import { collection, getDocs, query, where } from "firebase/firestore";
 
     const dispatch = createEventDispatcher();
 
@@ -8,11 +12,47 @@
     let typeOfRequest;
     let requestId;
 
+    let transactions = [];
+
+    let showSignUpModal = false;
+    let showTransactionsModal = false;
+
     function submitHandler() {
         dispatch("submit", {
             typeOfRequest,
             requestId
         })
+    }
+
+    function transactionViewerHandler(){
+        if(!!$userStore){
+            showTransactionsModal = true;
+        } else {
+            showSignUpModal = true;
+        }
+    }
+
+    async function fetchRequestsHistory(){
+        try {
+            let allRequests
+            const documentRequestsRef = await getDocs(query(collection(db, "documentRequests"), where("email", "==", $userStore.email)))
+            const appointmentRequestsRef = await getDocs(query(collection(db, "appointmentRequests"), where("email", "==", $userStore.email)))
+            const documentRequests = documentRequestsRef.docs.map((doc)=>({
+                ...doc.data(),
+                requestId: doc.id,
+                typeOfRequest: "documentRequests",
+            }))
+            const appointmentRequests = appointmentRequestsRef.docs.map((doc)=>({
+                ...doc.data(),
+                requestId: doc.id,
+                typeOfRequest: "appointmentRequests",
+            }))
+            allRequests = [...documentRequests, ...appointmentRequests] 
+            console.log(allRequests)
+            return allRequests;
+        } catch (error) {
+            alert(error.message)
+        }
     }
 
 
@@ -47,5 +87,34 @@
             <button type="submit" class="btn btn-primary w-full hover:bg-primary">Confirm</button>
             <button type="reset" class="btn btn-ghost w-max hover:bg-neutral group"><p class=" group-hover:underline group-hover:underline-offset-4">Clear Inputs</p></button>
         </div>
+        <section class="w-full flex justify-center lg:justify-start">
+            <button type="button" class="btn btn-info btn-sm" on:click={transactionViewerHandler} disabled>
+                See requests history
+            </button>
+        </section>
     </div>
+    {#if showTransactionsModal}
+        <section class="fixed top-0 left-0 w-screen h-screen bg-black/70 flex justify-center items-center z-20">
+            <section class="w-[80%] min-h-[70%] bg-neutral flex flex-col gap-4 rounded-xl shadow-xl">
+                <section class="w-full flex justify-center p-6 relative">
+                    <p class="font-bold text-lg">Requests History</p>
+                    <button type="button" class="absolute left-6" on:click={()=>showTransactionsModal=false}>
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-7 h-7">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M9.75 9.75l4.5 4.5m0-4.5l-4.5 4.5M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                    </button>
+                </section>
+                <section class="w-full h-full flex justify-center items-center">
+                {#await fetchRequestsHistory()}
+                    <Circle color="#fff"/>
+                    <p>Loading Requests History</p>
+                {:then allRequests} 
+                    {#each allRequests as request}
+                        <p>{request.requestId}</p>
+                    {/each}
+                {/await}
+                </section>
+            </section>
+        </section>
+    {/if}
 </form>
