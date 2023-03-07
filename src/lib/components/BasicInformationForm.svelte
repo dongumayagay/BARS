@@ -9,52 +9,26 @@
 
     let contactInfo = {}
     let authorizedRequestor;
+    
     let othersCivilStatus = "";
     let othersNationality = "";
+    let autofill;
 
     const phoneNumberPattern = "^(09|639)+\\d{9}$"
 
     onMount(()=>{
         if(isDocumentRequest){
             if(!isRequestForSomeone){
-                if(!!$userStore){
-                    getUser()
-                }
+                autofill = true;
             } else {
-                contactInfo = {
-                    lastName: "",
-                    firstName: "",
-                    middleName: "",
-                    suffix: "",
-                    address: "",
-                    birthdate: "",
-                    email: "",
-                    contactNo: "",
-                    purpose: "",
-                    civilStatus: "",
-                    nationality: "",
-                }
+                autofill = false;
             }
         } 
-
-
         if(!isDocumentRequest) {
             if(!!$userStore){
-                getUser()
+                autofill = true;
             } else {
-                contactInfo = {
-                    lastName: "",
-                    firstName: "",
-                    middleName: "",
-                    suffix: "",
-                    address: "",
-                    birthdate: "",
-                    email: "",
-                    contactNo: "",
-                    purpose: "",
-                    civilStatus: "",
-                    nationality: "",
-                }
+               autofill = false;
             }
         }
     })
@@ -77,7 +51,12 @@
     
     let todayFormat = today.getFullYear() + "-" + monthFormat + "-" + dateFormat;
     
-    
+    // async function authorizedRequestorFullName(){
+    //         const getUser = await getDoc(doc(db, "users", $userStore.uid));
+    //         const fullName =  getUser.data().lastName + ", " + getUser.data().firstName + " " + getUser.data().middleName??"" + getUser.data().suffix??"";
+    //         console.log(fullName)
+    //         return fullName; 
+    // }
     
     function submitHandler() {
         dispatch("next", {
@@ -105,7 +84,24 @@
         }
     }
 
+    function emptyForm(){
+        contactInfo = {
+            lastName: "",
+            firstName: "",
+            middleName: "",
+            suffix: "",
+            address: "",
+            birthdate: "",
+            email: "",
+            contactNo: "",
+            purpose: "",
+            civilStatus: "",
+            nationality: "",
+        }
+    }
+
     $: console.log($userStore, contactInfo)
+    $: if(autofill){getUser()} else{emptyForm()}
 
 //  $: console.log(JSON.stringify(contactInfo))
 </script>
@@ -134,6 +130,14 @@
     <section>
         <h1 class="font-bold text-center">{isRequestForSomeone ? "Subject's " : ""}Basic Information</h1>
     </section>
+    {#if !isRequestForSomeone}
+    <div class="form-control">
+        <label class="w-max label cursor-pointer flex gap-2 group">
+            <input type="checkbox" class="checkbox checkbox-primary" bind:checked={autofill}/>
+            <span class="label-text group-hover:underline">Autofill Form</span> 
+        </label>
+    </div>
+    {/if}
     <section class="flex flex-col gap-4">
         <div class="flex flex-col flex-1">
             <label for="lastName" class="label">
