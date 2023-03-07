@@ -9,6 +9,9 @@
     let dateFormat = today.getDate()
     let monthFormat = (today.getMonth() + 1);
 
+    let othersCivilStatus;
+    let othersNationality;
+
     // the date's number should start with "0" if its value is less than 10 for it to be valid, otherwise the min value will be ignored
     if(dateFormat < 10){
         dateFormat = "0" + dateFormat;
@@ -29,6 +32,8 @@
         address: "",
         birthdate: "",
         contactNo: "",
+        civilStatus: "",
+        nationality: "",
     }
     
     function submitHandler() {
@@ -99,6 +104,41 @@
                 <input required title="Please enter your last name" type="date" id="birthdate" name="birthdate" placeholder="Type here" min="1890-01-01" max={todayFormat} class="input input-bordered input-md input-primary w-full bg-neutral focus:border-primary focus:outline-offset-[3px]"
                 bind:value={contactInfo.birthdate}
                 />
+            </div>
+        </section>
+        <section>
+            <div class="flex flex-col flex-1 ">
+                <label for="civilStatus" class="label">
+                    <span class="label-text">Civil Status</span>
+                  </label>
+                  <div class="w-full flex justify-between gap-2">
+                      <select class="select select-bordered focus:bg-transparent border-primary select-ghost" required bind:value={contactInfo.civilStatus}>
+                        <option value="Single" selected>Single</option>
+                        <option value="Married" >Married</option>
+                        <option value="Separated" >Separated</option>
+                        <option value="Widowed" >Widowed</option>
+                        <option value="others" >Others</option>
+                    </select>
+                    {#if contactInfo.civilStatus === "others"}
+                        <input required type="text" id="specify" class="w-full lg:w-max bg-transparent border-b-2 focus:bg-transparent text-center" placeholder="Please specify" bind:value={othersCivilStatus}>
+                    {/if}
+                </div>
+            </div>
+        </section>
+        <section>
+            <div class="flex flex-col flex-1 ">
+                <label for="civilStatus" class="label">
+                    <span class="label-text">Nationality</span>
+                  </label>
+                  <div class="w-full flex justify-between gap-2">
+                    <select class="select select-bordered focus:bg-transparent border-primary select-ghost" required bind:value={contactInfo.nationality}>
+                      <option value="Filipino" selected>Filipino</option>
+                      <option value="others" >Others</option>
+                  </select>
+                  {#if contactInfo.nationality === "others"}
+                    <input required type="text" id="specify" class="w-full lg:w-max bg-transparent border-b-2 focus:bg-transparent text-center" placeholder="Please specify" bind:value={othersNationality}>
+                  {/if}
+                </div>
             </div>
         </section>
         <div class="flex flex-col flex-1">
