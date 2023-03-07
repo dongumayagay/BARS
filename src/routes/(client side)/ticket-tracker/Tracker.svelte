@@ -98,7 +98,7 @@
             <button type="reset" class="btn btn-ghost w-max hover:bg-neutral group"><p class=" group-hover:underline group-hover:underline-offset-4">Clear Inputs</p></button>
         </div>
         <section class="w-full flex justify-center lg:justify-start">
-            <button type="button" class="btn btn-info btn-sm" on:click={transactionViewerHandler}>
+            <button type="button" class="btn btn-info btn-sm" on:click={transactionViewerHandler} disabled={$userStore === null}>
                 See requests history
             </button>
         </section>
