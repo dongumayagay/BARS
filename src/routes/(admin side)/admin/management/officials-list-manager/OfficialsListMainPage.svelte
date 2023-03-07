@@ -62,15 +62,15 @@
 
 <section class="w-full h-full grid grid-rows-3 justify-cetner relative" class:hidden={managementPage !== 2}>
     <div class="w-full h-fullflex">
-        <BrgyCaptain captain={officials.find(item=> item.position === "Barangay Captain")} on:add={addHandler} on:edit={editHandler}/>
+        <BrgyCaptain captain={officials.find(item=> item.positionOrder === 1)} on:add={addHandler} on:edit={editHandler}/>
     </div>
     <div class="w-full h-max">
-        <Councilors councilors={officials.filter((item)=> item.position === "Barangay Councilor")} on:add={addHandler} on:edit={editHandler}/>
+        <Councilors councilors={officials.filter((item)=> item.positionOrder === 2)} on:add={addHandler} on:edit={editHandler}/>
     </div>
     <div class="w-full h-full flex items-center justify-center gap-4">
-        <Secretary secretary={officials.find((item)=> item.position === "Barangay Secretary")} on:add={addHandler} on:edit={editHandler}/>
-        <SkChairperson skChairperson={officials.find((item)=> item.position === "SK Chairperson")} on:add={addHandler} on:edit={editHandler}/>   
-        <Admin bookkeeper={officials.find((item)=> item.position === "Bookkeeper")} on:add={addHandler} on:edit={editHandler}/>
+        <Secretary secretary={officials.find((item)=> item.positionOrder === 4)} on:add={addHandler} on:edit={editHandler}/>
+        <SkChairperson skChairperson={officials.find((item)=> item.positionOrder === 3)} on:add={addHandler} on:edit={editHandler}/>   
+        <Admin bookkeeper={officials.find((item)=> item.positionOrder === 5)} on:add={addHandler} on:edit={editHandler}/>
     </div>
     {#if showEditor}
     <OfficialDetailsEditor  officialDetails={officialDetailToEdit} {isAdd} on:close={closeHandler}/>

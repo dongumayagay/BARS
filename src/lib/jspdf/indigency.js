@@ -107,7 +107,7 @@ export function indigency(officialsList, dataToView){
     indigency.setFontSize(15)
     indigency.setFont("Times", "bold")
     indigency.text(
-        dataToView.lastName.toUpperCase() + ", " + dataToView.firstName.toUpperCase() + " " + (dataToView.middleName !== "" ? dataToView.middleName.charAt(0).toUpperCase() + "." : "") + dataToView.suffix??"".toUpperCase(),
+        dataToView.lastName.toUpperCase() + ", " + dataToView.firstName.toUpperCase() + " " + (dataToView.middleName !== "" ? dataToView.middleName.charAt(0).toUpperCase() + "." : "") + (dataToView.suffix !== "" ? dataToView.suffix.charAt(0).toUpperCase(): ""),
         ((pageWidth * 0.28) + 9.5) + (indigency.getTextWidth("NAME: ") - 7), 
         200, 
         {maxWidth: (pageWidth * .72) * 0.80}

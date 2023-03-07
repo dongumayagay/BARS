@@ -91,41 +91,43 @@
             </svg>
         </button>
     </div>
-    <div class="flex justify-center border-b-2 border-transparent hover:border-inherit group p-2">
-        <p class="w-1/3 text-start font-semibold">First Name: </p>
-        <p class="w-full {!!adminBasicInfo.firstName ? "" : "opacity-70"}">{adminBasicInfo.firstName??"Click EDIT to add your First Name"}</p>
+    <div class="flex flex-col lg:flex-row justify-center border-b-2 border-transparent hover:border-inherit group p-2">
+        <p class="w-full lg:w-1/3 text-start font-semibold">First Name: </p>
+        <p class="w-full text-center lg:text-start p-4 lg:p-0 {!!adminBasicInfo.firstName ? "" : "opacity-70"}">{!!adminBasicInfo.firstName || adminBasicInfo.firstName !== "" ? adminBasicInfo.firstName : "Click EDIT to add your First Name"}</p>
     </div>
-    <div class="flex justify-center border-b-2 border-transparent hover:border-inherit group p-2">
-        <p class="w-1/3 text-start font-semibold">Middle Initial/Name: </p>
-        <p class="w-full {!!adminBasicInfo.middleName ? "" : "opacity-70"}">{adminBasicInfo.middleName??"Click EDIT to add your Middle Name"}</p>
+    <div class="flex flex-col lg:flex-row justify-center border-b-2 border-transparent hover:border-inherit group p-2">
+        <p class="w-full lg:w-1/3 text-start font-semibold">Middle Initial/Name: </p>
+        <p class="w-full text-center lg:text-start p-4 lg:p-0 {!!adminBasicInfo.middleName ? "" : "opacity-70"}">{!!adminBasicInfo.middleName || adminBasicInfo.middleName !== "" ? adminBasicInfo.middleName : "Click EDIT to add your Middle Name"}</p>
     </div>
-    <div class="flex justify-center border-b-2 border-transparent hover:border-inherit group p-2">
-        <p class="w-1/3 text-start font-semibold">Last Name: </p>
-        <p class="w-full {!!adminBasicInfo.lastName ? "" : "opacity-70"}">{adminBasicInfo.lastName??"Click EDIT to add your Last Name"}</p>
+    <div class="flex flex-col lg:flex-row justify-center border-b-2 border-transparent hover:border-inherit group p-2">
+        <p class="w-full lg:w-1/3 text-start font-semibold">Last Name: </p>
+        <p class="w-full text-center lg:text-start p-4 lg:p-0 {!!adminBasicInfo.lastName ? "" : "opacity-70"}">{adminBasicInfo.lastName !== undefined || adminBasicInfo.lastName !== "" ? adminBasicInfo.lastName : "Click EDIT to add your Last Name"}</p>
     </div>
-    <div class="flex justify-center border-b-2 border-transparent hover:border-inherit group p-2">
-        <p class="w-1/3 text-start font-semibold">Suffix/es: </p>
-        <p class="w-full {!!adminBasicInfo.suffix ? "" : "opacity-70"}">{adminBasicInfo.suffix??"Click EDIT to add your suffix"}</p>
+    <div class="flex flex-col lg:flex-row justify-center border-b-2 border-transparent hover:border-inherit group p-2">
+        <p class="w-full lg:w-1/3 text-start font-semibold">Suffix/es: </p>
+        <p class="w-full text-center lg:text-start p-4 lg:p-0 {!!adminBasicInfo.suffix ? "" : "opacity-70"}">{!!adminBasicInfo.suffix || adminBasicInfo.suffix !== "" ? adminBasicInfo.suffix : "Click EDIT to add your suffix"}</p>
     </div>
-    <div class="flex justify-center border-b-2 border-transparent hover:border-inherit group p-2">
-        <p class="w-1/3 text-start font-semibold">Complete Addrsss: </p>
-        <p class="w-full {!!adminBasicInfo.address ? "" : "opacity-70"}">{adminBasicInfo.address??"Click EDIT to add your complete address"}</p>
+    <div class="flex flex-col lg:flex-row justify-center border-b-2 border-transparent hover:border-inherit group p-2">
+        <p class="w-full lg:w-1/3 text-start font-semibold">Complete Addrsss: </p>
+        <p class="w-full text-center lg:text-start p-4 lg:p-0 {!!adminBasicInfo.address ? "" : "opacity-70"}">{!!adminBasicInfo.address || adminBasicInfo.address !== "" ? adminBasicInfo.address : "Click EDIT to add your complete address"}</p>
     </div>
-    <div class="flex justify-center border-b-2 border-transparent hover:border-inherit group p-2">
-        <p class="w-1/3 text-start font-semibold">Birthdate: </p>
-        <p class="w-full {!!adminBasicInfo.birthdate ? "" : "opacity-70"}">{adminBasicInfo.birthdate??"Click EDIT to add your birthdate"}</p>
+    <div class="flex flex-col lg:flex-row justify-center border-b-2 border-transparent hover:border-inherit group p-2">
+        <p class="w-full lg:w-1/3 text-start font-semibold">Birthdate: </p>
+        <p class="w-full text-center lg:text-start p-4 lg:p-0 {!!adminBasicInfo.birthdate ? "" : "opacity-70"}">{!!adminBasicInfo.birthdate || adminBasicInfo.birthdate !== "" ? adminBasicInfo.birthdate : "Click EDIT to add your birthdate"}</p>
     </div>
-    <div class="flex justify-center border-b-2 border-transparent hover:border-inherit group p-2">
-        <p class="w-1/3 text-start font-semibold">Civil Status: </p>
-        <p class="w-full {!!adminBasicInfo.civilStatus ? "" : "opacity-70"}">{adminBasicInfo.civilStatus??"Click EDIT to add your Civil Status"}</p>
+    <div class="flex flex-col lg:flex-row justify-center border-b-2 border-transparent hover:border-inherit group p-2">
+        <p class="w-full lg:w-1/3 text-start font-semibold">Civil Status: </p>
+        <p class="w-full text-center lg:text-start p-4 lg:p-0 {!!adminBasicInfo.civilStatus ? "" : "opacity-70"}">{!!adminBasicInfo.civilStatus || adminBasicInfo.civilStatus !== "" ? adminBasicInfo.civilStatus : "Click EDIT to add your Civil Status"}</p>
     </div>
-    <div class="flex justify-center border-b-2 border-transparent hover:border-inherit group p-2">
-        <p class="w-1/3 text-start font-semibold">Nationality: </p>
-        <p class="w-full {!!adminBasicInfo.nationality ? "" : "opacity-70"}">{adminBasicInfo.nationality??"Click EDIT to add your Nationality"}</p>
+    <div class="flex flex-col lg:flex-row justify-center border-b-2 border-transparent hover:border-inherit group p-2">
+        <p class="w-full lg:w-1/3 text-start font-semibold">Nationality: </p>
     </div>
-    <div class="flex justify-center border-b-2 border-transparent hover:border-inherit group p-2">
-        <p class="w-1/3 text-start font-semibold">Phone Number: </p>
-        <p class="w-full {!!adminBasicInfo.contactNo ? "" : "opacity-70"}">{adminBasicInfo.contactNo??"Click EDIT to add your Phone Number"}</p>
+    <div>
+        <p class="w-full text-center lg:text-start p-4 lg:p-0 {!!adminBasicInfo.nationality ? "" : "opacity-70"}">{!!adminBasicInfo.nationality || adminBasicInfo.nationality  !== "" ? adminBasicInfo.nationality : "Click EDIT to add your Nationality"}</p>
+    </div>
+    <div class="flex flex-col lg:flex-row justify-center border-b-2 border-transparent hover:border-inherit group p-2">
+        <p class="w-full lg:w-1/3 text-start font-semibold">Phone Number: </p>
+        <p class="w-full text-center lg:text-start p-4 lg:p-0 {!!adminBasicInfo.contactNo ? "" : "opacity-70"}">{!!adminBasicInfo.contactNo || adminBasicInfo.contactNo !== "" ? adminBasicInfo.contactNo : "Click EDIT to add your Phone Number"}</p>
     </div>
 </section>
 {:else}
