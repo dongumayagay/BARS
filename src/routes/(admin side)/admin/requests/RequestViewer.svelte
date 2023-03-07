@@ -30,16 +30,16 @@
             if(dataToView.nextStatus === "Ready to claim"){
                 loadingStatement = "Generating Document..."
                 const officialsList = await getDocs(query(collection(db, "officialsList"), orderBy("positionOrder", "asc")))
-                dataToView.docsRequested.map((doc)=>{
-                    console.log(doc.name)
-                    switch(doc.name){
-                        case "Barangay Clearance":
+                await dataToView.docsRequested.map((doc)=>{
+                    console.log(doc.documentNo)
+                    switch(doc.documentNo){
+                        case "1":
                             clearance(officialsList, dataToView);
                             break;
-                        case "Certificate of Indigency":
+                        case "2":
                             indigency(officialsList, dataToView);
                             break;
-                        case "Certificate of Residency":
+                        case "3":
                             residency(officialsList, dataToView);
                             break;
                     }
