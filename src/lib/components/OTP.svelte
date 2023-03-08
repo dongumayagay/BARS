@@ -1,9 +1,9 @@
 <script>
     import { sendEmail } from '$lib/utils';
-    import { createEventDispatcher } from 'svelte';
+    import { createEventDispatcher, onMount } from 'svelte';
     import { userStore } from "$lib/stores.js"
 
-    export let email, showOTPModal;
+    export let email;
 
     const dispatch =  createEventDispatcher();
 
@@ -11,6 +11,10 @@
     let codeInput = "";
     let resendTimer = 30;
     let errorMessage = "";
+
+    onMount(()=>{
+        sendCode()
+    })
 
     async function sendCode() {
         code = JSON.stringify(Math.floor(Math.random() * 999999))
@@ -41,10 +45,6 @@
         sendCode()
     }
 
-    $: if(!!$userStore){
-        if(!!email && email!==$userStore.email) sendCode();
-    }
-
     $: if(!!email && resendTimer !== 0){
         setTimeout(()=>{
             resendTimer -= 1;
@@ -54,7 +54,7 @@
     // $: if(codeInput === code) );
 </script>
 
-<form class="w-screen h-screen fixed flex items-center justify-center top-0 left-0 bg-black/70 z-20" class:hidden={!showOTPModal} on:submit|preventDefault={submitHandler}>
+<form class="w-screen h-screen fixed flex items-center justify-center top-0 left-0 bg-black/70 z-20" on:submit|preventDefault={submitHandler}>
     <div class="bg-neutral flex flex-col w-[80vw] lg:w-[50vw] gap-2 rounded-xl p-4">
         <div class="w-full flex justify-between ">
             <h3 class="font-bold text-lg">Email Verification</h3>
