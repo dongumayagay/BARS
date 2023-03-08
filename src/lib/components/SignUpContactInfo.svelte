@@ -51,6 +51,14 @@
 
 
 <form class="w-[85vw] lg:w-[40vw] h-max bg-neutral flex flex-1 flex-col gap-5 p-4 rounded-xl shadow-lg" on:submit|preventDefault={submitHandler} on:reset={(event)=>event.target.reset()} class:hidden={signUpStep !== 1} on:scroll|stopPropagation>
+    <section class="w-full flex ">
+        <button type="button" class="btn btn-ghost hover:bg-transparent" on:click={()=>dispatch("back")}>
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0013.5 3h-6a2.25 2.25 0 00-2.25 2.25v13.5A2.25 2.25 0 007.5 21h6a2.25 2.25 0 002.25-2.25V15M12 9l-3 3m0 0l3 3m-3-3h12.75" />
+            </svg>
+            <p>Go Back</p>
+        </button>
+    </section>
     <section>
         <h1 class="font-bold text-center">Basic Information</h1>
     </section>

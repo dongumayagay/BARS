@@ -13,6 +13,7 @@
 	import AccountCredentials from "./client-account-settings-components/AccountCredentials.svelte";
 	import Password from "./client-account-settings-components/Password.svelte";
 	import BasicInfo from "./client-account-settings-components/BasicInfo.svelte";
+	import Otp from "../../lib/components/OTP.svelte";
 
 	onMount(()=>{
 		$currentInterface = "client";
@@ -42,8 +43,11 @@
 	let showLoginForm = false;
 	let showSignUpForm = false;
 	let showConsentModal = false;
+	let emailVerified = false;
 	let consentAgreed = false;
+	let showOTPModal = false;
 	let signUpStep = 0;
+	let verifiedEmail
 	let signUpDetails = {};
 
 	// Account Settings Variables
@@ -64,7 +68,9 @@
 	function nextHandler(event){
 		signUpDetails = Object.assign(signUpDetails, event.detail)
 		console.log(signUpDetails)
-		if(signUpStep === 1 && !consentAgreed){
+		if(signUpStep === 0 && (!emailVerified || (!!verifiedEmail && event.detail.email !== verifiedEmail))){
+			showOTPModal = true
+		} else if(signUpStep === 1 && !consentAgreed) {
 			showConsentModal = true
 		} else if (signUpStep === 1 && consentAgreed) {
 			console.log("We are creating your BARS account. This might take a while....")
@@ -73,6 +79,14 @@
 			signUpStep++
 		}
 	}
+
+	function emailVerifier(event){
+        emailVerified =  true;
+        verifiedEmail = event.detail;
+        showOTPModal = false;
+        alert("Your Email has been verified")
+        signUpStep++;
+    }
 
 	async function createAccountHandler(){
 		try {
@@ -119,7 +133,10 @@
 	</div>
 	<div class="h-full flex justify-center relative">
 		<SignUpForm {signUpStep} on:next={nextHandler}/>
-		<SignUpContactInfo {signUpStep} on:next={nextHandler} />
+		{#if showOTPModal}
+        	<Otp email={signUpDetails.email??""} on:emailVerified={emailVerifier} on:close={()=>showOTPModal=false}/>
+        {/if}
+		<SignUpContactInfo {signUpStep} on:next={nextHandler} on:back={()=>signUpStep--}/>
 		<div class="w-full h-full" class:hidden={!showConsentModal}>
 			<DataPrivacyConsent on:agree={()=>{consentAgreed=true; showConsentModal=false}} on:close={()=>showConsentModal=false} on:decline={()=>showConsentModal=false}/>
 		</div>

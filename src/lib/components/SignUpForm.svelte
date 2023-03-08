@@ -7,7 +7,7 @@
 
     let showPassword = false;
 
-    let username, email, password;
+    let username, email, password, confirmPassword;
 
     function submitHandler(){
         dispatch("next", {
@@ -41,9 +41,16 @@
                 <p>Show Password</p>
             </label>
         </div>
+        <div class="flex flex-col gap-2">
+            <div class="w-full flex flex-col border-b-2 border-primary gap-2">
+                <label for="#password" class="font-semibold">Re-type Password</label>
+                <input type="password" minlength="8" maxlength="15" class="input bg-transparent focus:bg-transparent focus:outline-0 autofill:bg-transparent" placeholder="Please type your password again to confirm" class:input-error={!!confirmPassword && confirmPassword !== password} bind:value={confirmPassword}>
+            </div>
+            <label for="#password" class="label-text-alt text-error" class:block={!!confirmPassword && confirmPassword !== password}>This field must be the same as your password</label>
+        </div>
     </div>
     <div class="w-full flex items-center gap-2 h-20% p-4">
-        <button type="submit" class="btn btn-success">Next</button>
+        <button type="submit" class="btn btn-success" disabled={confirmPassword !== password}>Next</button>
         <button type="reset" class="btn btn-ghost" on:click={(event)=>event.target.reset}>Clear Form</button>
     </div>
 </form>
