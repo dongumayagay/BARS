@@ -41,7 +41,9 @@
         sendCode()
     }
 
-    $: if(!!email && email!==$userStore.email) sendCode();
+    $: if(!!$userStore){
+        if(!!email && email!==$userStore.email) sendCode();
+    }
 
     $: if(!!email && resendTimer !== 0){
         setTimeout(()=>{
