@@ -2,7 +2,7 @@
     import { userStore } from "$lib/stores.js";
     import { db, } from "$lib/firebase/client.js";
     import { Circle } from "svelte-loading-spinners";
-    import { collection, getDocs, query, where } from "firebase/firestore";
+    import { collection, getDocs, query, Timestamp, where } from "firebase/firestore";
     import { createEventDispatcher } from "svelte";
 
     const dispatch = createEventDispatcher();
@@ -13,12 +13,16 @@
             const appointmentRequestsRef = await getDocs(query(collection(db, "appointmentRequests"), where("email", "==", $userStore.email)))
             const documentRequests = documentRequestsRef.docs.map((doc)=>({
                 fullName: doc.data().lastName + ", " + doc.data().firstName + " " + doc.data().middleName??"" + doc.data().suffix??"",
+                status: doc.data().status,
+                lastUpdated: doc.data().lastUpdated,
                 requestId: doc.id,
                 requestPath: "documentRequests",
                 typeOfRequest: "Document Request",
             }))
             const appointmentRequests = appointmentRequestsRef.docs.map((doc)=>({
                 fullName: doc.data().lastName + ", " + doc.data().firstName + " " + doc.data().middleName??"" + doc.data().suffix??"",
+                status: doc.data().status,
+                lastUpdated: doc.data().lastUpdated,
                 requestId: doc.id,
                 requestPath: "appointmentRequests",
                 typeOfRequest: "Appointment Request",
@@ -34,7 +38,7 @@
 </script>
 
 <section class="fixed top-0 left-0 w-screen h-screen bg-black/70 flex justify-center items-center z-20">
-    <section class="w-[80%] h-[70%] bg-neutral flex flex-col gap-4 rounded-xl shadow-xl p-4">
+    <section class="w-[95%] h-[70%] bg-neutral flex flex-col gap-4 rounded-xl shadow-xl p-4">
         <section class="w-full flex justify-center p-6 relative">
             <p class="font-bold text-lg">Requests History</p>
             <button type="button" class="absolute left-0 top-0" on:click={()=>dispatch("close")}>
@@ -43,27 +47,58 @@
                 </svg>
             </button>
         </section>
-        <section class="overflow-auto w-full h-full flex flex-col justify-center items-center relative">
-        {#await fetchRequestsHistory()}
-            <Circle />
-            <p>Loading Requests History</p>
-        {:then allRequests} 
-            <div class="sticky top-0 bg-neutral w-full grid grid-cols-3 border-b-2 border-accent p-2">
-                <p class="justify-self-center font-semibold">Name</p>
-                <p class="justify-self-center font-semibold">Request ID</p>
-                <p class="justify-self-center font-semibold">Type of Request</p>
-            </div>
-            {#each allRequests as request}
-            <button type="button" class="w-full grid grid-cols-3 p-6 border-b-2 hover:bg-primary" on:click={()=>dispatch("select", {
-                requestId: request.requestId,
-                requestPath: request.requestPath,
-            })}>
-                <p class="justify-self-center">{request.fullName}</p>
-                <p class="justify-self-center">{request.requestId}</p>
-                <p class="justify-self-center">{request.typeOfRequest}</p>
-            </button>
-            {/each}
-        {/await}
+        <section class="overflow-auto w-full h-full flex flex-col justify-center items-center px-2 lg:px-0">
+            {#await fetchRequestsHistory()}
+                <Circle />
+                <p>Loading Requests History</p>
+            {:then allRequests} 
+                <div class="overflow-auto hidden w-full h-full relative lg:block">
+                    <div class="sticky top-0 bg-neutral w-full grid grid-cols-5 border-b-2 border-accent p-2">
+                        <p class="justify-self-center font-semibold">Name</p>
+                        <p class="justify-self-center font-semibold">Request ID</p>
+                        <p class="justify-self-center font-semibold">Type of Request</p>
+                        <p class="justify-self-center font-semibold">Last Updated</p>
+                        <p class="justify-self-center font-semibold">Status</p>
+                    </div>
+                    {#each allRequests as request}
+                    <button type="button" class="w-full grid grid-cols-5 p-6 border-b-2 hover:bg-primary" on:click={()=>dispatch("select", {
+                        requestId: request.requestId,
+                        requestPath: request.requestPath,
+                    })}>
+                        <p class="justify-self-center font-bold">{request.fullName}</p>
+                        <p class="justify-self-center">{request.requestId}</p>
+                        <p class="justify-self-center">{request.typeOfRequest}</p>
+                        <p class="justify-self-center">{new Timestamp(request.lastUpdated.seconds, request.lastUpdated.nanoseconds).toDate().toString().split("GMT")[0]}</p>
+                        <p class="justify-self-center"
+                            class:font-semibold={request.status == "pending"} 
+                            class:text-info={request.status === "Ready to claim" || request.status === "Approved"}
+                            class:text-success={request.status === "Request Completed" || request.status === "Appointment Served"}
+                        >{request.status}</p>
+                    </button>
+                    {/each}
+                </div>
+                <div class="overflow-auto lg:hidden block w-full border-t-2 border-accent">
+                    {#each allRequests as request}
+                        <div class="w-full flex flex-col gap-2 border-b-2 p-2">
+                            <small class="w-full text-center font-light">Last Updated: {new Timestamp(request.lastUpdated.seconds, request.lastUpdated.nanoseconds).toDate().toString().split("GMT")[0]}</small>
+                            <div class="w-full flex gap-1">
+                                <div class="w-full flex flex-col gap-2 items-center">
+                                    <p class="text-center font-bold">{request.fullName}</p>
+                                    <small>{request.requestId}</small>
+                                </div>
+                                <div class="w-full flex flex-col gap-2 items-center">
+                                    <p class="text-center">{request.typeOfRequest}</p>
+                                    <small 
+                                        class:font-semibold={request.status == "pending"} 
+                                        class:text-info={request.status === "Ready to claim" || request.status === "Approved"}
+                                        class:text-success={request.status === "Request Completed" || request.status === "Appointment Served"}
+                                    >{request.status}</small>
+                                </div>
+                            </div>
+                        </div>
+                    {/each}
+                </div>
+            {/await}
         </section>
     </section>
 </section>
