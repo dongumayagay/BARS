@@ -19,7 +19,12 @@
     onMount(()=>{
         if(isDocumentRequest){
             if(!isRequestForSomeone){
-                autofill = true;
+                if(!!userStore){
+                    autofill = true;
+                } 
+                if($userStore === null) {
+                    autofill = false
+                }
             } else {
                 autofill = false;
             }
