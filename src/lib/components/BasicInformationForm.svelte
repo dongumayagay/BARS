@@ -105,7 +105,6 @@
         }
     }
 
-    $: console.log($userStore, contactInfo)
     $: if(autofill){getUser()} else{emptyForm()}
 
 //  $: console.log(JSON.stringify(contactInfo))

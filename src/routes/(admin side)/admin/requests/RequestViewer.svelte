@@ -33,13 +33,13 @@
                 await dataToView.docsRequested.map((doc)=>{
                     console.log(doc.documentNo)
                     switch(doc.documentNo){
-                        case "1":
+                        case 1:
                             clearance(officialsList, dataToView);
                             break;
-                        case "2":
+                        case 2:
                             indigency(officialsList, dataToView);
                             break;
-                        case "3":
+                        case 3:
                             residency(officialsList, dataToView);
                             break;
                     }
