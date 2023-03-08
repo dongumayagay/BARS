@@ -24,7 +24,7 @@
 
 
 {#each announcements as announcement}
-    <section class="bg-neutral w-full lg:w-full p-4 flex flex-col rounded-xl shadow-lg relative">
+    <section class="bg-neutral w-full p-4 flex flex-col rounded-xl shadow-lg relative">
         <div class="absolute top-0 left-0 w-full h-full flex items-center justify-center overflow-hidden">
             <img src="/brgyLogo.png" alt="brgyLogo" class="w-[75%] lg:w-[50%] opacity-20">
         </div>
