@@ -3,7 +3,7 @@
 	import { createUserWithEmailAndPassword, signInWithEmailAndPassword, updateProfile } from "firebase/auth";
 	import { currentInterface, userStore } from "$lib/stores.js"
 	import { auth, db } from "$lib/firebase/client.js"
-	import { setDoc, Timestamp, collection, doc } from "firebase/firestore";
+	import { setDoc, Timestamp, collection, doc, getDoc, getDocs, query, where } from "firebase/firestore";
 	import LoginForm from "$lib/components/LoginForm.svelte"
 	import Header from "$lib/components/Header.svelte"
 	import SignUpForm from "../../lib/components/SignUpForm.svelte";
@@ -49,6 +49,7 @@
 	let signUpStep = 0;
 	let verifiedEmail
 	let signUpDetails = {};
+	let emailIsUsed = false;
 
 	// Account Settings Variables
 	let showSettings = false;
@@ -65,11 +66,19 @@
             })
     }
 
-	function nextHandler(event){
+	async function nextHandler(event){
 		signUpDetails = Object.assign(signUpDetails, event.detail)
 		console.log(signUpDetails)
 		if(signUpStep === 0 && (!emailVerified || (!!verifiedEmail && event.detail.email !== verifiedEmail))){
-			showOTPModal = true
+			if(await emailUsed(event.detail.email)){
+				emailIsUsed = true
+			} else {
+				emailIsUsed = false;
+				showOTPModal = true
+			}
+			console.log(await emailUsed(event.detail.email));
+			// console.log(await emailUsed())
+		// } else if(signUpStep === 0 && await emailUsed(event.detail.email) === false) {
 		} else if(signUpStep === 1 && !consentAgreed) {
 			showConsentModal = true
 		} else if (signUpStep === 1 && consentAgreed) {
@@ -78,6 +87,12 @@
 		} else {
 			signUpStep++
 		}
+	}
+
+	async function emailUsed(email){
+		const userRef = await getDocs(query(collection(db, "users"), where("email", "==", email)))
+		// console.log(!userRef.empty)
+		return !userRef.empty;
 	}
 
 	function emailVerifier(event){
@@ -96,6 +111,7 @@
 			})
 			const userFirestoreDetails = await setDoc(doc(db, "users", userCredential.user.uid), {
 				...signUpDetails.contactInfo,
+				email: signUpDetails.email,
 				dateCreated: Timestamp.now(),
 			})
 			showSignUpForm = false;
@@ -123,7 +139,7 @@
 {/if}
 {#if showSignUpForm}
 <section class="absolute top-0 left-0 overflow-y-auto w-screen h-[180vh] bg-gradient-to-b from-base-200 to-base-100 flex flex-col items-center z-30 pt-10">
-	<div class="w-full lg:w-[500px] flex items-center">
+	<div class="w-full lg:w-[50vw] flex items-center">
 		<button class="btn btn-ghost hover:bg-transparent group" on:click={()=>showSignUpForm=false}>
 			<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
 				<path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
@@ -131,8 +147,8 @@
 			<p class="group-hover:underline">Close</p>
 		</button>
 	</div>
-	<div class="h-full flex justify-center relative">
-		<SignUpForm {signUpStep} on:next={nextHandler}/>
+	<div class="w-full h-full flex justify-center relative">
+		<SignUpForm {signUpStep} {emailIsUsed} on:next={nextHandler}/>
 		{#if showOTPModal}
         	<Otp email={signUpDetails.email??""} on:emailVerified={emailVerifier} on:close={()=>showOTPModal=false}/>
         {/if}
