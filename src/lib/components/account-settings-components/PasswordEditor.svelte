@@ -12,6 +12,7 @@
     let showPasswordModal = false;
     let newPassword, confirmPassword;
     let currentPassword
+    let showPassword = false;
 
     function submitHandler(){
         const credential = EmailAuthProvider.credential($userStore.email, currentPassword)
@@ -40,11 +41,18 @@
         </div>
         <div class="w-full flex flex-col items-center justify-center gap-2">
             <label for="#username" class="font-semibold label-text">New Password</label>
-            <input required type="text" id="username" placeholder="Type Here" class="w-full input input-ghost hover:border-b-2 bg-transparent text-center" bind:value={newPassword}>
+            <input required type="text" id="username" placeholder="Type Here" class="w-full input input-ghost hover:border-b-2 bg-transparent text-center" class:hidden={!showPassword} bind:value={newPassword}>
+            <input required type="password" id="username" placeholder="Type Here" class="w-full input input-ghost hover:border-b-2 bg-transparent text-center" class:hidden={showPassword} bind:value={newPassword}>
+            <div class="form-control">
+                <label class="w-max label cursor-pointer flex gap-2 group">
+                    <input type="checkbox" class="checkbox checkbox-primary" bind:checked={showPassword}/>
+                    <span class="label-text group-hover:underline">Show Password</span> 
+                </label>
+            </div>
         </div>
         <div class="w-full flex flex-col items-center justify-center gap-2">
             <label for="#email" class="font-semibold label-text">Confirm Password</label>
-            <input required type="text" id="email" placeholder="Re-type here the new password above" class="w-full input input-ghost hover:border-b-2 bg-transparent text-center {newPassword === confirmPassword ? "" : "border-2 border-error"}" bind:value={confirmPassword}>
+            <input required type="password" id="email" placeholder="Re-type here the new password above" class="w-full input input-ghost hover:border-b-2 bg-transparent text-center {newPassword === confirmPassword ? "" : "border-2 border-error"}" bind:value={confirmPassword}>
             <label for="#email" class="font-semibold label-text-alt text-error" class:hidden={newPassword === confirmPassword}>This field must be the same as your new password</label>
         </div>
         <div class="w-full flex justify-end">
