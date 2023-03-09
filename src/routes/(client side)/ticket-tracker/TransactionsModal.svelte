@@ -2,15 +2,15 @@
     import { userStore } from "$lib/stores.js";
     import { db, } from "$lib/firebase/client.js";
     import { Circle } from "svelte-loading-spinners";
-    import { collection, getDocs, query, Timestamp, where } from "firebase/firestore";
+    import { collection, getDocs, orderBy, query, Timestamp, where } from "firebase/firestore";
     import { createEventDispatcher } from "svelte";
 
     const dispatch = createEventDispatcher();
 
     async function fetchRequestsHistory(){
         try {
-            const documentRequestsRef = await getDocs(query(collection(db, "documentRequests"), where("email", "==", $userStore.email)))
-            const appointmentRequestsRef = await getDocs(query(collection(db, "appointmentRequests"), where("email", "==", $userStore.email)))
+            const documentRequestsRef = await getDocs(query(collection(db, "documentRequests"), where("email", "==", $userStore.email), orderBy("lastUpdated", "desc")))
+            const appointmentRequestsRef = await getDocs(query(collection(db, "appointmentRequests"), where("email", "==", $userStore.email), orderBy("lastUpdated", "desc")))
             const documentRequests = documentRequestsRef.docs.map((doc)=>({
                 fullName: doc.data().lastName + ", " + doc.data().firstName + " " + doc.data().middleName??"" + doc.data().suffix??"",
                 status: doc.data().status,
@@ -31,7 +31,7 @@
             console.log(allRequests)
             return allRequests;
         } catch (error) {
-            alert(error.message)
+            console.log(error.message)
         }
     }
 
