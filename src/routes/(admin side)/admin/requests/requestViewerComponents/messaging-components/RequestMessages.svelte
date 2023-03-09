@@ -80,7 +80,7 @@
             </div>
         {/if}
     </section>
-    <section class="h-[15%] flex flex-col items-center border-t-2 p-2">
+    <section class="h-[15%] flex flex-col items-center border-t-[1px] border-accent p-2">
         {#if status === "Request Completed" || status === "Appointment Served"}
             <p class="w-full text-error text-center pb-2 text-sm">This request has been served, messaging is now disabled</p>
         {/if}

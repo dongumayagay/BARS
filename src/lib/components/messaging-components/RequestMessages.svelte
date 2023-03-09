@@ -97,7 +97,7 @@
             </div>
         </div>  
     {/if}
-    <section class="w-full h-[15%] border-t-2 p-2">
+    <section class="w-full h-[15%] border-t-[1px] border-accent p-2">
         {#if status === "Request Completed" || status === "Appointment Served"}
                 <p class="w-full text-error text-center pb-2 text-sm">This request has been served, messaging is now disabled</p>
         {/if}

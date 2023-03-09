@@ -187,7 +187,7 @@
         <section class="w-full" class:hidden={page !== 0}>
             <RequestDetails {dataToView} on:viewImage={(event)=>console.log(event.detail.url)}/>
         </section>
-        <section class="h-full w-full" class:hidden={page !== 1}>
+        <section class="h-full w-full lg:border-l-[1px] border-accent" class:hidden={page !== 1}>
             <RequestMessages 
                 requestId = {dataToView.requestId} 
                 requesterFullName={dataToView.lastName + ", " + dataToView.firstName + " " + dataToView.middleName}
