@@ -8,7 +8,7 @@
     function addHandler(){
         dispatch("add", {
             position: "Barangay Secretary", 
-            positionOrder: 3
+            positionOrder: 4
         })
     }
 
