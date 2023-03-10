@@ -121,8 +121,6 @@
     </div>
     <div class="flex flex-col lg:flex-row justify-center border-b-2 border-transparent hover:border-inherit group p-2">
         <p class="w-full lg:w-1/3 text-start font-semibold">Nationality: </p>
-    </div>
-    <div>
         <p class="w-full text-center lg:text-start p-4 lg:p-0 {!!adminBasicInfo.nationality ? "" : "opacity-70"}">{!!adminBasicInfo.nationality || adminBasicInfo.nationality  !== "" ? adminBasicInfo.nationality : "Click EDIT to add your Nationality"}</p>
     </div>
     <div class="flex flex-col lg:flex-row justify-center border-b-2 border-transparent hover:border-inherit group p-2">

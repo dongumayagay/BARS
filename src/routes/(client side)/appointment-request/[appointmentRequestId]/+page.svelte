@@ -87,7 +87,7 @@
             </div>
         </div>
     </section>
-    <section class="w-full lg:w-[60vw] h-full flex justify-center lg:border-l-[1px] p-2" class:hidden={page !== 1}>
+    <section class="w-full lg:w-[60vw] h-full flex justify-center lg:border-l-[1px] border-accent p-2" class:hidden={page !== 1}>
         <RequestMessages requestId={appointmentRequest.id} {requesterFullName} status={appointmentRequest.status}/>
     </section>
 </main>

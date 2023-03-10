@@ -3,7 +3,7 @@
     import { collection, onSnapshot } from "firebase/firestore";
     import { db } from "$lib/firebase/client"
     import OfficialDetailsEditor from "./OfficialDetailsEditor.svelte";
-    import Admin from "./positions/Admin.svelte";
+    import Bookkeeper from "./positions/Bookkeeper.svelte";
 	import BrgyCaptain from "./positions/BrgyCaptain.svelte";
 	import Councilors from "./positions/Councilors.svelte";
 	import Secretary from "./positions/Secretary.svelte";
@@ -68,9 +68,9 @@
         <Councilors councilors={officials.filter((item)=> item.positionOrder === 2)} on:add={addHandler} on:edit={editHandler}/>
     </div>
     <div class="w-full h-full flex items-center justify-center gap-4">
-        <Secretary secretary={officials.find((item)=> item.positionOrder === 4)} on:add={addHandler} on:edit={editHandler}/>
         <SkChairperson skChairperson={officials.find((item)=> item.positionOrder === 3)} on:add={addHandler} on:edit={editHandler}/>   
-        <Admin bookkeeper={officials.find((item)=> item.positionOrder === 5)} on:add={addHandler} on:edit={editHandler}/>
+        <Secretary secretary={officials.find((item)=> item.positionOrder === 4)} on:add={addHandler} on:edit={editHandler}/>
+        <Bookkeeper bookkeeper={officials.find((item)=> item.positionOrder === 5)} on:add={addHandler} on:edit={editHandler}/>
     </div>
     {#if showEditor}
     <OfficialDetailsEditor  officialDetails={officialDetailToEdit} {isAdd} on:close={closeHandler}/>

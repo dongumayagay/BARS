@@ -21,14 +21,15 @@
 
     async function submitHandler(event) {
         try {
-            const docRef = await getDoc(doc(db, event.detail.typeOfRequest, event.detail.requestId))
+            // console.log(event.detail)
+            const docRef = await getDoc(doc(db, event.detail.requestPath, event.detail.requestId))
 
             if(!docRef.exists()){
                 errorMessage = "This request does not exist, please try again"
                 console.log(errorMessage)
             } else {
                 errorMessage = "";
-                if(event.detail.typeOfRequest === 'documentRequests'){
+                if(event.detail.requestPath === 'documentRequests'){
                     goto('../document-request/' + event.detail.requestId);
                 } else {
                     goto('../appointment-request/' + event.detail.requestId);

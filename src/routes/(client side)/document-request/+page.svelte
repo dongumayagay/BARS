@@ -144,9 +144,9 @@
     <title>Document Request | B.A.R.S.</title>
 </svelte:head>
 
-<div class="p-3 flex flex-col items-center gap-4">
+{#if !requestComplete}
+    <div class="p-3 flex flex-col items-center gap-4">
     
-    {#if !requestComplete}
         <RequestModeSelector {page} on:next={nextHandler}/>
         <ul class="steps lg:w-[75%]" class:hidden={page===0}>
             <li class="step font-semibold" class:step-success={page >= 0} class:text-xs={page!==1}>Contact Info</li>
@@ -177,7 +177,10 @@
             <MinorsForm on:next={nextHandler} isDocumentRequest={true} isRequestForSomeone={documentRequest.isRequestForSomeone}/>
         </div>  
         {/if}
-        <Otp email={documentRequest.contactInfo?.email??""} {showOTPModal} on:emailVerified={emailVerifier} on:close={()=>showOTPModal=false}/>
+        {#if showOTPModal}
+        <Otp email={documentRequest.contactInfo?.email??""} on:emailVerified={emailVerifier} on:close={()=>showOTPModal=false}/>
+            
+        {/if}
         
         <div class="w-[95%] lg:w-[45%] p-4 bg-neutral rounded-xl flex justify-start shadow-xl" class:hidden={page !== 2}>
             <PurposeSelector on:next={nextHandler} on:back={()=>page -= 1 }/>
@@ -212,10 +215,10 @@
                 <p class="text-white">{loadingStatement}</p>
             </section>
         {/if}
-    {:else}
-        <section>
-            <RequestCompleted {requestId} trackerPath='./document-request/'/>
-        </section>
-    {/if}
-</div>
+    </div>
+{:else}
+    <section class="p-4 lg:px-0 lg:pb-0">
+        <RequestCompleted {requestId} trackerPath='./document-request/'/>
+    </section>
+{/if}
 

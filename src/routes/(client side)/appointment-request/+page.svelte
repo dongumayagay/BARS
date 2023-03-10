@@ -133,8 +133,10 @@
         <div  class="w-[90%] lg:w-[45%] p-4 lg:px-10 bg-neutral rounded-xl flex flex-col justify-center shadow-xl gap-3" class:hidden={page !== 0}>
             <InfoForm on:next={nextHandler} isDocumentRequest={false}/>
         </div>
-        <Otp email={appointmentRequest.contactInfo?.email??""} {showOTPModal} on:emailVerified={emailVerifier} on:close={()=>showOTPModal=false}/>
-
+        {#if showOTPModal}
+            <Otp email={appointmentRequest.contactInfo?.email??""} on:emailVerified={emailVerifier} on:close={()=>showOTPModal=false}/>
+        {/if}
+    
         <div class="w-[95%] lg:w-max p-4 bg-neutral rounded-xl shadow-xl" class:hidden={page !== 1}>
             <DatePicker on:next={nextHandler} on:back={()=>{page -= 1}}/>
         </div>
@@ -165,10 +167,8 @@
             </section>
         {/if}
     </section>
-
 {:else}
-
-    <section class="pt-4">
+    <section class="p-4 lg:px-0 lg:pb-0" >
         <RequestCompleted {requestId} trackerPath='./appointment-request/'/>
     </section>
 

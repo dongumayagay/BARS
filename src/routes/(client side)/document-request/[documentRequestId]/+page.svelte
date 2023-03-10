@@ -114,7 +114,7 @@
             </div>  
         {/if}
     </section>
-    <section class="w-full lg:w-[60vw] h-full flex justify-center" class:hidden={page !== 1}>
+    <section class="w-full lg:w-[60vw] h-full flex lg:border-l-[1px] border-accent justify-center" class:hidden={page !== 1}>
         <RequestMessages requestId={documentRequest.id} {requesterFullName} status={documentRequest.status}/>
     </section>
 </main>

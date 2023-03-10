@@ -3,9 +3,6 @@
     import { userStore } from "$lib/stores.js"
     import { db } from "$lib/firebase/client.js"
 	import { collection, getDoc, where, query, doc } from 'firebase/firestore';
-	// import { onMount } from 'svelte/types/runtime/internal/lifecycle';
-
-    export let isDocumentRequest, isRequestForSomeone;
 
     let contactInfo = {}
     let guardianInfo = {
@@ -15,51 +12,10 @@
         guardian: undefined,
         parentsRelation: undefined,
     }
+    let autofill = false;
+    
     let othersCivilStatus = "";
     let othersNationality = "";
-
-    onMount(()=>{
-        if(isDocumentRequest){
-            if(!isRequestForSomeone){
-                if(!!$userStore){
-                    getUser()
-                }
-            } else {
-                contactInfo = {
-                    lastName: "",
-                    firstName: "",
-                    middleName: "",
-                    address: "",
-                    birthdate: "",
-                    email: "",
-                    contactNo: "",
-                    purpose: "",
-                    civilStatus: "",
-                    nationality: "",
-                }
-            }
-        } 
-
-
-        if(!isDocumentRequest) {
-            if(!!$userStore){
-                getUser()
-            } else {
-                contactInfo = {
-                    lastName: "",
-                    firstName: "",
-                    middleName: "",
-                    address: "",
-                    birthdate: "",
-                    email: "",
-                    contactNo: "",
-                    purpose: "",
-                    civilStatus: "",
-                    nationality: "",
-                }
-            }
-        }
-    })
 
     const dispatch = createEventDispatcher()
 
@@ -113,8 +69,25 @@
         }
     }
 
+    function emptyForm(){
+        contactInfo = {
+            lastName: "",
+            firstName: "",
+            middleName: "",
+            address: "",
+            birthdate: "",
+            email: "",
+            contactNo: "",
+            purpose: "",
+            civilStatus: "",
+            nationality: "",
+        }
+    }
+
     $: console.log($userStore, contactInfo)
     $: console.log(guardianInfo)
+
+    $: if(autofill){ getUser()} else{emptyForm()}
 
 //  $: console.log(JSON.stringify(contactInfo))
 </script>
@@ -125,11 +98,18 @@
 			crossorigin="anonymous" referrerpolicy="no-referrer" />
 </svelte:head>
 
-
 <form class="flex flex-1 flex-col gap-5 h-max " on:submit|preventDefault={submitHandler} on:reset={(event)=>event.target.reset()}>
     <section>
         <h1 class="font-bold text-center">Child's Basic Information</h1>
     </section>
+    {#if !!$userStore}
+    <div class="form-control">
+        <label class="w-max label cursor-pointer flex gap-2 group">
+            <input type="checkbox" class="checkbox checkbox-primary" bind:checked={autofill}/>
+            <span class="label-text group-hover:underline">Autofill Form</span> 
+        </label>
+    </div>
+    {/if}
     <section class="flex flex-col gap-4">
         <div class="flex flex-col flex-1">
             <label for="lastName" class="label">
@@ -146,7 +126,7 @@
                 <span class="label-text">First Name</span>
                 </label>
             <input required title="Please enter your first name" type="text" id="firstName" name="firstName" placeholder="ex: Juan" class="input input-bordered input-md input-primary w-full bg-neutral focus:border-primary focus:outline-offset-[3px]"
-            bind:value={contactInfo.firstName}
+                bind:value={contactInfo.firstName}
              />
         </div>
         <div class="flex flex-col flex-1">
@@ -224,14 +204,6 @@
                 bind:value={contactInfo.contactNo}
             />
         </div>
-        {#if !isDocumentRequest}
-            <div class="flex flex-col flex-1 ">
-                <label for="purpose" class="label">
-                    <span class="label-text">Purpose of the Request</span>
-                </label>
-                <textarea class="textarea textarea-primary w-full bg-neutral focus:border-primary focus:outline-offset-[3px]" placeholder="example: Job Requirement" bind:value={contactInfo.purpose}></textarea>
-            </div>
-        {/if}
     </section>
 
     <section>
