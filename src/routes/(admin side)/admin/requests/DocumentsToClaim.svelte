@@ -22,7 +22,7 @@
                 requestPath: "document-request",
                 collectionReference: "documentRequests",
                 nextStatus: "Request Completed",
-                nextStatusEmailContent: "Good Day! Your requested document/s are now claimed. We will mark this request as completed. Thank you for using our system!!"
+                nextStatusEmailContent: "Good Day! Your requested document/s are now claimed. We will mark this request as completed."
             }]
         })
     })

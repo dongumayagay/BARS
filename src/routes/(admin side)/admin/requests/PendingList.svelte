@@ -42,7 +42,7 @@
                 requestPath: "appointment-request",
                 collectionReference: "appointmentRequests",
                 nextStatus: "Approved",
-                nextStatusEmailContent: "Good Day! Your requested document/s are now ready. Please bring the original copy of requirements along with you."
+                nextStatusEmailContent: "Good Day! Your appointment request schedule has been approved. Please attend at your appointed schedule on time."
             }))
             // querySnapshot.docs.map((doc)=>{
             //     if(!doc.data().isViewed){dispatch("newAptRequest")}

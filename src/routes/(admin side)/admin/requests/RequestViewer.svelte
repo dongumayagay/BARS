@@ -72,9 +72,9 @@
                 html: `
                 <h1>Hello ${dataToView.firstName},</h1>
                 <p> ${dataToView.nextStatusEmailContent??[]}</p>
-                <a href="https://bars-gf.vercel.app/${dataToView.requestPath}/${dataToView.requestId}">Here</a><p> is your tracker-id if you wish to view your request</p>
+                <a href="https://bars-gf.vercel.app/${dataToView.requestPath}/${dataToView.requestId}">Here: [https://bars-gf.vercel.app/${dataToView.requestPath}/${dataToView.requestId}]</a><p> is your tracker-id if you wish to view or track your request</p>
                 ${dataToView.nextStatus === "Request Completed" || dataToView.nextStatus === "Appointment Served" ? "<p>If you have time, please do fill up our feedback form attached below:</p>" : ""}
-                ${dataToView.nextStatus === "Request Completed" || dataToView.nextStatus === "Appointment Served" ? "<p>Feedback Form Link Here</p>" : ""}
+                ${dataToView.nextStatus === "Request Completed" || dataToView.nextStatus === "Appointment Served" ? "<a href=\"https://forms.gle/XiPycVoJ8BsTm7jaA\">https://forms.gle/XiPycVoJ8BsTm7jaA</a>" : ""}
                 <p>Thank you for using B.A.R.S.!</p>
                 `
             });
