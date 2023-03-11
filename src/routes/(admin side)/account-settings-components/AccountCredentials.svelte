@@ -45,6 +45,7 @@
             .then(()=>{
                 loadingStatement = "Refreshing webpage...";
                 window.location.reload();
+                // dispatch("close")
             })
         }).catch((error)=>{
             // alert(error.message)

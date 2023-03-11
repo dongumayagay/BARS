@@ -1,42 +1,16 @@
 <script>
 	import Header from "$lib/components/Header.svelte";
 	import { userStore, currentPage, currentInterface, adminUsers } from "$lib/stores.js";
-	import {goto} from "$app/navigation";
-	import { db,auth } from "$lib/firebase/client.js"
-	import { onMount } from "svelte";
-	import { collection, getDoc, getDocs, doc } from "firebase/firestore";
+	import { goto } from "$app/navigation";
+	import { db } from "$lib/firebase/client.js"
+	import { getDoc, doc } from "firebase/firestore";
 	import CloseButton from "./account-settings-components/CloseButton.svelte";
 	import AccountCredentials from "./account-settings-components/AccountCredentials.svelte";
 	import Password from "./account-settings-components/Password.svelte";
 	import BasicInfo from "./account-settings-components/BasicInfo.svelte";
-	import { signOut } from "firebase/auth";
-
-	// let ifAdmin;
-    // onMount(async ()=>{
-    //     const userEmails = await getDocs(collection(db, "adminUsers"))
-	// 	$adminUsers = userEmails.docs.map((doc)=>({...doc.data()}))
-	// 	if(!!userStore) {ifAdmin = $adminUsers.find(item => $userStore.email === item.email)}
-	// 	console.log($adminUsers)
-    // })
-	async function ifAdmin(){
-		try {
-			const isAdmin = await getDoc(doc(db, "adminUsers", $userStore.uid))
-			console.log(isAdmin.exists())
-			return isAdmin;
-		} catch (error) {
-			alert(error.message)
-		}
-	}
-
-	// onMount(()=>{
-	// 	console.log(ifAdmin().then())
-	// 	if(!!$userStore && ifAdmin()===false){
-	// 		signOut(auth)
-	// 	}
-	// }) 
 		
-		$currentPage = 0;
-		$currentInterface = "admin";
+	$currentPage = 0;
+	$currentInterface = "admin";
 
 	let title;
 
@@ -64,10 +38,16 @@
 		goto("../admin")
 	}
 
-	
-	// $: if(!!$userStore && ifAdmin()===false)
-	// $: console.log(showSettings)
-	// $: if(!!userStore) {ifAdmin = $adminUsers.find(item => $userStore.email === item.email)}
+	async function ifAdmin(){
+		try {
+			const isAdmin = await getDoc(doc(db, "adminUsers", $userStore.uid))
+			console.log(isAdmin.exists())
+			return isAdmin;
+		} catch (error) {
+			alert(error.message)
+		}
+	}
+
 </script>
 
 {#if !!$userStore}
@@ -88,8 +68,12 @@
 			{/if}
 		{:else}
 		<div class="w-screen h-screen flex flex-col justify-center items-center">
-			<img src="/taph-taph.gif" alt="stap" class="w-[400px] h-[400px]">
-			<p class="font-semibold">Stop right there!! You are not supposed to be here</p>
+			<!-- <img src="/taph-taph.gif" alt="stap" class="w-[400px] h-[400px]"> -->
+			<div class="w-full flex flex-col items-center">
+				<p class="text-[50px]">Error</p>
+				<h1 class="text-[200px] w-full text-center">403</h1>
+			</div>
+			<p class="font-semibold">Sorry, your account has no access on this page</p>
 			<button class="btn btn-success" on:click={()=>goto("./")}>
 				Go Back to Homepage
 			</button>
@@ -97,6 +81,6 @@
 		{/if}
 	{/await}
 {:else}
-<slot />
+	<slot />
 {/if}
 				
