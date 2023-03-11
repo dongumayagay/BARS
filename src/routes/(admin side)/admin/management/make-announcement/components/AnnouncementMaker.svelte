@@ -17,27 +17,20 @@
     async function submitHandler(event){
         try {
             let hasFiles = false;
-            // let fileUploadPromises;
-            let filePaths = []; 
 
             showUploadingModal = true
             if(event.detail.filesToUpload.length > 0) hasFiles = true;
-
-            // console.log(;
-
-            
            
             const announcementUploadRef = await addDoc(collection(db, "announcements"),{
                 title: event.detail.announcementTitle,
                 content: event.detail.announcementContent,
                 datePosted: Timestamp.now(),
-                postedBy: $userStore.email,
+                postedBy: (!!$userStore.displayName ? $userStore.displayName : $userStore.email),
+                email: $userStore.email,
                 hasFiles,
-                
             })
 
             if(hasFiles){ 
-
                 const fileUploadPromises = event.detail.filesToUpload.map((value)=>{
                     const pathName = "announcementFiles/" + announcementUploadRef.id + "/" + value.file.name;
                     const storageReference =  ref(storage, pathName);
@@ -56,7 +49,6 @@
                     dispatch("close")
                 }
             }
-
         } catch (error) {
             alert(error.message)
         }
@@ -81,8 +73,8 @@
     }
 </script>
 
-
-<div class="overflow-y-auto flex flex-col gap-2" class:hidden={page !== 1}>
+{#if page === 1}
+<div class="overflow-y-auto flex flex-col gap-2">
     <button class="w-max btn btn-ghost flex gap-1 hover:bg-transparent group" on:click={()=>closeHandler()}>
         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
             <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0013.5 3h-6a2.25 2.25 0 00-2.25 2.25v13.5A2.25 2.25 0 007.5 21h6a2.25 2.25 0 002.25-2.25V15M12 9l-3 3m0 0l3 3m-3-3h12.75" />
@@ -116,3 +108,4 @@
         </section>
     {/if}
 </div>
+{/if}
