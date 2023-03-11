@@ -4,7 +4,7 @@
     export let allRequests;
 
     const dispatch = createEventDispatcher();
-    let itemsPerPageCounter;
+    let itemsPerPageCounter = 10;
     let currentPage = 1;
     let maxPage;
 
@@ -19,7 +19,7 @@
 
 <div class="w-full h-full">
     <div class="w-full flex justify-center gap-4 p-2 relative">
-        <div class="absolute left-0 flex gap-2 items-center">
+        <!-- <div class="absolute left-0 flex gap-2 items-center">
             <small>Items per page:</small>
             <select class="select select-bordered select-sm select-primary" bind:value={itemsPerPageCounter}>
                 <option value=3 >3</option>
@@ -27,7 +27,7 @@
                 <option value=10 >10</option>
                 <option value=20 >20</option>
             </select>
-        </div>
+        </div> -->
         <button class="btn btn-circle btn-sm btn-primary group" on:click={()=>currentPage--} disabled={currentPage === 1}>
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4 font-bold">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
