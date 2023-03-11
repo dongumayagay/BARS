@@ -4,6 +4,8 @@
     export let documentRequest;
     
     const dispatch = createEventDispatcher();
+
+    $: if(!!documentRequest.guardianInfo){console.log(documentRequest.guardianInfo)}
 </script>
 
 <section class="flex flex-col gap-4 justify-center">
@@ -11,7 +13,6 @@
     <div class="h-max flex flex-col lg:flex-row">
         <!-- Basic Information section -->
         {#if documentRequest?.contactInfo}
-            
             <div class="p-4 flex flex-col gap-[50px] border-b-2 lg:border-b-0 lg:border-r-2 border-primary">
                 <div class="flex flex-col items-center justify-start gap-4">
                     {#if !!documentRequest.authorizedRequestor}
@@ -25,6 +26,36 @@
                         <p class="w-full font-semibold lg:text-md">Full Name: </p>
                         <p class="w-full text-center lg:text-md">{documentRequest.contactInfo.lastName}, {documentRequest.contactInfo.firstName} {documentRequest.contactInfo.middleName??""} {documentRequest.contactInfo.suffix??""}</p>
                     </div>
+                    {#if !!documentRequest.guardianInfo}
+                        {#if documentRequest.guardianInfo.guardianship === "parents"}
+                            <div class="w-full flex flex-col items-start justify-start gap-2">
+                                <p class="w-full font-semibold lg:text-md">Mother's Name: </p>
+                                <p class="w-full text-center lg:text-md">{documentRequest.guardianInfo.mother}</p>
+                            </div>
+                            <div class="w-full flex flex-col items-start justify-start gap-2">
+                                <p class="w-full font-semibold lg:text-md">Father's Name: </p>
+                                <p class="w-full text-center lg:text-md">{documentRequest.guardianInfo.father}</p>
+                            </div>
+                        {/if}
+                        {#if documentRequest.guardianInfo.guardianship === "singleParent" && documentRequest.parentsRelations === "mother"}
+                            <div class="w-full flex flex-col items-start justify-start gap-2">
+                                <p class="w-full font-semibold lg:text-md">Mother's Name: </p>
+                                <p class="w-full text-center lg:text-md">{documentRequest.guardianInfo.mother}</p>
+                            </div>
+                        {/if}
+                        {#if documentRequest.guardianInfo.guardianship === "singleParent" && documentRequest.parentsRelations === "father"}
+                            <div class="w-full flex flex-col items-start justify-start gap-2">
+                                <p class="w-full font-semibold lg:text-md">Father's Name: </p>
+                                <p class="w-full text-center lg:text-md">{documentRequest.guardianInfo.father}</p>
+                            </div>
+                        {/if}
+                        {#if documentRequest.guardianInfo.guardianship === "guardian"}
+                            <div class="w-full flex flex-col items-start justify-start gap-2">
+                                <p class="w-full font-semibold lg:text-md">Guardian's Name: </p>
+                                <p class="w-full text-center lg:text-md">{documentRequest.guardianInfo.guardian}</p>
+                            </div>
+                        {/if}
+                    {/if}
                     <div class="w-full flex flex-col items-start justify-start gap-2">
                         <p class="w-full font-semibold lg:text-md">Birthdate: </p>
                         <p class="w-full text-center lg:text-md">{documentRequest.contactInfo.birthdate}</p>

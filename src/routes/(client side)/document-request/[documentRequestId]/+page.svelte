@@ -104,6 +104,54 @@
                 </div>
             </div>
             {/if}
+            {#if !!documentRequest.guardianInfo}
+                <div>
+                    <p class="font-semibold">Guardian/s' Valid ID's</p>
+                    {#if documentRequest.guardianInfo.guardianship === "parents"}
+                        <div class="w-full h-max flex justify-center gap-2">
+                            <ImagePreview 
+                                requestId={documentRequest.id}
+                                documentName={"Mother's Valid ID"}
+                                on:viewImage={viewHandler}
+                            />
+                        </div>
+                        <div class="w-full h-max flex justify-center gap-2">
+                            <ImagePreview 
+                                requestId={documentRequest.id}
+                                documentName={"Father's Valid ID"}
+                                on:viewImage={viewHandler}
+                            />
+                        </div>
+                    {/if}
+                    {#if documentRequest.guardianInfo.guardianship === "singleParent" && documentRequest.guardianInfo.parentsRelation === "mother"}
+                        <div class="w-full h-max flex justify-center gap-2">
+                            <ImagePreview 
+                                requestId={documentRequest.id}
+                                documentName={"Mother's Valid ID"}
+                                on:viewImage={viewHandler}
+                            />
+                        </div>
+                    {/if}
+                    {#if documentRequest.guardianInfo.guardianship === "singleParent" && documentRequest.guardianInfo.parentsRelation === "father"}
+                        <div class="w-full h-max flex justify-center gap-2">
+                            <ImagePreview 
+                                requestId={documentRequest.id}
+                                documentName={"Father's Valid ID"}
+                                on:viewImage={viewHandler}
+                            />
+                        </div>
+                    {/if}
+                    {#if documentRequest.guardianInfo.guardianship === "guardian"}
+                        <div class="w-full h-max flex justify-center gap-2">
+                            <ImagePreview 
+                                requestId={documentRequest.id}
+                                documentName={"Guardian's Valid ID"}
+                                on:viewImage={viewHandler}
+                            />
+                        </div>
+                    {/if}
+                </div>
+            {/if}
         </section>
         {/if}
         {#if enlargeImage}

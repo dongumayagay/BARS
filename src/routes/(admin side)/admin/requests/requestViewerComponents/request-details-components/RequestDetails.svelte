@@ -87,6 +87,55 @@
                 </div>
             </div>
             {/if}
+            {#if !!dataToView.guardianInfo}
+                <div>
+                    <p class="font-semibold">Guardian/s' Valid ID's</p>
+                    {#if dataToView.guardianInfo.guardianship === "parents"}
+                        <div class="w-full h-max flex justify-center gap-2">
+                            <ImagePreview 
+                                requestId={dataToView.requestId}
+                                documentName={"Mother's Valid ID"}
+                                on:viewImage={viewHandler}
+                            />
+                        </div>
+                        <div class="w-full h-max flex justify-center gap-2">
+                            <ImagePreview 
+                                requestId={dataToView.requestId}
+                                documentName={"Father's Valid ID"}
+                                on:viewImage={viewHandler}
+                            />
+                        </div>
+                    {/if}
+                    {#if dataToView.guardianInfo.guardianship === "singleParent" && dataToView.guardianInfo.parentsRelation === "mother"}
+                        <div class="w-full h-max flex justify-center gap-2">
+                            <ImagePreview 
+                                requestId={dataToView.requestId}
+                                documentName={"Mother's Valid ID"}
+                                on:viewImage={viewHandler}
+                            />
+                        </div>
+                    {/if}
+                    {#if dataToView.guardianInfo.guardianship === "singleParent" && dataToView.guardianInfo.parentsRelation === "father"}
+                        <div class="w-full h-max flex justify-center gap-2">
+                            <ImagePreview 
+                                requestId={dataToView.requestId}
+                                documentName={"Father's Valid ID"}
+                                on:viewImage={viewHandler}
+                            />
+                        </div>
+                    {/if}
+                    {#if dataToView.guardianInfo.guardianship === "guardian"}
+                        <div class="w-full h-max flex justify-center gap-2">
+                            <ImagePreview 
+                                requestId={dataToView.requestId}
+                                documentName={"Guardian's Valid ID"}
+                                on:viewImage={viewHandler}
+                            />
+                        </div>
+                    {/if}
+                </div>
+                
+            {/if}
         </section>
     {/if}
     {#if enlargeImage}

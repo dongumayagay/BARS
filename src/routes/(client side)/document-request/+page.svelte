@@ -191,7 +191,7 @@
         </div>
 
         <div class="w-[95%] lg:w-[45%] p-4 lg:px-6 bg-neutral rounded-xl flex justify-center shadow-xl" class:hidden={page !== 4}>
-            <FileUpload listOfRequestedDocuments={documentRequest?.listOfRequestedDocuments??[]} isRequestForSomeone={documentRequest.isRequestForSomeone} on:next={nextHandler} on:back={()=>page -= 1 }/>
+            <FileUpload listOfRequestedDocuments={documentRequest?.listOfRequestedDocuments??[]} isRequestForSomeone={documentRequest.isRequestForSomeone} guardianInfo={documentRequest.guardianInfo} on:next={nextHandler} on:back={()=>page -= 1 }/>
         </div>
 
         <div class:hidden={page !== 5}>
