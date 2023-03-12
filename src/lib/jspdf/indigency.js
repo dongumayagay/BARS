@@ -2,7 +2,7 @@ import { months, ordinals } from "../stores";
 import { jsPDF } from "jspdf"
 import "jspdf-autotable";
 
-export function indigency(officialsList, dataToView){
+export function indigency(officialsList, dataToView, purpose){
     let indigency = new jsPDF("p", "px", "letter");
 
     const pageWidth = indigency.internal.pageSize.width;
@@ -203,7 +203,12 @@ export function indigency(officialsList, dataToView){
             
      }
      
-     indigency.text("     This is issued as per request for a/an " + dataToView.docPurpose.toUpperCase() + " requirement for the ABOVE NAMED PERSON", (pageWidth * 0.30), totalHeightOfLetter, {maxWidth: pageWidth*0.68, lineHeightFactor: 1.5})
+    if(!dataToView.multiPurpose || !!dataToView.docPurpose){
+         indigency.text("     This is issued as per request for a/an " + dataToView.docPurpose.toUpperCase() + " requirement for the ABOVE NAMED PERSON", (pageWidth * 0.30), totalHeightOfLetter, {maxWidth: pageWidth*0.68, lineHeightFactor: 1.5})
+    }
+    if(dataToView.multiPurpose){
+         indigency.text("     This is issued as per request for a/an " + (purpose.name === "others" ? purpose.others.toUpperCase() : purpose.name.toUpperCase()) + " requirement for the ABOVE NAMED PERSON", (pageWidth * 0.30), totalHeightOfLetter, {maxWidth: pageWidth*0.68, lineHeightFactor: 1.5})
+     }
      totalHeightOfLetter += 130;
     //  indigency.setFont("times", "bold")
     //  indigency.text("Name ng resident", (pageWidth * 0.30), totalHeightOfLetter+75, {maxWidth: pageWidth*0.68})
@@ -238,5 +243,11 @@ export function indigency(officialsList, dataToView){
     indigency.setTextColor("")
     indigency.text("This document is generated for research puposes only and does not represent any actual document issued by the office of Barangay United Bayanihan.", pageWidth/2, pageHeight -13, {maxWidth: (pageWidth - 80), align: "center"})
 
-    indigency.save((dataToView.lastName.toUpperCase() + ", " + dataToView.firstName.toUpperCase() + " " + (dataToView.middleName !== "" ? dataToView.middleName.charAt(0).toUpperCase() : "") + (dataToView.suffix !== "" ? dataToView.suffix.charAt(0).toUpperCase(): "")) + "_Indigency.pdf")
+    if(!dataToView.multiPurpose || !!dataToView.docPurpose){
+        indigency.save((dataToView.lastName.toUpperCase() + ", " + dataToView.firstName.toUpperCase() + " " + (dataToView.middleName !== "" ? dataToView.middleName.charAt(0).toUpperCase() : "") + (dataToView.suffix !== "" ? dataToView.suffix.charAt(0).toUpperCase(): "")) + "_Indigency.pdf")
+    }
+    if(dataToView.multiPurpose){
+        indigency.save((dataToView.lastName.toUpperCase() + ", " + dataToView.firstName.toUpperCase() + " " + (dataToView.middleName !== "" ? dataToView.middleName.charAt(0).toUpperCase() : "") + (dataToView.suffix !== "" ? dataToView.suffix.charAt(0).toUpperCase(): "")) + "_Indigency[" + (purpose.name === "others" ? purpose.others.toUpperCase() : purpose.name.toUpperCase()) + "].pdf")
+    }
+    
 }

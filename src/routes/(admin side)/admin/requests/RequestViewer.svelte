@@ -28,20 +28,38 @@
             const docRef = doc(db, dataToView.collectionReference, dataToView.requestId);
             // const something = await getDoc(docRef)
             if(dataToView.nextStatus === "Ready to claim"){
-                loadingStatement = "Generating Document..."
+                loadingStatement = "Generating Document/s..."
                 const officialsList = await getDocs(query(collection(db, "officialsList"), orderBy("positionOrder", "asc")))
                 await dataToView.docsRequested.map((doc)=>{
                     console.log(doc.documentNo)
-                    switch(doc.documentNo){
-                        case 1:
-                            clearance(officialsList, dataToView);
-                            break;
-                        case 2:
-                            indigency(officialsList, dataToView);
-                            break;
-                        case 3:
-                            residency(officialsList, dataToView);
-                            break;
+                    if(!dataToView.multiPurpose || !!dataToView.docPurpose){
+                        switch(doc.documentNo){
+                            case 1:
+                                clearance(officialsList, dataToView);
+                                break;
+                            case 2:
+                                indigency(officialsList, dataToView);
+                                break;
+                            case 3:
+                                residency(officialsList, dataToView);
+                                break;
+                        }
+                    }
+                    if(dataToView.multiPurpose){
+                        console.log(dataToView)
+                        doc.purposes.map((purpose)=>{
+                            switch(doc.documentNo){
+                                case 1:
+                                    clearance(officialsList, dataToView, purpose);
+                                    break;
+                                case 2:
+                                    indigency(officialsList, dataToView, purpose);
+                                    break;
+                                case 3:
+                                    residency(officialsList, dataToView, purpose);
+                                    break;
+                            }
+                        })
                     }
                 })
             }

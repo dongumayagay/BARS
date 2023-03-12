@@ -2,7 +2,7 @@ import { months, ordinals } from "../stores";
 import { jsPDF } from "jspdf"
 import "jspdf-autotable";
 
-export function residency(officialsList, dataToView){
+export function residency(officialsList, dataToView, purpose){
     let document = new jsPDF("p", "px", "letter");
 
     const pageWidth = document.internal.pageSize.width;
@@ -158,10 +158,18 @@ export function residency(officialsList, dataToView){
     
     document.setFont("times", "normal")
     document.text(firstStatement, (pageWidth * 0.28) + 9.5, 300, {maxWidth:  (pageWidth * 0.72) - 19, lineHeightFactor: 1.5, align: "justify"})
-    document.text("     This certification is hereby is issued upon the request of the above name peron as per " + dataToView.docPurpose.toUpperCase() + " and for whatever legal/lawful purpose/s it may serve him/her",
-        (pageWidth * 0.28) + 9.5, 360,
-        {maxWidth: (pageWidth * 0.72) - 19, lineHeightFactor: 1.5, align: "justify"} 
-    )
+    if(!dataToView.multiPurpose || !!dataToView.docPurpose){
+        document.text("     This certification is hereby is issued upon the request of the above name peron as per " + dataToView.docPurpose.toUpperCase() + " and for whatever legal/lawful purpose/s it may serve him/her",
+            (pageWidth * 0.28) + 9.5, 360,
+            {maxWidth: (pageWidth * 0.72) - 19, lineHeightFactor: 1.5, align: "justify"} 
+        )
+    }
+    if(dataToView.multiPurpose){
+        document.text("     This certification is hereby is issued upon the request of the above name peron as per " + (purpose.name === "others" ? purpose.others.toUpperCase() : purpose.name.toUpperCase()) + " and for whatever legal/lawful purpose/s it may serve him/her",
+            (pageWidth * 0.28) + 9.5, 360,
+            {maxWidth: (pageWidth * 0.72) - 19, lineHeightFactor: 1.5, align: "justify"} 
+        )
+    }
     const today = new Date();
     document.setFont("times", "bold")
     document.setFontSize(15)
@@ -183,5 +191,11 @@ export function residency(officialsList, dataToView){
     document.setTextColor("")
     document.text("This document is generated for research puposes only and does not represent any actual document issued by the office of Barangay United Bayanihan.", pageWidth/2, pageHeight -13, {maxWidth: (pageWidth - 80), align: "center"})
 
-    document.save((dataToView.lastName.toUpperCase() + ", " + dataToView.firstName.toUpperCase() + " " + (dataToView.middleName !== "" ? dataToView.middleName.charAt(0).toUpperCase(): "") + (dataToView.suffix !== "" ? dataToView.suffix.charAt(0).toUpperCase(): "")) + "_Residency.pdf")
+    if(!dataToView.multiPurpose || !!dataToView.docPurpose){
+        document.save((dataToView.lastName.toUpperCase() + ", " + dataToView.firstName.toUpperCase() + " " + (dataToView.middleName !== "" ? dataToView.middleName.charAt(0).toUpperCase(): "") + (dataToView.suffix !== "" ? dataToView.suffix.charAt(0).toUpperCase(): "")) + "_Residency.pdf")
+    }
+    if(dataToView.multiPurpose){
+        document.save((dataToView.lastName.toUpperCase() + ", " + dataToView.firstName.toUpperCase() + " " + (dataToView.middleName !== "" ? dataToView.middleName.charAt(0).toUpperCase(): "") + (dataToView.suffix !== "" ? dataToView.suffix.charAt(0).toUpperCase(): "")) + "_Residency[" + (purpose.name === "others" ? purpose.others.toUpperCase() : purpose.name.toUpperCase()) + "].pdf")
+    }
+    // [" + (purpose.name === "others" ? purpose.others.toUpperCase() : purpose.name.toUpperCase()) + "]
 }

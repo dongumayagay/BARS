@@ -4,7 +4,7 @@ import { jsPDF } from "jspdf"
 import "jspdf-autotable";
 import { doc } from "firebase/firestore";
 
-export function clearance(officialsList, dataToView){
+export function clearance(officialsList, dataToView, purpose){
     let document = new jsPDF("p", "px", "letter");
 
     const pageWidth = document.internal.pageSize.width;
@@ -193,7 +193,12 @@ export function clearance(officialsList, dataToView){
     document.text("THIS CLEARANCE IS HEREBY ISSUED FOR THE PURPOSES OF:",  ((pageWidth * 0.315) + 9.5), 455, {maxWidth: ((pageWidth * 0.70)-19)/2})
     
     document.setFont("Times", "normal")
-    document.text("For: " + dataToView.docPurpose.toUpperCase(), ((pageWidth * 0.315) + 9.5), 480)
+    if(!dataToView.multiPurpose || !!dataToView.docPurpose){
+        document.text("For: " + dataToView.docPurpose.toUpperCase(), ((pageWidth * 0.315) + 9.5), 480)
+    }
+    if(dataToView.multiPurpose){
+        document.text("For: " + (purpose.name === "others" ? purpose.others.toUpperCase() : purpose.name.toUpperCase()), ((pageWidth * 0.315) + 9.5), 480)
+    }
     document.text("Date Clearance Issued: " + months[new Date().getMonth()] + " " + new Date().getDate() + ", " + new Date().getFullYear(), 
         ((pageWidth * 0.315) + 9.5), 490
     )
@@ -214,5 +219,11 @@ export function clearance(officialsList, dataToView){
     document.setTextColor("")
     document.text("This document is generated for research puposes only and does not represent any actual document issued by the office of Barangay United Bayanihan.", pageWidth/2, pageHeight -17, {maxWidth: (pageWidth - 80), align: "center"})
 
-    document.save((dataToView.lastName + ", " + dataToView.firstName + " " + (dataToView.middleName !== "" ? dataToView.middleName.charAt(0).toUpperCase() : "") + (dataToView.suffix !== "" ? dataToView.suffix.charAt(0).toUpperCase(): "")) + "_Clearance.pdf")
+    if(!dataToView.multiPurpose || !!dataToView.docPurpose){
+        document.save((dataToView.lastName + ", " + dataToView.firstName + " " + (dataToView.middleName !== "" ? dataToView.middleName.charAt(0).toUpperCase() : "") + (dataToView.suffix !== "" ? dataToView.suffix.charAt(0).toUpperCase(): "")) + "_Clearance.pdf")
+    }
+    
+    if(dataToView.multiPurpose){
+        document.save((dataToView.lastName + ", " + dataToView.firstName + " " + (dataToView.middleName !== "" ? dataToView.middleName.charAt(0).toUpperCase() : "") + (dataToView.suffix !== "" ? dataToView.suffix.charAt(0).toUpperCase(): "")) + "_Clearance[" + (purpose.name === "others" ? purpose.others.toUpperCase() : purpose.name.toUpperCase()) + "].pdf")
+    }
 }
