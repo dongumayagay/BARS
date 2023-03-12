@@ -42,13 +42,15 @@ import DocumentListManagerMenu from "./DocumentListManagerMenu.svelte";
                 documentUpdateRef = await updateDoc(doc(db, "documentsList", event.detail.editableDocumentDetails.id), {
                     name: event.detail.editableDocumentDetails.name,
                     requirements: event.detail.editableDocumentDetails.requirements,
-                    fee: event.detail.editableDocumentDetails.fee
+                    fee: event.detail.editableDocumentDetails.fee,
+                    purposes: [{name: "", others: ""},],
                 })
             } else {
                 documentUpdateRef = await addDoc(collection(db, "documentsList"), {
                     name: event.detail.editableDocumentDetails.name,
                     requirements: event.detail.editableDocumentDetails.requirements,
-                    fee: event.detail.editableDocumentDetails.fee
+                    fee: event.detail.editableDocumentDetails.fee,
+                    purposes: [{name: "", others: ""},],
                 })
             }
                 alert("Documents list has been successfully updated")
