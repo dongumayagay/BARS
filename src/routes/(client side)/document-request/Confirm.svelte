@@ -73,8 +73,22 @@
                         <p class="w-full text-center lg:text-md">{documentRequest.contactInfo.contactNo}</p>
                     </div>
                     <div class="w-full flex flex-col items-start justify-start gap-2">
-                        <p class="w-full font-semibold lg:text-md">Purpose of the request: </p>
-                        <p class="w-full text-center lg:text-md">{documentRequest.selectedPurpose}</p>
+                        {#if !documentRequest.multiPurpose}
+                            <p class="w-full font-semibold lg:text-md">Purpose of the request: </p>
+                            <p class="w-full text-center lg:text-md">{documentRequest.selectedPurpose}</p>
+                        {/if}
+                        {#if documentRequest.multiPurpose}
+                            <p class="w-full font-semibold lg:text-md">Purposes per document: </p>
+                            {#each documentRequest.listOfRequestedDocuments as  requestedDocument}
+                                <p class="underline underline-offset-2 lg:pl-3">{requestedDocument.name}</p>
+                                {#each requestedDocument.purposes as purpose}
+                                <div class="w-full flex justify-center items-center gap-2">
+                                    <i class="fa-solid fa-circle text-[8px]"></i>
+                                    <p>{(purpose.name === "others" ? purpose.others : purpose.name)}</p>
+                                </div>
+                                {/each}
+                            {/each}
+                        {/if}
                     </div>
                 </div>
             </div>

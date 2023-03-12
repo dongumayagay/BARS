@@ -70,9 +70,24 @@
                         </div>
                     </div>
                     <div class="w-full flex flex-col items-center gap-2">
+                        {#if !!documentRequest.docPurpose}
                            <p class="font-semibold text-[14px]">Purpose of the Documents</p>
                            <p class="text-[14px]">- {documentRequest.docPurpose}</p>
-                       </div>
+                        {:else}
+                            <p class="font-semibold text-[14px]">Purpose of the Documents</p>
+                            {#each documentRequest.docsRequested??[] as requestedDocument}
+                            <div class="flex flex-col items-center">
+                                <p class="text-[14px] underline underline-offset-2">{requestedDocument.name}</p>
+                                {#each requestedDocument.purposes??[] as purpose}
+                                    <div class="flex justify-center items-center gap-2">
+                                        <i class="fa-solid fa-circle text-[8px]"></i>
+                                        <p class="text-[14px]">{(purpose.name === "others" ? purpose.others : purpose.name)}</p>
+                                    </div>
+                                {/each}
+                            </div>
+                            {/each}
+                        {/if}
+                    </div>
                 </section>
                 <div class="flex gap-2">
                     <small>Status:</small>
