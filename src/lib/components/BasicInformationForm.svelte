@@ -255,7 +255,7 @@
                 <label for="purpose" class="label">
                     <span class="label-text">Purpose of the Request</span>
                 </label>
-                <textarea class="textarea textarea-primary w-full bg-neutral focus:border-primary focus:outline-offset-[3px]" placeholder="example: Job Requirement" bind:value={contactInfo.purpose}></textarea>
+                <textarea required class="textarea textarea-primary w-full bg-neutral focus:border-primary focus:outline-offset-[3px]" placeholder="example: Job Requirement" bind:value={contactInfo.purpose}></textarea>
             </div>
         {/if}
     </section>
