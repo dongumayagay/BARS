@@ -14,7 +14,7 @@
     let barangayWorkingHours = [
         "8:00 AM", "9:00 AM", "10:00 AM", "11:00 AM", "12:00 PM", "1:00 PM", "2:00 PM", "3:00 PM", "4:00 PM"
     ]
-    let unbookedHours = [];
+    let bookedHours = [];
     let dateInput = "";
 
     let selectedDateAndTime = {
@@ -23,12 +23,10 @@
     };
 
     async function filterHours(date) {
-        unbookedHours = barangayWorkingHours;
         const findReservedDay = await getDocs(query(collection(db, 'appointmentRequests'), where("appointmentDate", "==", date))) 
 
-        findReservedDay.forEach((doc) => {
-            unbookedHours = unbookedHours.filter(time => time != doc.data().appointmentTime);
-        })
+        bookedHours = findReservedDay.docs.map((doc)=>(doc.data().appointmentTime))
+        console.log(bookedHours)
     }
 
     function formatDate(date) {
@@ -50,7 +48,7 @@
 </script>
 
 
-<form class="w-full h-max p-4 flex flex-col items-center gap-4" on:submit|preventDefault={submitHandler} on:reset={(event)=>{event.target.reset(); unbookedHours = []}}>
+<form class="w-full h-max p-4 flex flex-col items-center gap-4" on:submit|preventDefault={submitHandler} on:reset={(event)=>{event.target.reset(); bookedHours = []}}>
     <p class=" font-bold">Appointment Schedule</p>
     <div class="w-full h-full lg:w-full flex flex-col gap-4">
 
@@ -71,7 +69,7 @@
                 class="input input-bordered input-md input-primary w-full bg-transparent focus:border-primary focus:outline-offset-[3px] z-20"
                 bind:value={dateInput} 
                 />
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-7 h-7 absolute top-[51%] right-[14px] z-10">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-7 h-7 absolute top-[51%] right-[12px] z-10">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0v-7.5A2.25 2.25 0 015.25 9h13.5A2.25 2.25 0 0121 11.25v7.5" />
                 </svg>
             </div>
@@ -86,9 +84,15 @@
                     required
                 >
                     <option disabled selected>Pick a time</option>
-                    {#each unbookedHours as availableHour}
-                        <option>{availableHour}</option>
-                    {/each}
+                    {#if !!selectedDateAndTime.date}
+                        {#each barangayWorkingHours as availableHour}
+                            {#if !!bookedHours.find((bookedTime)=>bookedTime === availableHour)}
+                                <option disabled>{availableHour} (booked)</option>
+                            {:else}
+                                <option>{availableHour}</option>
+                            {/if}
+                        {/each}
+                    {/if}
                 </select>
             </div>
         </div>
