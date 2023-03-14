@@ -28,22 +28,20 @@
 
 <main class="w-full h-full flex flex-col justify-start gap-2">
     <p class="w-full text-center text-lg font-bold">Announcements</p>
-    <section class="overflow-y-auto w-full h-[80vh] lg:max-h-[80vh] flex flex-col gap-10 pb-4 px-4">
+    <section class="overflow-y-auto overflow-x-hidden lg:w-full h-[80vh] lg:max-h-[80vh] flex flex-col gap-10 pb-4 px-4">
         {#await getAnnouncements()}
             <div class="w-full h-[70vh] flex flex-col items-center justify-center">
                 <Circle />
                 <p class="">Loading Announcements...</p>
             </div>
         {:then announcements} 
-    
-        {#if announcements.length !== 0}
-            <Announcement {announcements}/>
-        {:else}
-            <div class="w-full lg:w-full h-full lg:h-[300px] flex items-center justify-center">
-                <p class="font-semibold opacity-60">Nothing to show for now</p>
-            </div>
-        {/if}
-            
+            {#if announcements.length !== 0}
+                <Announcement {announcements}/>
+            {:else}
+                <div class="w-full lg:w-full h-full lg:h-[300px] flex items-center justify-center">
+                    <p class="font-semibold opacity-60">Nothing to show for now</p>
+                </div>
+            {/if}
         {/await}
     </section>
 </main>
