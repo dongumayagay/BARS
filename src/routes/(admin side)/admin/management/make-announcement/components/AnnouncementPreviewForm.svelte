@@ -18,7 +18,7 @@
             filesToUpload,
         })
         announcementTitle = "";
-        announcementContent = " ";
+        announcementContent = "";
         filesToUpload = [];
     }
 
@@ -30,7 +30,6 @@
             } else {
                 filesToUpload = [...filesToUpload, {file: file[index]}]
             }
-            
         }
     }
 
@@ -64,7 +63,7 @@
         </div>
         <div class="w-full pb-4 flex flex-col border-b-[2px] border-base-100">
             <p class="text-xs lg:text-sm">{Timestamp.now().toDate()}</p>
-            <p class="text-xs lg:text-sm">Posted by: {$userStore?.email}</p>
+            <p class="text-xs lg:text-sm">Posted by: {(!!$userStore.displayName ? $userStore.displayName : $userStore.email)}</p>
         </div>
         <input type="text" 
             placeholder="Type your title here" 

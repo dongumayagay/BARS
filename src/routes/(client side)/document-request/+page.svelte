@@ -69,7 +69,8 @@
                 dateAdded: Timestamp.now(),
                 lastUpdated: Timestamp.now(),
                 docsRequested: documentRequest.listOfRequestedDocuments,
-                docPurpose: documentRequest.selectedPurpose,
+                multiPurpose: documentRequest.multiPurpose,
+                docPurpose: documentRequest.selectedPurpose??"",
                 totalFee: documentRequest.totalFee,
                 status: "pending",
                 guardianInfo: documentRequest.guardianInfo??"",
@@ -150,8 +151,8 @@
         <RequestModeSelector {page} on:next={nextHandler}/>
         <ul class="steps lg:w-[75%]" class:hidden={page===0}>
             <li class="step font-semibold" class:step-success={page >= 0} class:text-xs={page!==1}>Contact Info</li>
-            <li class="step {page >= 2 ? "step-success font-semibold": ""}" class:text-xs={page!==2}>Select Purpose</li>
-            <li class="step {page >= 3 ? "step-success font-semibold": ""}" class:text-xs={page!==3}>Documents to Request</li>
+            <li class="step {page >= 2 ? "step-success font-semibold": ""}" class:text-xs={page!==2}>Documents to Request</li>
+            <li class="step {page >= 3 ? "step-success font-semibold": ""}" class:text-xs={page!==3}>Select Purpose</li>
             <li class="step {page >= 4 ? "step-success font-semibold": ""}" class:text-xs={page!==4}>Upload Requirements</li>
             <li class="step {page === 5 ? "step-success font-semibold": ""}" class:text-xs={page!==5}>Confirm</li>
         </ul>
@@ -181,17 +182,17 @@
         <Otp email={documentRequest.contactInfo?.email??""} on:emailVerified={emailVerifier} on:close={()=>showOTPModal=false}/>
             
         {/if}
-        
-        <div class="w-[95%] lg:w-[45%] p-4 bg-neutral rounded-xl flex justify-start shadow-xl" class:hidden={page !== 2}>
-            <PurposeSelector on:next={nextHandler} on:back={()=>page -= 1 }/>
-        </div>
 
-        <div class="w-[95%] lg:w-[45%] p-4 bg-neutral rounded-xl flex justify-start shadow-xl" class:hidden={page !== 3}>
+        <div class="w-[95%] lg:w-[45%] p-4 bg-neutral rounded-xl flex justify-start shadow-xl" class:hidden={page !== 2}>
             <DocumentsList on:next={nextHandler} on:back={()=>page -= 1 }/>
+        </div>
+        
+        <div class="w-[95%] lg:w-[45%] p-4 bg-neutral rounded-xl flex justify-start shadow-xl" class:hidden={page !== 3}>
+            <PurposeSelector listOfRequestedDocuments={documentRequest.listOfRequestedDocuments} on:next={nextHandler} on:back={()=>page -= 1 }/>
         </div>
 
         <div class="w-[95%] lg:w-[45%] p-4 lg:px-6 bg-neutral rounded-xl flex justify-center shadow-xl" class:hidden={page !== 4}>
-            <FileUpload listOfRequestedDocuments={documentRequest?.listOfRequestedDocuments??[]} isRequestForSomeone={documentRequest.isRequestForSomeone} on:next={nextHandler} on:back={()=>page -= 1 }/>
+            <FileUpload listOfRequestedDocuments={documentRequest?.listOfRequestedDocuments??[]} isRequestForSomeone={documentRequest.isRequestForSomeone} guardianInfo={documentRequest.guardianInfo} on:next={nextHandler} on:back={()=>page -= 1 }/>
         </div>
 
         <div class:hidden={page !== 5}>

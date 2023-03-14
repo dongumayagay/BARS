@@ -13,6 +13,30 @@
     <p class="text-[15px] font-semibold">{documentRequest.authorizedRequestor}</p>
 </div>
 {/if}
+{#if !!documentRequest.guardianInfo}
+    {#if documentRequest.guardianInfo.guardianship === "parents"}
+    <div class="flex justify-start items-center gap-2">
+        <p class="text-[12px]">Mother: </p>
+        <p class="text-[15px] font-semibold">{documentRequest.guardianInfo.mother}</p>
+    </div>
+    <div class="flex justify-start items-center gap-2">
+        <p class="text-[12px]">Father: </p>
+        <p class="text-[15px] font-semibold">{documentRequest.guardianInfo.father}</p>
+    </div>
+    {/if}
+    {#if documentRequest.guardianInfo.guardianship === "singleParent"}
+    <div class="flex justify-start items-center gap-2">
+        <p class="text-[12px]">{documentRequest.guardianInfo.parentsRelation === "mother" ? "Mother" : "Father"}: </p>
+        <p class="text-[15px] font-semibold">{documentRequest.guardianInfo.parentsRelation === "mother" ? documentRequest.guardianInfo.mother : documentRequest.guardianInfo.father}</p>
+    </div>
+    {/if}
+    {#if documentRequest.guardianInfo.guardianship === "guardian"}
+    <div class="flex justify-start items-center gap-2">
+        <p class="text-[12px]">Guardian: </p>
+        <p class="text-[15px] font-semibold">{documentRequest.guardianInfo.guardian}</p>
+    </div>
+    {/if}
+{/if}
 <div class="flex flex-col justify-between md:flex-row-reverse gap-3">
     <p class="text-[12px] w-full md:w-[25vw]">Date Requested: {documentRequest.dateAdded.toDate()}</p>
     <div class="flex flex-col">

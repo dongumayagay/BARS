@@ -1,5 +1,9 @@
 <script>
 	import { createEventDispatcher } from 'svelte';
+	import { db } from "$lib/firebase/client.js";
+	import { getDocs, collection, where, query } from 'firebase/firestore';
+	import { onMount } from "svelte";
+	import { userStore } from "$lib/stores.js"
 
 	const dispatch = createEventDispatcher();
 	const links = [
@@ -7,6 +11,13 @@
 		{name: 'Documents List'},
 		{name: 'Officials List'},
 	] 
+
+	let captainEmail;
+    onMount(async ()=>{
+        const captainRef = await getDocs(query(collection(db, "adminUsers"), where("position", "==", "captain")))
+        captainEmail = captainRef.docs.at(0).data().email
+        console.log(console.log(captainEmail))
+    })
 	
 	export let managementPage;
 	let showMenu = false;
@@ -18,6 +29,7 @@
 			<input type="checkbox" class=" absolute opacity-0 w-full h-full" bind:checked={showMenu} />
 			<p class="font-bold">{links[managementPage].name}</p>
 		</button>
+		{#if !!$userStore}
 		<nav class="w-full items-end flex-1 hidden lg:flex justify-evenly tabs">
 			{#each links as link, index}
 				<button
@@ -25,11 +37,13 @@
 						dispatch("switchTab", {index})
 					}}
 					class="tab tab-lifted border-b-0 font-semibold {managementPage === index ? "tab-active translate-y-[1px] " : ""}"
+					disabled={link.name === "Officials List" && captainEmail !== $userStore.email}
 				>
 					{link.name}
 				</button>
 			{/each}
 		</nav>
+		{/if}
 	</section>
 	<section class="absolute right-[5%] flex flex-col items-center justify-center lg:hidden">
 		<label class="btn btn-circle btn-ghost swap swap-rotate">

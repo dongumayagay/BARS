@@ -13,9 +13,6 @@
     let requestPath;
     let requestId;
 
-    let transactions = [];
-
-    let showSignUpModal = false;
     let showTransactionsModal = false;
 
     function submitHandler() {
@@ -30,31 +27,6 @@
             showTransactionsModal = true;
         } else {
             showSignUpModal = true;
-        }
-    }
-
-    async function fetchRequestsHistory(){
-        try {
-            let allRequests
-            const documentRequestsRef = await getDocs(query(collection(db, "documentRequests"), where("email", "==", $userStore.email)))
-            const appointmentRequestsRef = await getDocs(query(collection(db, "appointmentRequests"), where("email", "==", $userStore.email)))
-            const documentRequests = documentRequestsRef.docs.map((doc)=>({
-                ...doc.data(),
-                requestId: doc.id,
-                requestPath: "documentRequests",
-                typeOfRequest: "Document Request",
-            }))
-            const appointmentRequests = appointmentRequestsRef.docs.map((doc)=>({
-                ...doc.data(),
-                requestId: doc.id,
-                requestPath: "appointmentRequests",
-                typeOfRequest: "Appointment Request",
-            }))
-            allRequests = [...documentRequests, ...appointmentRequests] 
-            console.log(allRequests)
-            return allRequests;
-        } catch (error) {
-            alert(error.message)
         }
     }
 

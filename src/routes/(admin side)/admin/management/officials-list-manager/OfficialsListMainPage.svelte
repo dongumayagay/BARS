@@ -29,7 +29,6 @@
                 departments: (doc.data().departments === "" ? undefined : doc.data().departments),
             }))
         })
-        console.log(officials)
         return()=>{
             unsub()
         }

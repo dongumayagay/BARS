@@ -5,6 +5,7 @@
     import RequestMessages from '$lib/components/messaging-components/RequestMessages.svelte';
 	import ImagePreview from './ImagePreview.svelte';
     import { zoom } from "$lib/zoom.js"
+    import {goto} from "$app/navigation"
 	import { onMount } from "svelte";
 	import BasicInfoDisplay from "./BasicInfoDisplay.svelte";
 
@@ -34,6 +35,14 @@
     }
 </script>
 
+<div class="w-full p-4 lg:pl-10">
+    <button class="btn btn-info btn-sm gap-2" on:click={()=> goto("../ticket-tracker")}>
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0013.5 3h-6a2.25 2.25 0 00-2.25 2.25v13.5A2.25 2.25 0 007.5 21h6a2.25 2.25 0 002.25-2.25V15M12 9l-3 3m0 0l3 3m-3-3h12.75" />
+        </svg>
+        <p>Go Back</p>      
+    </button>
+</div>
 <main class="p-4 w-full h-max flex flex-col lg:flex-row lg:items-start justify-center gap-4">
     <NavigationButtons {page} on:navigate={(event) => page = event.detail.index}/>
     <section class="flex flex-col gap-4">
@@ -61,9 +70,24 @@
                         </div>
                     </div>
                     <div class="w-full flex flex-col items-center gap-2">
+                        {#if !!documentRequest.docPurpose}
                            <p class="font-semibold text-[14px]">Purpose of the Documents</p>
                            <p class="text-[14px]">- {documentRequest.docPurpose}</p>
-                       </div>
+                        {:else}
+                            <p class="font-semibold text-[14px]">Purpose of the Documents</p>
+                            {#each documentRequest.docsRequested??[] as requestedDocument}
+                            <div class="flex flex-col items-center">
+                                <p class="text-[14px] underline underline-offset-2">{requestedDocument.name}</p>
+                                {#each requestedDocument.purposes??[] as purpose}
+                                    <div class="flex justify-center items-center gap-2">
+                                        <i class="fa-solid fa-circle text-[8px]"></i>
+                                        <p class="text-[14px]">{(purpose.name === "others" ? purpose.others : purpose.name)}</p>
+                                    </div>
+                                {/each}
+                            </div>
+                            {/each}
+                        {/if}
+                    </div>
                 </section>
                 <div class="flex gap-2">
                     <small>Status:</small>
@@ -94,6 +118,54 @@
                     />
                 </div>
             </div>
+            {/if}
+            {#if !!documentRequest.guardianInfo}
+                <div>
+                    <p class="font-semibold">Guardian/s' Valid ID's</p>
+                    {#if documentRequest.guardianInfo.guardianship === "parents"}
+                        <div class="w-full h-max flex justify-center gap-2">
+                            <ImagePreview 
+                                requestId={documentRequest.id}
+                                documentName={"Mother's Valid ID"}
+                                on:viewImage={viewHandler}
+                            />
+                        </div>
+                        <div class="w-full h-max flex justify-center gap-2">
+                            <ImagePreview 
+                                requestId={documentRequest.id}
+                                documentName={"Father's Valid ID"}
+                                on:viewImage={viewHandler}
+                            />
+                        </div>
+                    {/if}
+                    {#if documentRequest.guardianInfo.guardianship === "singleParent" && documentRequest.guardianInfo.parentsRelation === "mother"}
+                        <div class="w-full h-max flex justify-center gap-2">
+                            <ImagePreview 
+                                requestId={documentRequest.id}
+                                documentName={"Mother's Valid ID"}
+                                on:viewImage={viewHandler}
+                            />
+                        </div>
+                    {/if}
+                    {#if documentRequest.guardianInfo.guardianship === "singleParent" && documentRequest.guardianInfo.parentsRelation === "father"}
+                        <div class="w-full h-max flex justify-center gap-2">
+                            <ImagePreview 
+                                requestId={documentRequest.id}
+                                documentName={"Father's Valid ID"}
+                                on:viewImage={viewHandler}
+                            />
+                        </div>
+                    {/if}
+                    {#if documentRequest.guardianInfo.guardianship === "guardian"}
+                        <div class="w-full h-max flex justify-center gap-2">
+                            <ImagePreview 
+                                requestId={documentRequest.id}
+                                documentName={"Guardian's Valid ID"}
+                                on:viewImage={viewHandler}
+                            />
+                        </div>
+                    {/if}
+                </div>
             {/if}
         </section>
         {/if}
