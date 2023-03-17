@@ -40,9 +40,9 @@
               </button>
         </div>
         <div class="w-full flex flex-col items-center justify-center gap-2">
-            <label for="#username" class="font-semibold label-text">New Password</label>
-            <input required type="text" id="username" placeholder="Type Here" class="w-full input input-ghost hover:border-b-2 bg-transparent text-center" class:hidden={!showPassword} bind:value={newPassword}>
-            <input required type="password" id="username" placeholder="Type Here" class="w-full input input-ghost hover:border-b-2 bg-transparent text-center" class:hidden={showPassword} bind:value={newPassword}>
+            <label for="#newPassword" class="font-semibold label-text">New Password</label>
+            <input required type="text" id="newPassword" placeholder="Type Here" class="w-full input input-ghost hover:border-b-2 bg-transparent text-center" class:hidden={!showPassword} bind:value={newPassword}>
+            <input required type="password" id="newPassword" placeholder="Type Here" class="w-full input input-ghost hover:border-b-2 bg-transparent text-center" class:hidden={showPassword} bind:value={newPassword}>
             <div class="form-control">
                 <label class="w-max label cursor-pointer flex gap-2 group">
                     <input type="checkbox" class="checkbox checkbox-primary" bind:checked={showPassword}/>
@@ -51,9 +51,9 @@
             </div>
         </div>
         <div class="w-full flex flex-col items-center justify-center gap-2">
-            <label for="#email" class="font-semibold label-text">Confirm Password</label>
-            <input required type="password" id="email" placeholder="Re-type here the new password above" class="w-full input input-ghost hover:border-b-2 bg-transparent text-center {newPassword === confirmPassword ? "" : "border-2 border-error"}" bind:value={confirmPassword}>
-            <label for="#email" class="font-semibold label-text-alt text-error" class:hidden={newPassword === confirmPassword}>This field must be the same as your new password</label>
+            <label for="#confirmPassword" class="font-semibold label-text">Confirm Password</label>
+            <input required type="password" id="confirmPassword" placeholder="Re-type here the new password above" class="w-full input input-ghost hover:border-b-2 bg-transparent text-center {newPassword === confirmPassword ? "" : "border-2 border-error"}" bind:value={confirmPassword}>
+            <label for="#confirmPassword" class="font-semibold label-text-alt text-error" class:hidden={newPassword === confirmPassword}>This field must be the same as your new password</label>
         </div>
         <div class="w-full flex justify-end">
             <button type="submit" class="btn btn-success gap-2" disabled={newPassword !== confirmPassword || (!newPassword && !confirmPassword)}>
