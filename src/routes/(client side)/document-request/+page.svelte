@@ -78,6 +78,7 @@
                 civilStatus: documentRequest.contactInfo.civilStatus,
                 nationality: documentRequest.contactInfo.nationality,
                 requestorUID: $userStore?.uid??"",
+                isNotified: false,
             })
             if(!!documentRequestRef) console.log("uploaded request")
             loadingStatement = "Uploading Files..."

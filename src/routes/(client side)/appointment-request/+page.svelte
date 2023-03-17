@@ -87,12 +87,14 @@
                 lastUpdated: Timestamp.now(),
                 appointmentDate: appointmentRequest.selectedDateAndTime.date,
                 appointmentTime: appointmentRequest.selectedDateAndTime.time,
+                appointmentRawDate: appointmentRequest.selectedDateAndTime.dateInput,
                 appointmentPurpose: appointmentRequest.contactInfo.purpose,
                 selectedOfficial: appointmentRequest.selectedOfficial,
                 civilStatus: appointmentRequest.contactInfo.civilStatus,
                 nationality: appointmentRequest.contactInfo.nationality,
                 status: "pending",
                 requestorUID: $userStore?.uid??"",
+                isNotified: false,
             })
 
             loadingStatement = "Generating Request ID..."
