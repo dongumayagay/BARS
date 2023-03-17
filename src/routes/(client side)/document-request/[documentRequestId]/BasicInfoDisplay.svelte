@@ -1,5 +1,6 @@
 <script>
     import {months} from "$lib/stores.js"
+	import { Timestamp } from "firebase/firestore";
 
     export let documentRequest;
 
@@ -38,7 +39,10 @@
     {/if}
 {/if}
 <div class="flex flex-col justify-between md:flex-row-reverse gap-3">
-    <p class="text-[12px] w-full md:w-[25vw]">Date Requested: {documentRequest.dateAdded.toDate()}</p>
+    <div class="w-full items-end flex flex-col gap-4">
+        <p class="text-[12px] w-full md:w-[25vw]">Date Requested: {documentRequest.dateAdded.toDate()}</p>
+        <p class="text-[12px] w-full md:w-[25vw]">Last Updated: {new Timestamp(documentRequest.lastUpdated?.seconds??[], documentRequest.lastUpdated?.nanoseconds??[]).toDate()}</p>
+    </div>
     <div class="flex flex-col">
         <p class="font-semibold">{documentRequest.lastName}, {documentRequest.firstName} {documentRequest.middleName !== "" ? documentRequest.middleName.charAt(0).toUpperCase() + "." : ""} {documentRequest.suffix !== "" ? documentRequest.suffix.charAt(0).toUpperCase(): ""}</p>
         <div class="flex items-center gap-2">
