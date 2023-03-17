@@ -1,23 +1,22 @@
 <script>
-    import { createEventDispatcher } from "svelte";
-    import { addDoc, doc, Timestamp, updateDoc, collection, deleteDoc, query, where, getDoc, getDocs, orderBy } from "firebase/firestore"; 
     import { db, storage } from "$lib/firebase/client.js"
-    import { sendEmail } from '$lib/utils';
-	import NavigationButtons from "./requestViewerComponents/NavigationButtons.svelte";
-	import RequestDetails from "./requestViewerComponents/request-details-components/RequestDetails.svelte";
-	import RequestMessages from "./requestViewerComponents/messaging-components/RequestMessages.svelte";
+    import { createEventDispatcher } from "svelte";
+    import { doc, Timestamp, updateDoc, collection, deleteDoc, query, where, getDocs, orderBy } from "firebase/firestore"; 
 	import { deleteObject, listAll, ref } from "firebase/storage";
-    // import { indigency, residency } from "$lib/jspdf.js";
+    import { sendEmail } from '$lib/utils';
     import { clearance } from "$lib/jspdf/clearance.js"
     import { indigency }  from "$lib/jspdf/indigency.js"
     import { residency }  from "$lib/jspdf/residency.js"
     import { Circle } from "svelte-loading-spinners";
+	import NavigationButtons from "./requestViewerComponents/NavigationButtons.svelte";
+	import RequestDetails from "./requestViewerComponents/request-details-components/RequestDetails.svelte";
+	import RequestMessages from "./requestViewerComponents/messaging-components/RequestMessages.svelte";
     
     
     const dispatch = createEventDispatcher();
 
     export let dataToView;
-    // export let officialsList;
+
     let page = 0;
     let showLoadingScreen = false;
     let loadingStatement;
@@ -90,6 +89,7 @@
                 html: `
                 <h1>Hello ${dataToView.firstName},</h1>
                 <p> ${dataToView.nextStatusEmailContent??[]}</p>
+                ${dataToView.nextStatus === "Ready to claim" ? "<p>Also, you have exactly [1] week or [7] days to claim your documents before your request will automatically close</p>" : ""}
                 <a href="https://bars-gf.vercel.app/${dataToView.requestPath}/${dataToView.requestId}">Here: [https://bars-gf.vercel.app/${dataToView.requestPath}/${dataToView.requestId}]</a><p> is your tracker-id if you wish to view or track your request</p>
                 ${dataToView.nextStatus === "Request Completed" || dataToView.nextStatus === "Appointment Served" ? "<p>If you have time, please do fill up our feedback form attached below:</p>" : ""}
                 ${dataToView.nextStatus === "Request Completed" || dataToView.nextStatus === "Appointment Served" ? "<a href=\"https://forms.gle/XiPycVoJ8BsTm7jaA\">https://forms.gle/XiPycVoJ8BsTm7jaA</a>" : ""}
