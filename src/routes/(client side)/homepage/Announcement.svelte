@@ -33,7 +33,7 @@
             <p class="text-xs lg:text-sm">Posted by: {announcement?.postedBy??[]}</p>
         </div>
         <p class="w-full text-center p-4 font-bold text-xl lg:text-2xl">{announcement?.title??[]}</p>
-        <p class="w-full min-h-[150px] text-sm lg:text-md whitespace-pre-wrap">{announcement?.content??[]}</p>
+        <p class="w-full min-h-[150px] font-semibold text-sm lg:text-md whitespace-pre-wrap">{announcement?.content??[]}</p>
         {#if announcement.hasFiles}
             <AnnouncementPhotos announcementId={announcement.announcementId} on:viewImage={(event)=>viewHandler(event)}/>
         {/if}
