@@ -1,8 +1,11 @@
 <script>
     import RequestViewer from "./RequestViewer.svelte";
-	import { onSnapshot, query, collection, where } from "firebase/firestore";
-    import { db } from "$lib/firebase/client.js"
+	import { onSnapshot, query, collection, where, doc, updateDoc } from "firebase/firestore";
+    import { db } from "$lib/firebase/client.js";
 	import AppointmentRequestsTable from "./request-preview-components/AppointmentRequestsTable.svelte";
+	import { onMount } from "svelte";
+    import { notifyUpcomingRequest } from "$lib/sendEmailNotifications/notifyUpcomingAppointmentRequests.js";
+    import { notifyUnattendedRequest } from "$lib/sendEmailNotifications/notifyUnattendedAppointmentRequests.js";
 
     export let page;
 
@@ -10,22 +13,33 @@
     let viewing  = false;
 
     let approvedAppointments = [];
+    let upcomingAppointments = [];
+    let unattendedAppointments = [];
 
-    const unsubscribe = onSnapshot(query(collection(db, "appointmentRequests"), where("status", "==", "Approved")), (querySnapshot) => {
-        approvedAppointments = [];
-        querySnapshot.forEach((doc) => {
-            approvedAppointments = [ ...approvedAppointments, {
+    onMount(()=>{
+        const unsubscribe = onSnapshot(query(collection(db, "appointmentRequests"), where("status", "==", "Approved")), (querySnapshot) => {
+            approvedAppointments = querySnapshot.docs.map((doc)=>({
                 ...doc.data(),
                 requestId: doc.id,
                 typeOfRequest: "Appointment Request",
                 requestPath: "appointment-request",
                 collectionReference: "appointmentRequests",
                 nextStatus: "Appointment Served",
-                nextStatusEmailContent: "Good Day! Your appointment has been served. We will mark this request as completed. We hope you had a nice experience."
-            }]
+                nextStatusEmailContent: "Good Day! Your appointment has been served. We will mark this request as completed. We hope you had a nice experience.",
+            }))
+            const today = new Date();
+            upcomingAppointments = approvedAppointments.filter((doc)=>{
+                const appointmentDate = new Date(doc.dateInput);
+                return (appointmentDate.valueOf() > today.valueOf() && appointmentDate.valueOf() - today.valueOf() <= 86400000) || (today.getDay === 5 && appointmentDate.getDay === 1)
+            })
+            unattendedAppointments = approvedAppointments.filter((doc)=>{
+                const appointmentDate = new Date(doc.dateInput);
+                return (today.valueOf() > appointmentDate.valueOf());
+            })
         })
-
-        console.log(approvedAppointments)
+        return ()=>{
+            unsubscribe();
+        }
     })
 
     function viewHandler(event) {
@@ -63,6 +77,20 @@
 	}
 
     $: sort(columnToSort, asc);
+    $: console.log(upcomingAppointments, unattendedAppointments);
+    $: if(!!upcomingAppointments){
+        upcomingAppointments.map(async (request)=>{
+            await notifyUpcomingRequest(request)
+        })
+    }
+    $: if(!!unattendedAppointments){
+        unattendedAppointments.map(async (request)=>{
+            await notifyUnattendedRequest(request);
+            // await updateDoc(doc(db, "appointmentRequests", request.requestId), {
+            //     status: "Closed",
+            // });
+        })
+    }
 </script>
 
 <div class="w-full flex flex-col items-center" class:hidden={page !== 2}>
