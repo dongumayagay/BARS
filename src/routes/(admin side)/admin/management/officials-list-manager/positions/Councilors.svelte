@@ -19,7 +19,7 @@
         })
     }
 
-    $:console.log(councilors)
+    // $:console.log(councilors)
 </script>
 
 <section class="w-full h-full flex flex-wrap items-center justify-center gap-2">

@@ -23,7 +23,6 @@
     let loadingStatement;
     let showLoadingScreen = false;
 
-
     onMount(()=>{
         const unsubscribe = onSnapshot(query(collection(db, "documentRequests"), where("status", "==", "Ready to claim")), (querySnapshot) => {
             readyToClaimDocuments = querySnapshot.docs.map((doc)=>({
@@ -46,9 +45,7 @@
             expiredDocumentRequests = readyToClaimDocuments.filter((doc)=>{
                 const lastUpdatedValue = new Timestamp(doc.lastUpdated.seconds, doc.lastUpdated.nanoseconds).toMillis();
                 const expiryDateString = new Date(lastUpdatedValue + 604800000).toISOString().split("T")[0];
-                console.log(dateTodayISO, expiryDateString,(dateTodayISO >= expiryDateString));
-                return (dateTodayISO >= expiryDateString)
-                // console.log(new Date(new Timestamp(doc.lastUpdated.seconds, doc.lastUpdated.nanoseconds).toMillis()).toISOString().split("T")[0])
+                return (dateTodayISO >= expiryDateString);
             })
         })
         return ()=>{
@@ -91,8 +88,8 @@
 	}
 
     $: sort(columnToSort, asc);
-    $: console.log("Expiring Document Requests =>",expiringDocumentRequests);
-    $: console.log("Expired Document Requests =>",expiredDocumentRequests);
+    $: console.log("Unnotified Expiring Document Requests =>", expiringDocumentRequests);
+    $: console.log("Open Expired Document Requests =>", expiredDocumentRequests);
     $: if(!!expiringDocumentRequests){
         showLoadingScreen = true;
         loadingStatement = "Notifying expiring requests...."
@@ -120,9 +117,6 @@
 </script>
 
 <div class="w-full h-full flex flex-col items-center" class:hidden={page !== 1}>
-    <!-- <section class="w-full flex justify-end p-2">
-        
-    </section> -->
     {#if showLoadingScreen}
         <section class="fixed top-0 left-0 w-full h-full bg-black/70 flex justify-center rounded-lg z-20">
             <div class="w-full h-[300px] flex flex-col items-center justify-center gap-2">
