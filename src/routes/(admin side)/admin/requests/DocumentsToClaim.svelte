@@ -112,9 +112,9 @@
             const lastUpdated = new Timestamp(request.lastUpdated.seconds, request.lastUpdated.nanoseconds).toDate();
             const lastUpdatedString = weekDays[lastUpdated.getDay()] + ", " + months[lastUpdated.getMonth()] + " " + lastUpdated.getDate(); 
             await notifyExpiredRequest(request, lastUpdatedString);
-            // await updateDoc(doc(db, "documentRequests", request.requestId), {
-            //     status: "Closed",
-            // })
+            await updateDoc(doc(db, "documentRequests", request.requestId), {
+                status: "Closed",
+            })
         })
     }
 </script>
