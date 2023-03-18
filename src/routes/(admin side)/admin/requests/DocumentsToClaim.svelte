@@ -101,9 +101,9 @@
             const expiryDate = new Date( lastUpdated + 864000000);
             const expiryDateString = weekDays[expiryDate.getDay()] + ", " + months[expiryDate.getMonth()] + " " + expiryDate.getDate();
             await notifyExpiringRequest(request, expiryDateString);
-            // await updateDoc(doc(db, "documentRequests", request.requestId), {
-            //     isNotified: true,
-            // })
+            await updateDoc(doc(db, "documentRequests", request.requestId), {
+                isNotified: true,
+            })
         })
         showLoadingScreen = false;
     }
