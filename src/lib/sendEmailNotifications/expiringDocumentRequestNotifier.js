@@ -12,8 +12,6 @@ export async function notifyExpiringRequest(request, expiryDate){
         ${request.nextStatus === "Request Completed" || request.nextStatus === "Appointment Served" ? "<p>If you have time, please do fill up our feedback form attached below:</p>" : ""}
         ${request.nextStatus === "Request Completed" || request.nextStatus === "Appointment Served" ? "<a href=\"https://forms.gle/XiPycVoJ8BsTm7jaA\">https://forms.gle/XiPycVoJ8BsTm7jaA</a>" : ""}
         <p>Thank you for using B.A.R.S.!</p>
-
-
         <p>This is an auto-generated email, please do not reply back. If you have further questions, please proceed to the barangay office. Thank you for your understanding!</p>
         `
     });
