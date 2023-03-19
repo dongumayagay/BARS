@@ -22,7 +22,7 @@
                 requestPath: "document-request",
                 collectionReference: "documentRequests",
                 nextStatus: "Ready to claim",
-                nextStatusEmailContent: "Good Day! Your requested document/s are now ready. Please bring the original copy of requirements along with you."
+                nextStatusEmailContent: "Your requested document/s are now ready. Please bring the original copy of your uploaded requirements along with you."
             }))
             // querySnapshot.docs.map((doc)=>{
             //     if(!doc.data().isViewed){dispatch("newDocRequest")}
@@ -42,7 +42,7 @@
                 requestPath: "appointment-request",
                 collectionReference: "appointmentRequests",
                 nextStatus: "Approved",
-                nextStatusEmailContent: "Good Day! Your appointment request schedule has been approved. Please attend at your appointed schedule on time."
+                nextStatusEmailContent: `Your appointment request schedule has been approved. Please attend at your appointed schedule [ ${doc.data().appointmentDate} ] on time.`
             }))
             // querySnapshot.docs.map((doc)=>{
             //     if(!doc.data().isViewed){dispatch("newAptRequest")}
@@ -71,9 +71,8 @@
         //         dispatch("minuAptNotifCounter")
         //     }
         // }
-    dataToView = event.detail.requestData;
+        dataToView = event.detail.requestData;
         viewing = true;
-
     }
 
     function closeHandler() {
@@ -146,13 +145,13 @@
                 </div>
             </div>
             <div class=" overflow-y-auto overflow-x-auto h-full w-full gap-4 py-2">
-                    {#if typeOfRequestToShow === "all"}
-                        <AllRequests allRequests={allPendingRequests} on:view={viewHandler}/>
-                    {:else if typeOfRequestToShow === "documents"}
-                        <DocumentRequestsTable documentRequests={pendingDocumentRequests} on:view={viewHandler}/>
-                    {:else if typeOfRequestToShow === "appointments"}
-                        <AppointmentRequestsTable appointmentRequests={pendingAppointmentRequests} on:view={viewHandler}/>
-                    {/if}
+                {#if typeOfRequestToShow === "all"}
+                    <AllRequests allRequests={allPendingRequests} on:view={viewHandler}/>
+                {:else if typeOfRequestToShow === "documents"}
+                    <DocumentRequestsTable documentRequests={pendingDocumentRequests} on:view={viewHandler}/>
+                {:else if typeOfRequestToShow === "appointments"}
+                    <AppointmentRequestsTable appointmentRequests={pendingAppointmentRequests} on:view={viewHandler}/>
+                {/if}
             </div>
         </div>
     </div>

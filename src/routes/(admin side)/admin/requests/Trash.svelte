@@ -30,7 +30,7 @@
                 typeOfRequest: "Document Request",
                 collectionReference: "documentRequests",
                 requestPath: "document-request",
-                nextStatusEmailContent: `Good Day! Your document request's status is now reverted back to [ ${doc.data().previousStatus} ].`
+                nextStatusEmailContent: `Your document request's status is now reverted back to [ ${doc.data().previousStatus} ].`
             }));
             const today = new Date().valueOf();
             const dateToday = new Date();
@@ -51,7 +51,7 @@
                 typeOfRequest: "Appointment Request",
                 collectionReference: "appointmentRequests",
                 requestPath: "appointment-request",
-                nextStatusEmailContent: `Good Day! Your document request's status is now reverted back to [ ${doc.data().previousStatus} ].`
+                nextStatusEmailContent: `Your appointment request's status is now reverted back to [ ${doc.data().previousStatus} ].`
             }));
             const today = new Date().valueOf();
             const dateToday = new Date();
@@ -169,7 +169,7 @@
                     </div>
                 </div>
             </div>
-            <div class="h-[400px] w-full flex flex-col gap-4 py-2">
+            <div class="min-h-[400px] w-full flex flex-col gap-4 py-2">
                 {#if typeOfRequestToShow === "all"}
                     <AllRequests allRequests={allTrashedRequests} on:view={viewHandler}/>
                 {:else if typeOfRequestToShow === "documents"}
