@@ -5,9 +5,10 @@ export async function notifyExpiringRequest(request, expiryDate){
         to: request.email,
         subject: 'Unclaimed Requested Document/s Reminder',
         html: `
-        <h1>Hello ${request.firstName},</h1>
-        <p>Your requested document/s has been unclaimed for exactly or more than 5 days. This request will automatically close at [ ${expiryDate} ] if your document/s are remained unclaimed.</p>
-        <a href="https://bars-gf.vercel.app/${request.requestPath}/${request.requestId}">Here: [https://bars-gf.vercel.app/${request.requestPath}/${request.requestId}]</a><p> is your tracker-id if you wish to view or track your request</p>
+        <h1>Hello ${request.firstName.toUpperCase()},</h1>
+        <p>Your requested document/s has been unclaimed for exactly or more than 5 days. This request will automatically close after [ ${expiryDate} ] if your document/s are remained unclaimed.</p>
+        <p>Below is your tracker-id if you wish to view or track your request:</p>
+        <a href="https://bars-gf.vercel.app/${request.requestPath}/${request.requestId}">[https://bars-gf.vercel.app/${request.requestPath}/${request.requestId}]</a>
         ${request.nextStatus === "Request Completed" || request.nextStatus === "Appointment Served" ? "<p>If you have time, please do fill up our feedback form attached below:</p>" : ""}
         ${request.nextStatus === "Request Completed" || request.nextStatus === "Appointment Served" ? "<a href=\"https://forms.gle/XiPycVoJ8BsTm7jaA\">https://forms.gle/XiPycVoJ8BsTm7jaA</a>" : ""}
         <p>Thank you for using B.A.R.S.!</p>
@@ -17,6 +18,6 @@ export async function notifyExpiringRequest(request, expiryDate){
         `
     });
     
-    console.log(`Your requested document/s has been unclaimed for exactly or more than 5 days. This request will automatically close at [ ${expiryDate} ] if your document/s are remained unclaimed.`)
+    // console.log(`Your requested document/s has been unclaimed for exactly or more than 5 days. This request will automatically close at [ ${expiryDate} ] if your document/s are remained unclaimed.`)
     console.log(JSON.stringify(result)) 
 }

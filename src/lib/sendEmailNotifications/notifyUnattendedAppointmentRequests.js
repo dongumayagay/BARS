@@ -5,9 +5,10 @@ export async function notifyUnattendedRequest(request){
         to: request.email,
         subject: 'Appointment Schedule Reminder',
         html: `
-        <h1>Hello ${request.firstName},</h1>
+        <h1>Hello ${request.firstName.toUpperCase()},</h1>
         <p>We are here to let you know about your unattended appointment with ${request.selectedOfficial.name} this last [ ${request.appointmentDate} ] at [ ${request.appointmentTime} ]. We will now close this request.</p>
-        <a href="https://bars-gf.vercel.app/${request.requestPath}/${request.requestId}">Here: [https://bars-gf.vercel.app/${request.requestPath}/${request.requestId}]</a><p> is your tracker-id if you wish to view or track your request</p>
+        <p>Below is your tracker-id if you wish to view or track your request:</p>
+        <a href="https://bars-gf.vercel.app/${request.requestPath}/${request.requestId}">[https://bars-gf.vercel.app/${request.requestPath}/${request.requestId}]</a>
         <p>Thank you for using B.A.R.S.!</p>
 
 
@@ -15,6 +16,6 @@ export async function notifyUnattendedRequest(request){
         `
     });
     
-    console.log(`Hello ${request.firstName}`, `We are here to let you know about your unattended appointment with ${request.selectedOfficial.name} this last [ ${request.appointmentDate} ] at [ ${request.appointmentTime} ]. We will now close this request.`)
+    // console.log(`Hello ${request.firstName}`, `We are here to let you know about your unattended appointment with ${request.selectedOfficial.name} this last [ ${request.appointmentDate} ] at [ ${request.appointmentTime} ]. We will now close this request.`)
     console.log(JSON.stringify(result)) 
 }
