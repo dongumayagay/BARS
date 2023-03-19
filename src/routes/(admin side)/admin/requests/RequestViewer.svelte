@@ -9,7 +9,7 @@
     import { indigency }  from "$lib/jspdf/indigency.js"
     import { residency }  from "$lib/jspdf/residency.js"
     import { Circle } from "svelte-loading-spinners";
-    import { notifyTrashedRequest } from "$lib/sendEmailNotifications/notifyTrashedRequests.js";
+    import { notifyTrashedRequest, clearDocumentRequestFiles } from "$lib/sendEmailNotifications/notifyTrashedRequests.js";
     import { months, weekDays } from "$lib/stores.js";
     import { requestStatusUpdateNotifier } from "$lib/sendEmailNotifications/statusUpdateNotifier.js"
 	import NavigationButtons from "./requestViewerComponents/NavigationButtons.svelte";
@@ -78,7 +78,7 @@
             } else {
                 loadingStatement = "Updating Request Status..."
                 if(dataToView.nextStatus === "Request Completed"){ 
-                    clearDocumentRequestFiles();
+                    clearDocumentRequestFiles(dataToView.requestId);
                      
                 }
                 await updateDoc(docRef, {
@@ -89,7 +89,7 @@
 
             loadingStatement = "Sending Email Notification..."
             await requestStatusUpdateNotifier(dataToView); 
-            
+
             loadingStatement = "Finishing Status Update..."
             dispatch("close")
             loadingStatement = "";

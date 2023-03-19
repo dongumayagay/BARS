@@ -72,7 +72,7 @@ export async function removeHandler(dataToView){
     }
 }
 
-function clearDocumentRequestFiles(requestId){
+export function clearDocumentRequestFiles(requestId){
     listAll(ref(storage, "documentRequestsFiles/" + requestId))
     .then((requirements)=>{
         requirements.prefixes.forEach((requirement) => {
