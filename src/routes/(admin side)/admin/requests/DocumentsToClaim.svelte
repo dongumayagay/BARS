@@ -95,7 +95,7 @@
         loadingStatement = "Notifying expiring requests...."
         expiringDocumentRequests.map(async (request)=>{
             const lastUpdated = new Timestamp(request.lastUpdated.seconds, request.lastUpdated.nanoseconds).toMillis();
-            const expiryDate = new Date( lastUpdated + 864000000);
+            const expiryDate = new Date( lastUpdated + 604800000);
             const expiryDateString = weekDays[expiryDate.getDay()] + ", " + months[expiryDate.getMonth()] + " " + expiryDate.getDate();
             await notifyExpiringRequest(request, expiryDateString);
             await updateDoc(doc(db, "documentRequests", request.requestId), {
