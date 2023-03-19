@@ -77,7 +77,8 @@
 	}
 
     $: sort(columnToSort, asc);
-    $: console.log(upcomingAppointments, unattendedAppointments);
+    $: console.log("Upcoming Appointments => ",upcomingAppointments);
+    $: console.log("Unattended Appointments => ", unattendedAppointments);
     $: if(!!upcomingAppointments){
         upcomingAppointments.map(async (request)=>{
             await notifyUpcomingRequest(request)
