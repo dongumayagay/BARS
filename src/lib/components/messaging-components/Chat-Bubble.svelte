@@ -8,7 +8,7 @@
     let time = new Timestamp(message?.dateSent.seconds??[], message?.dateSent.nanoseconds??[]).toDate().getHours() + ":" + new Timestamp(message?.dateSent.seconds??[], message?.dateSent.nanoseconds??[]).toDate().getMinutes()
 </script>
 
-<div class="chat {message?.sender !== requesterFullName ? "chat-start":"chat-end"}">
+<div class="chat {message?.sender !== requesterFullName ? "chat-start ml-4":"chat-end"}">
     <div class="chat-header">
         {message?.sender === requesterFullName ? "You" : "ADMIN"}
         <time class="text-xs opacity-50">
