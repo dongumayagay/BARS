@@ -6,7 +6,7 @@ import { db, storage } from "$lib/firebase/client.js";
 export async function notifyTrashedRequest(request, expiryDate){
     const result = await sendEmail({
         to: request.email,
-        subject: 'Unclaimed Requested Document/s Reminder',
+        subject: `Trashed ${request.typeOfRequest}`,
         html: `
         <h1>Hello ${request.firstName},</h1>
         <p>Your request have been temporarily set aside by the administrator. Your request is still open and you can discuss with the administrator on this request's chat section about the details about the things you need to do the take this request back on track</p>
@@ -18,14 +18,14 @@ export async function notifyTrashedRequest(request, expiryDate){
         `
     });
     
-    // console.log(`However, if there is still no update after [ ${expiryDate} ], this request will automatically close`)
+    // console.log(`Trashed ${request.typeOfRequest}`, `However, if there is still no update after [ ${expiryDate} ], this request will automatically close`)
     console.log(JSON.stringify(result)) 
 }
 
 export async function notifyExpiredTrashedRequest(request, lastUpdatedString){
     const result = await sendEmail({
         to: request.email,
-        subject: 'Unclaimed Requested Document/s Reminder',
+        subject: `Expired Trashed ${request.typeOfRequest}`,
         html: `
         <h1>Hello ${request.firstName.toUpperCase().trim()},</h1>
         <p>Your request have been lacking updates for more than 1 week since it has been trashed [ ${lastUpdatedString} ]. We are very sorry, but we will now close this request.</p>
@@ -36,7 +36,7 @@ export async function notifyExpiredTrashedRequest(request, lastUpdatedString){
         `
     });
     
-    console.log(`Hello ${request.firstName.toUpperCase().trim()},`,`Your request have been lacking updates for more than 1 week since it has been trashed [ ${lastUpdatedString} ]. We are very sorry, but will now close this request.`)
+    // console.log(`Hello ${request.firstName.toUpperCase().trim()},`,`Your request have been lacking updates for more than 1 week since it has been trashed [ ${lastUpdatedString} ]. We are very sorry, but will now close this request.`)
     console.log(JSON.stringify(result)) 
 }
 
