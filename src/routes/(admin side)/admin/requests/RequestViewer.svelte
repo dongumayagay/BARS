@@ -4,13 +4,14 @@
     import { goto } from "$app/navigation"
     import { doc, Timestamp, updateDoc, collection, deleteDoc, query, where, getDocs, orderBy } from "firebase/firestore"; 
 	// import { deleteObject, listAll, ref } from "firebase/storage";
-    import { sendEmail } from '$lib/utils';
+    // import { sendEmail } from '$lib/utils';
     import { clearance } from "$lib/jspdf/clearance.js"
     import { indigency }  from "$lib/jspdf/indigency.js"
     import { residency }  from "$lib/jspdf/residency.js"
     import { Circle } from "svelte-loading-spinners";
     import { notifyTrashedRequest } from "$lib/sendEmailNotifications/notifyTrashedRequests.js";
     import { months, weekDays } from "$lib/stores.js";
+    import { requestStatusUpdateNotifier } from "$lib/sendEmailNotifications/statusUpdateNotifier.js"
 	import NavigationButtons from "./requestViewerComponents/NavigationButtons.svelte";
 	import RequestDetails from "./requestViewerComponents/request-details-components/RequestDetails.svelte";
 	import RequestMessages from "./requestViewerComponents/messaging-components/RequestMessages.svelte";
@@ -87,23 +88,8 @@
             }
 
             loadingStatement = "Sending Email Notification..."
-            const result = await sendEmail({
-                to: dataToView.email,
-                subject: dataToView.typeOfRequest + 'Status Update',
-                html: `
-                <h1>Hello ${dataToView.firstName},</h1>
-                <p> ${dataToView.nextStatusEmailContent??[]}</p>
-                ${dataToView.nextStatus === "Ready to claim" ? "<p>Also, you have exactly [1] week or [7] days to claim your documents before your request will automatically close</p>" : ""}
-                <a href="https://bars-gf.vercel.app/${dataToView.requestPath}/${dataToView.requestId}">Here: [https://bars-gf.vercel.app/${dataToView.requestPath}/${dataToView.requestId}]</a><p> is your tracker-id if you wish to view or track your request</p>
-                ${dataToView.nextStatus === "Request Completed" || dataToView.nextStatus === "Appointment Served" ? "<p>If you have time, please do fill up our feedback form attached below:</p>" : ""}
-                ${dataToView.nextStatus === "Request Completed" || dataToView.nextStatus === "Appointment Served" ? "<a href=\"https://forms.gle/XiPycVoJ8BsTm7jaA\">https://forms.gle/XiPycVoJ8BsTm7jaA</a>" : ""}
-                <p>Thank you for using B.A.R.S.!</p>
-                `
-            });
+            await requestStatusUpdateNotifier(dataToView); 
             
-
-            console.log(JSON.stringify(result))
-            // alert("This request's status has been successfully updated, click OK to close")
             loadingStatement = "Finishing Status Update..."
             dispatch("close")
             loadingStatement = "";
@@ -118,12 +104,13 @@
             loadingStatement = "Moving to trash..."
             goto("#loadingStatement")
             const docRef = doc(db, dataToView.collectionReference, dataToView.requestId);
-            await updateDoc(docRef, {
+            const updateRef = await updateDoc(docRef, {
+                lastUpdated: Timestamp.now(),
                 previousStatus: dataToView.status,
                 status: "Trashed",
             })
             loadingStatement = `Notifying ${dataToView.lastName}, ${dataToView.firstName} ${dataToView.middleName !== "" ? dataToView.middleName.charAt(0).toUpperCase() + "." : ""} ${dataToView.suffix !== "" ? dataToView.suffix.charAt(0).toUpperCase(): ""}`
-            const lastUpdated = new Timestamp(dataToView.lastUpdated.seconds, dataToView.lastUpdated.nanoseconds).toMillis();
+            const lastUpdated = Timestamp.now().toMillis();
             const expiryDate = new Date( lastUpdated + 604800000);
             const expiryDateString = weekDays[expiryDate.getDay()] + ", " + months[expiryDate.getMonth()] + " " + expiryDate.getDate();
             await notifyTrashedRequest(dataToView, expiryDateString);
