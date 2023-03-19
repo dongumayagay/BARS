@@ -1,7 +1,7 @@
 <script>
 
     export let requestsCount;
-    export let cardColor;
+    // export let cardColor;
     export let title;
 
     const cardColors =[
