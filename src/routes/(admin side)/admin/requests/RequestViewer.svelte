@@ -1,13 +1,16 @@
 <script>
     import { db, storage } from "$lib/firebase/client.js"
     import { createEventDispatcher } from "svelte";
+    import { goto } from "$app/navigation"
     import { doc, Timestamp, updateDoc, collection, deleteDoc, query, where, getDocs, orderBy } from "firebase/firestore"; 
-	import { deleteObject, listAll, ref } from "firebase/storage";
+	// import { deleteObject, listAll, ref } from "firebase/storage";
     import { sendEmail } from '$lib/utils';
     import { clearance } from "$lib/jspdf/clearance.js"
     import { indigency }  from "$lib/jspdf/indigency.js"
     import { residency }  from "$lib/jspdf/residency.js"
     import { Circle } from "svelte-loading-spinners";
+    import { notifyTrashedRequest } from "$lib/sendEmailNotifications/notifyTrashedRequests.js";
+    import { months, weekDays } from "$lib/stores.js";
 	import NavigationButtons from "./requestViewerComponents/NavigationButtons.svelte";
 	import RequestDetails from "./requestViewerComponents/request-details-components/RequestDetails.svelte";
 	import RequestMessages from "./requestViewerComponents/messaging-components/RequestMessages.svelte";
@@ -24,6 +27,7 @@
     async function updateHandler() {
         try {
             showLoadingScreen = true;
+            goto("#loadingStatement")
             const docRef = doc(db, dataToView.collectionReference, dataToView.requestId);
             // const something = await getDoc(docRef)
             if(dataToView.nextStatus === "Ready to claim"){
@@ -110,63 +114,72 @@
 
     async function trashHandler() {
         try {
+            showLoadingScreen = true;
+            loadingStatement = "Moving to trash..."
+            goto("#loadingStatement")
             const docRef = doc(db, dataToView.collectionReference, dataToView.requestId);
-
             await updateDoc(docRef, {
                 previousStatus: dataToView.status,
                 status: "Trashed",
             })
+            loadingStatement = `Notifying ${dataToView.lastName}, ${dataToView.firstName} ${dataToView.middleName !== "" ? dataToView.middleName.charAt(0).toUpperCase() + "." : ""} ${dataToView.suffix !== "" ? dataToView.suffix.charAt(0).toUpperCase(): ""}`
+            const lastUpdated = new Timestamp(dataToView.lastUpdated.seconds, dataToView.lastUpdated.nanoseconds).toMillis();
+            const expiryDate = new Date( lastUpdated + 604800000);
+            const expiryDateString = weekDays[expiryDate.getDay()] + ", " + months[expiryDate.getMonth()] + " " + expiryDate.getDate();
+            await notifyTrashedRequest(dataToView, expiryDateString);
             // alert("Successfully moved to trash")
+            showLoadingScreen = false;
+            loadingStatement = "";
             dispatch("close")
         } catch (error) {
-            alert(error)
-        }
-    }
-
-    async function removeHandler(){
-        try{
-            let requestId = dataToView.requestId;
-
-            const requestMessages = await getDocs(query(collection(db, "requestMessages"), where("trackingId", "==", "id-" + requestId)));
-            requestMessages.forEach((message)=>{
-                deleteDoc(doc(db, "requestMessages", message.id))
-            })
-            console.log("messages have been successfully deleted")
-
-            listAll(ref(storage, "message_files/" + requestId))
-            .then((files)=>{
-                files.items.forEach((file) => {
-                    const fileRef = ref(storage, file.fullPath)
-                    deleteObject(fileRef)
-                })
-                console.log("message files have been successfully deleted")
-            })
-
-            if(dataToView.typeOfRequest === "Document Request"){
-                clearDocumentRequestFiles()
-            }
-            await deleteDoc(doc(db, dataToView.collectionReference, dataToView.requestId))
-            alert("Request removed successfully")
-            dispatch("close")
-        }catch(error){
             alert(error.message)
         }
     }
 
-    function clearDocumentRequestFiles(){
-        listAll(ref(storage, "documentRequestsFiles/" + dataToView.requestId))
-        .then((requirements)=>{
-            requirements.prefixes.forEach((requirement) => {
-                listAll(ref(storage, requirement.fullPath)).then((files)=>{
-                    files.items.forEach((file)=>{
-                        const fileRef = ref(storage, file.fullPath)
-                        deleteObject(fileRef)
-                    })
-                })
-            })
-            console.log("Files removed successfully");
-        })
-    }
+    // async function removeHandler(){
+    //     try{
+    //         let requestId = dataToView.requestId;
+
+    //         const requestMessages = await getDocs(query(collection(db, "requestMessages"), where("trackingId", "==", "id-" + requestId)));
+    //         requestMessages.forEach((message)=>{
+    //             deleteDoc(doc(db, "requestMessages", message.id))
+    //         })
+    //         console.log("messages have been successfully deleted")
+
+    //         listAll(ref(storage, "message_files/" + requestId))
+    //         .then((files)=>{
+    //             files.items.forEach((file) => {
+    //                 const fileRef = ref(storage, file.fullPath)
+    //                 deleteObject(fileRef)
+    //             })
+    //             console.log("message files have been successfully deleted")
+    //         })
+
+    //         if(dataToView.typeOfRequest === "Document Request"){
+    //             clearDocumentRequestFiles()
+    //         }
+    //         await deleteDoc(doc(db, dataToView.collectionReference, dataToView.requestId))
+    //         alert("Request removed successfully")
+    //         dispatch("close")
+    //     }catch(error){
+    //         alert(error.message)
+    //     }
+    // }
+
+    // function clearDocumentRequestFiles(){
+    //     listAll(ref(storage, "documentRequestsFiles/" + dataToView.requestId))
+    //     .then((requirements)=>{
+    //         requirements.prefixes.forEach((requirement) => {
+    //             listAll(ref(storage, requirement.fullPath)).then((files)=>{
+    //                 files.items.forEach(async (file)=>{
+    //                     const fileRef = ref(storage, file.fullPath)
+    //                     await deleteObject(fileRef)
+    //                 })
+    //             })
+    //         })
+    //         console.log("Files removed successfully");
+    //     })
+    // }
 </script>
 
 <div class="w-full h-full flex flex-col items-center p-4 relative">
@@ -191,12 +204,12 @@
             </button>
             {:else if dataToView.status === 'Trashed' }
             <button class="btn btn-info btn-sm text-sm hover:underline hover:scale-105 active:scale-100" on:click={updateHandler}>Revert Status to: {dataToView?.previousStatus}</button>
-            <button class="btn btn-error btn-sm flex gap-2 hover:scale-105 active:scale-100" on:click={removeHandler}>
+            <!-- <button class="btn btn-error btn-sm flex gap-2 hover:scale-105 active:scale-100" on:click={removeHandler}>
                 <p>Remove Request</p>
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0" />
                 </svg>
-            </button>
+            </button> -->
             {/if}
         </div>
     </div>
@@ -214,9 +227,11 @@
         </section>
     </div>
     {#if showLoadingScreen}
-        <section class="absolute top-0 left-0 bg-black/70 w-full h-full flex flex-col justify-center items-center gap-2 rounded-xl">
-            <Circle color="#fff"/>
-            <p class="text-white">{loadingStatement}</p>
+        <section class="absolute top-0 left-0 bg-black/70 w-full h-full flex justify-center items-center gap-2 rounded-xl">
+            <div id="loadingStatement" class="pt-52 flex flex-col justify-center items-center">
+                <Circle color="#fff"/>
+                <p class="text-white">{loadingStatement}</p>
+            </div>
         </section>
     {/if}
 </div>
