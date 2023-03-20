@@ -142,6 +142,9 @@
                 <span class="label-text">Complete Address</span>
               </label>
             <textarea required title="Please enter your complete address" class="textarea textarea-primary w-full bg-neutral focus:border-primary focus:outline-offset-[3px]" placeholder="Lot **, Blk **, Brgy. United Bayanihan, San Pedro City, Laguna" bind:value={contactInfo.address}></textarea>
+            <label for="#address" class="label">
+                <span class="label-text-alt text-info">Please avoid writing abbreviations as this will reflect on your document.</span>
+            </label>
         </div>
         <div class="group flex flex-col flex-1 ">
             <label for="email" class="label">

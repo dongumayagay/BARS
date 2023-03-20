@@ -178,13 +178,16 @@
              />
         </div>
         <div class="flex flex-col flex-1">
-            <label for="address" class="label">
+            <label for="#address" class="label">
                 <span class="label-text">Complete Address</span>
               </label>
             <!-- <input required title="Please enter your complete address" type="text" id="address" name="address" placeholder="Brgy. United Bayanihan, San Pedro, Laguna" class="input input-bordered input-md input-primary "
             
              /> -->
-            <textarea required title="Please enter your complete address" class="textarea textarea-primary w-full bg-neutral focus:border-primary focus:outline-offset-[3px]" placeholder="Lot **, Blk **, Brgy. United Bayanihan, San Pedro City, Laguna" bind:value={contactInfo.address}></textarea>
+            <textarea required title="Please enter your complete address" id="address" class="textarea textarea-primary w-full bg-neutral focus:border-primary focus:outline-offset-[3px]" placeholder="Lot **, Blk **, Brgy. United Bayanihan, San Pedro City, Laguna" bind:value={contactInfo.address}></textarea>
+            <label for="#address" class="label" class:hidden={!isDocumentRequest}>
+                <span class="label-text-alt text-info">Please avoid writing abbreviations as this will reflect on your document.</span>
+            </label>
         </div>
         <div class="group flex flex-col flex-1 ">
             <label for="email" class="label">
