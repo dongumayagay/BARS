@@ -118,7 +118,7 @@
             const lastUpdated = new Timestamp(request.lastUpdated.seconds, request.lastUpdated.nanoseconds).toDate();
             const lastUpdatedString = weekDays[lastUpdated.getDay()] + ", " + months[lastUpdated.getMonth()] + " " + lastUpdated.getDate();
             await notifyExpiredTrashedRequest(request, lastUpdatedString);
-            // await removeHandler(request);
+            await removeHandler(request);
         })
     }
     $: if(!!expiredTrashedAppointmentRequests){
@@ -126,19 +126,9 @@
             const lastUpdated = new Timestamp(request.lastUpdated.seconds, request.lastUpdated.nanoseconds).toDate();
             const lastUpdatedString = weekDays[lastUpdated.getDay()] + ", " + months[lastUpdated.getMonth()] + " " + lastUpdated.getDate();
             await notifyExpiredTrashedRequest(request, lastUpdatedString);
-            // await removeHandler(request);
+            await removeHandler(request);
         })
     }
-    // $: if(!!expiredDocumentRequests){
-    //     expiredDocumentRequests.map(async (request)=>{
-    //         const lastUpdated = new Timestamp(request.lastUpdated.seconds, request.lastUpdated.nanoseconds).toDate();
-    //         const lastUpdatedString = weekDays[lastUpdated.getDay()] + ", " + months[lastUpdated.getMonth()] + " " + lastUpdated.getDate(); 
-    //         await notifyExpiredRequest(request, lastUpdatedString);
-    //         await updateDoc(doc(db, "documentRequests", request.requestId), {
-    //             status: "Closed",
-    //         })
-    //     })
-    // }
 </script>
 
 <main class="w-full flex justify-center" class:hidden={page !== 4}>

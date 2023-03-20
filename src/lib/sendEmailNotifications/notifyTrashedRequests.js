@@ -19,7 +19,7 @@ export async function notifyTrashedRequest(request, expiryDate){
     });
     
     // console.log(`Trashed ${request.typeOfRequest}`, `However, if there is still no update after [ ${expiryDate} ], this request will automatically close`)
-    console.log(JSON.stringify(result)) 
+    // console.log(JSON.stringify(result)) 
 }
 
 export async function notifyExpiredTrashedRequest(request, lastUpdatedString){
@@ -44,28 +44,28 @@ export async function removeHandler(dataToView){
     try{
         let requestId = dataToView.requestId;
 
-        // const requestMessages = await getDocs(query(collection(db, "requestMessages"), where("trackingId", "==", "id-" + requestId)));
-        // requestMessages.forEach((message)=>{
-        //     deleteDoc(doc(db, "requestMessages", message.id))
-        // })
+        const requestMessages = await getDocs(query(collection(db, "requestMessages"), where("trackingId", "==", "id-" + requestId)));
+        requestMessages.forEach((message)=>{
+            deleteDoc(doc(db, "requestMessages", message.id))
+        })
         // console.log("messages have been successfully deleted")
 
-        // listAll(ref(storage, "message_files/" + requestId))
-        // .then((files)=>{
-        //     files.items.forEach(async (file) => {
-        //         const fileRef = ref(storage, file.fullPath)
-        //         await deleteObject(fileRef)
-        //     })
-        //     console.log("message files have been successfully deleted")
-        // })
+        listAll(ref(storage, "message_files/" + requestId))
+        .then((files)=>{
+            files.items.forEach(async (file) => {
+                const fileRef = ref(storage, file.fullPath)
+                await deleteObject(fileRef)
+            })
+            // console.log("message files have been successfully deleted")
+        })
 
-        // if(dataToView.typeOfRequest === "Document Request"){
-        //     clearDocumentRequestFiles(requestId)
-        // }
+        if(dataToView.typeOfRequest === "Document Request"){
+            clearDocumentRequestFiles(requestId)
+        }
         await updateDoc(doc(db, dataToView.collectionReference, requestId), {
             status: "Closed",
         })
-        alert("Request removed successfully")
+        console.log(`Request [ ${requestId} ] removed successfully`)
         // dispatch("close")
     }catch(error){
         alert(error.message)
