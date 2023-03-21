@@ -24,9 +24,6 @@
                 nextStatus: "Ready to claim",
                 nextStatusEmailContent: "Your requested document/s are now ready. Please bring the original copy of your uploaded requirements along with you."
             }))
-            // querySnapshot.docs.map((doc)=>{
-            //     if(!doc.data().isViewed){dispatch("newDocRequest")}
-            // })
         })
         return()=>{
             pendingDocumentRequestsUnsub();
