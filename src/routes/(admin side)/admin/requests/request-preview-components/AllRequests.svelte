@@ -1,4 +1,6 @@
 <script>
+    import { db } from "$lib/firebase/client.js"
+	import { doc, updateDoc } from "firebase/firestore";
     import {createEventDispatcher} from "svelte"
 
     export let allRequests;
@@ -9,6 +11,11 @@
     let maxPage;
 
     function dispatchHandler(requestData) {
+        if(!requestData.isViewed){
+            updateDoc(doc(db, requestData.collectionReference, requestData.requestId), {
+                isViewed: true
+            })
+        }
         dispatch("view", {
             requestData
         })
@@ -52,14 +59,19 @@
         <tbody >
             <!-- <div class=" overflow-auto max-h-[400px] "> -->
                 {#each allRequests??[] as requestData, index}
-                {#if (index >= ((currentPage-1)*itemsPerPageCounter)) && (index < (currentPage*itemsPerPageCounter)) }
-                <tr class="hover" on:click={dispatchHandler(requestData)}>
-                        <th>{index+1}</th>
-                        <td>{requestData.lastName}, {requestData.firstName} {requestData.middleName}</td>
-                        <td>{requestData.requestId  }</td>
-                        <td>{requestData.typeOfRequest  }</td>
-                </tr>
-                {/if}
+                    {#if (index >= ((currentPage-1)*itemsPerPageCounter)) && (index < (currentPage*itemsPerPageCounter)) }
+                        <tr class="hover" on:click={dispatchHandler(requestData)}>
+                            <th class="indicator w-full h-full">
+                                {#if requestData.status==="pending" && !requestData.isViewed}
+                                    <span class="indicator-item indicator-center badge badge-error z-100">new</span>
+                                {/if}
+                                <p>{index+1}</p>
+                            </th>
+                            <td>{requestData.lastName}, {requestData.firstName} {requestData.middleName}</td>
+                            <td>{requestData.requestId  }</td>
+                            <td>{requestData.typeOfRequest  }</td>
+                        </tr>
+                    {/if}
                 {/each}
             <!-- </div> -->
         </tbody>

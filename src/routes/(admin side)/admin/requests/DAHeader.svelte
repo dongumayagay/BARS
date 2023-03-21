@@ -1,8 +1,27 @@
 <script>
+	import { db } from "$lib/firebase/client.js"
 	import {goto} from '$app/navigation'
+	import { collection, onSnapshot, query, where } from 'firebase/firestore';
 	import { createEventDispatcher } from 'svelte';
+	import { onMount } from "svelte";
 
-	// export let newRequestsCounter;
+	let newDocumentRequestsCounter;
+	let newAppointmentRequestsCounter;
+
+	onMount(()=>{
+		const documentRequestsUnsub = onSnapshot(query(collection(db, "documentRequests"), where("isViewed", "==", false), where("status", "==", "pending")), (querySnapshot)=>{
+			newDocumentRequestsCounter = querySnapshot.size;
+			console.log("New Document Requests:",newDocumentRequestsCounter)
+		})
+		const appointmentRequestsUnsub = onSnapshot(query(collection(db, "appointmentRequests"), where("isViewed", "==", false), where("status", "==", "pending")), (querySnapshot)=>{
+			newAppointmentRequestsCounter = querySnapshot.size;
+			console.log("New Appointment Requests:",newAppointmentRequestsCounter)
+		})
+		return ()=>{
+			documentRequestsUnsub();
+			appointmentRequestsUnsub();
+		}
+	})
 
 	const dispatch = createEventDispatcher();
 	const links = [
@@ -27,6 +46,7 @@
 			{#each links as link, index}
 				<div class="indicator">
 					<!-- <span class="indicator-item badge badge-error" class:hidden={index!==0 || newRequestsCounter === 0}>{(index===0)? newRequestsCounter : ""}</span> -->
+					<span class="indicator-item badge badge-error" class:hidden={index!==0 || newDocumentRequestsCounter + newAppointmentRequestsCounter === 0}>{(index===0)? newDocumentRequestsCounter + newAppointmentRequestsCounter: ""}</span>
 					<button
 						on:click={()=>{
 							dispatch("switchTab", {index})

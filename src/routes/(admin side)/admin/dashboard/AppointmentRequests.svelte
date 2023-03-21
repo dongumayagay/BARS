@@ -24,7 +24,6 @@
     $: appointmentRequestsThisMonth = appointmentRequests.filter((element)=> element.dateAddedMillis > thisMonth)
 
     $: servedRequestsToday = appointmentRequests.filter((element)=> {
-        console.log(`${element.status} === "Appointment Served" && (${element.lastUpdated.toMillis()} > ${daySpan} && ${element.lastUpdated.toDate().getDate()} === ${today.getDate()})` ,element.status === "Appointment Served" && (element.lastUpdated.toMillis() > daySpan && element.lastUpdated.toDate().getDate() === today.getDate()))
         return element.status === "Appointment Served" && (element.lastUpdated.toMillis() > daySpan && element.lastUpdated.toDate().getDate() === today.getDate())
     })
     $: servedRequestsThisWeek = appointmentRequests.filter((element)=> {
@@ -34,7 +33,7 @@
         return element.status === "Appointment Served" && element.lastUpdated.toMillis() > thisMonth
     })
 
-    $: console.log(appointmentRequestsToday)
+    // $: console.log(appointmentRequestsToday)
 </script>
 
 <section class="w-full h-max flex flex-col gap-4 p-4">
