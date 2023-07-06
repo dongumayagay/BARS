@@ -20,7 +20,10 @@
 </div>
 {/if}
 <div class="flex flex-col justify-between md:flex-row-reverse gap-3">
-    <p class="text-[12px] w-full md:w-[25vw]">Date Requested: {new Timestamp(dataToView.dateAdded?.seconds??[], dataToView.dateAdded?.nanoseconds??[]).toDate()}</p>
+    <div class="w-full items-end flex flex-col gap-4">
+        <p class="text-[12px] w-full md:w-[25vw]">Date Requested: {new Timestamp(dataToView.dateAdded?.seconds??[], dataToView.dateAdded?.nanoseconds??[]).toDate()}</p>
+        <p class="text-[12px] w-full md:w-[25vw]">Last Updated: {new Timestamp(dataToView.lastUpdated?.seconds??[], dataToView.lastUpdated?.nanoseconds??[]).toDate()}</p>
+    </div>
     <div class="flex flex-col">
         <p class="font-semibold">{dataToView.lastName}, {dataToView.firstName} {dataToView.middleName !== "" ? dataToView.middleName.charAt(0).toUpperCase() + "." : ""} {dataToView.suffix !== "" ? dataToView.suffix.charAt(0).toUpperCase(): ""}</p>
         <div class="h-fit flex items-center gap-2">

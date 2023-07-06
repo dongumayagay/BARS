@@ -27,7 +27,6 @@
         content = undefined;
         file = undefined;
     }
-    $: console.log(status)
 </script>
 
 <form on:submit|preventDefault={dispatchHandler} class="w-full h-max flex items-center gap-4">

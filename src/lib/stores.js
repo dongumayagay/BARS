@@ -56,3 +56,13 @@ export const weekDays = [
 export const ordinals = [
     "th", "st", "nd", "rd", "th", "th", "th", "th", "th", "th"
 ]
+
+export const documentPurposes = [
+    "ILSP Scholarship" ,
+    "Iskolar ng Laguna Scholarship" ,
+    "Calamity Loan" ,
+    "Business Permit" ,
+    "Lending Requirements" ,
+    "Job Requirement" ,
+    // "others" ,
+]

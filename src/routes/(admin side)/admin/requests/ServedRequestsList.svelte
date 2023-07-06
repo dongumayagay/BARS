@@ -114,7 +114,7 @@
                     </div>
                 </div>
             </div>
-            <div class=" overflow-auto max-h-[400px] w-full gap-4 py-2">
+            <div class="w-full gap-4 py-2">
                     {#if typeOfRequestToShow === "all"}
                         <AllRequests allRequests={allServedRequests} on:view={viewHandler}/>
                     {:else if typeOfRequestToShow === "documents"}

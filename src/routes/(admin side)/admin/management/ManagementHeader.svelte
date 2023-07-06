@@ -16,7 +16,7 @@
     onMount(async ()=>{
         const captainRef = await getDocs(query(collection(db, "adminUsers"), where("position", "==", "captain")))
         captainEmail = captainRef.docs.at(0).data().email
-        console.log(console.log(captainEmail))
+        // console.log(console.log(captainEmail))
     })
 	
 	export let managementPage;

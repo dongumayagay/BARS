@@ -1,5 +1,6 @@
 <script>
     import { createEventDispatcher } from "svelte";
+    import { documentPurposes } from "$lib/stores.js"
 
     export let listOfRequestedDocuments;
 
@@ -36,7 +37,7 @@
     // $: console.log(purposesPerDocuments)
 </script>
 
-<form class="w-full flex flex-col items-center gap-4" on:submit|preventDefault={submitHandler}>
+<form class="w-full flex flex-col items-center gap-4" on:submit|preventDefault={submitHandler} on:reset={(event)=>{event.target.reset()}}>
     <div class="flex flex-col items-center gap-2 form-control">
         <label class="label cursor-pointer flex gap-2">
             <input type="checkbox" id="multiPurpose" class="checkbox checkbox-sm" bind:checked={multiPurpose}>
@@ -49,7 +50,11 @@
         <div class="flex flex-col gap-2">
             <select id="purpose" class="select select-primary select-bordered bg-transparent" required bind:value={selectedPurpose}>
                 <option value="" disabled selected>Select Purpose</option>
-                <option value="ILSP Scholarship" >ILSP Scholarship</option>
+                {#each documentPurposes as documentPurpose}
+                <option value={documentPurpose}>{documentPurpose}</option>
+                {/each}
+                <option value="others" >Others</option>
+                <!-- <option value="ILSP Scholarship" >ILSP Scholarship</option>
                 <option value="Iskolar ng Laguna Scholarship" >Iskolar ng Laguna</option>
                 <option value="Calamity Loan" >Calamity Loan</option>
                 <option value="Proof of Residency" >Proof of Residency</option>
@@ -58,7 +63,7 @@
                 <option value="Mayor's Permit" >Mayor's Permit</option>
                 <option value="First Time Job Seeker" >First Time Job Seeker</option>
                 <option value="Job Requirement" >Job Requirement</option>
-                <option value="others" >Others</option>
+                <option value="others" >Others</option> -->
             </select>
             {#if selectedPurpose === "others"}
                 <div class="flex flex-col">
@@ -78,7 +83,7 @@
                     <div class="flex items-center gap-2">
                         <select class="select select-primary select-bordered bg-transparent" required bind:value={purpose.name}>
                             <option value="" disabled selected>Select Purpose</option>
-                            <option value="ILSP Scholarship" >ILSP Scholarship</option>
+                            <!-- <option value="ILSP Scholarship" >ILSP Scholarship</option>
                             <option value="Iskolar ng Laguna Scholarship" >Iskolar ng Laguna</option>
                             <option value="Calamity Loan" >Calamity Loan</option>
                             <option value="Proof of Residency" >Proof of Residency</option>
@@ -86,8 +91,12 @@
                             <option value="Lending Requirements" >Lending Requirements</option>
                             <option value="Mayor's Permit" >Mayor's Permit</option>
                             <option value="First Time Job Seeker" >First Time Job Seeker</option>
-                            <option value="Job Requirement" >Job Requirement</option>
+                            <option value="Job Requirement" >Job Requirement</option> -->
+                            {#each documentPurposes as documentPurpose}
+                                <option value={documentPurpose} disabled={!!requestedDocument.purposes.find((purposetoFind)=> documentPurpose === purposetoFind.name)}>{documentPurpose}</option>
+                            {/each}
                             <option value="others" >Others</option>
+
                         </select>
                         <button type="button" class="btn btn-ghost lg:hover:btn-error btn-sm w-max transition-all duration-200" on:click={()=>removeHandler(documentIndex, purposeIndex)} disabled={purposeIndex === 0}>
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">

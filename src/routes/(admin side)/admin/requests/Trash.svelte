@@ -1,7 +1,10 @@
 <script>
-    import RequestViewer from "./RequestViewer.svelte"
     import { db } from '$lib/firebase/client.js'
-    import { collection, onSnapshot, query, where } from "firebase/firestore";
+    import { collection, onSnapshot, query, where, Timestamp } from "firebase/firestore";
+	import { onMount } from "svelte";
+    import { notifyExpiredTrashedRequest, removeHandler } from "$lib/sendEmailNotifications/notifyTrashedRequests.js"
+    import { months, weekDays} from "$lib/stores.js"
+    import RequestViewer from "./RequestViewer.svelte"
     import AllRequests from "./request-preview-components/AllRequests.svelte";
 	import DocumentRequestsTable from "./request-preview-components/DocumentRequestsTable.svelte";
 	import AppointmentRequestsTable from "./request-preview-components/AppointmentRequestsTable.svelte";
@@ -16,30 +19,54 @@
     let trashedAppointmentRequests = [];
     let allTrashedRequests = [];
 
-    const trashedDocumentRequestsQuery = onSnapshot(query(collection(db, "documentRequests"), where("status", "==", "Trashed")), (querySnapshot) => {
-        trashedDocumentRequests = [];
-        querySnapshot.forEach((doc) => {
-            trashedDocumentRequests = [...trashedDocumentRequests, {
+    let expiredTrashedDocumentRequests = [];
+    let expiredTrashedAppointmentRequests = [];
+
+    onMount(()=>{
+        const trashedDocumentRequestsQuery = onSnapshot(query(collection(db, "documentRequests"), where("status", "==", "Trashed")), (querySnapshot) => {
+            trashedDocumentRequests = querySnapshot.docs.map((doc)=>({
                 ...doc.data(),
                 requestId: doc.id,
                 typeOfRequest: "Document Request",
                 collectionReference: "documentRequests",
-                requestPath: "document-request"
-            }]
+                requestPath: "document-request",
+                nextStatusEmailContent: `Your document request's status is now reverted back to [ ${doc.data().previousStatus} ].`
+            }));
+            const today = new Date().valueOf();
+            const dateToday = new Date();
+            const dateTodayISO =  dateToday.getFullYear() + "-" + ((dateToday.getMonth()+1) < 10 ? "0" + (dateToday.getMonth()+1) : (dateToday.getMonth()+1)) + "-" + dateToday.getDate();
+            console.log("Date Today: " + dateTodayISO)
+            expiredTrashedDocumentRequests = trashedDocumentRequests.filter((doc)=>{
+                const lastUpdatedValue = new Timestamp(doc.lastUpdated.seconds, doc.lastUpdated.nanoseconds).toMillis();
+                const expiryDateString = new Date(lastUpdatedValue + 604800000).toISOString().split("T")[0];
+                // console.log(doc.requestId + ": " + dateTodayISO + " >= " + expiryDateString + " = " + (dateTodayISO > expiryDateString))
+                return (dateTodayISO > expiryDateString);
+            })
         })
-    })
-
-    const trashedAppointmentRequestsQuery = onSnapshot(query(collection(db, "appointmentRequests"), where("status", "==", "Trashed")), (querySnapshot) => {
-        trashedAppointmentRequests = [];
-        querySnapshot.forEach((doc) => {
-            trashedAppointmentRequests = [...trashedAppointmentRequests, {
+    
+        const trashedAppointmentRequestsQuery = onSnapshot(query(collection(db, "appointmentRequests"), where("status", "==", "Trashed")), (querySnapshot) => {
+            trashedAppointmentRequests = querySnapshot.docs.map((doc)=>({
                 ...doc.data(),
                 requestId: doc.id,
                 typeOfRequest: "Appointment Request",
                 collectionReference: "appointmentRequests",
-                requestPath: "appointment-request"
-            }]
+                requestPath: "appointment-request",
+                nextStatusEmailContent: `Your appointment request's status is now reverted back to [ ${doc.data().previousStatus} ].`
+            }));
+            const today = new Date().valueOf();
+            const dateToday = new Date();
+            const dateTodayISO =  dateToday.getFullYear() + "-" + ((dateToday.getMonth()+1) < 10 ? "0" : "") + (dateToday.getMonth()+1) + "-" + ((dateToday.getDate()) < 10 ? "0" : "") + dateToday.getDate();
+            expiredTrashedAppointmentRequests = trashedAppointmentRequests.filter((doc)=>{
+                const lastUpdatedValue = new Timestamp(doc.lastUpdated.seconds, doc.lastUpdated.nanoseconds).toMillis();
+                const expiryDateString = new Date(lastUpdatedValue + 604800000).toISOString().split("T")[0];
+                // console.log(doc.requestId + ": " + dateTodayISO + " > " + expiryDateString + " = " + (dateTodayISO > expiryDateString))
+                return (dateTodayISO > expiryDateString);
+            })
         })
+        return ()=>{
+            trashedDocumentRequestsQuery();
+            trashedAppointmentRequestsQuery();
+        }
     })
 
     function viewHandler(event) {
@@ -84,6 +111,24 @@
 	}
 
     $: sort(columnToSort, asc);
+    $: console.log("Expired Trashed Document Requests =>", expiredTrashedDocumentRequests)
+    $: console.log("Expired Trashed Appointment Requests =>", expiredTrashedAppointmentRequests)
+    $: if(!!expiredTrashedDocumentRequests){
+        expiredTrashedDocumentRequests.map(async (request)=>{
+            const lastUpdated = new Timestamp(request.lastUpdated.seconds, request.lastUpdated.nanoseconds).toDate();
+            const lastUpdatedString = weekDays[lastUpdated.getDay()] + ", " + months[lastUpdated.getMonth()] + " " + lastUpdated.getDate();
+            await notifyExpiredTrashedRequest(request, lastUpdatedString);
+            await removeHandler(request);
+        })
+    }
+    $: if(!!expiredTrashedAppointmentRequests){
+        expiredTrashedAppointmentRequests.map(async (request)=>{
+            const lastUpdated = new Timestamp(request.lastUpdated.seconds, request.lastUpdated.nanoseconds).toDate();
+            const lastUpdatedString = weekDays[lastUpdated.getDay()] + ", " + months[lastUpdated.getMonth()] + " " + lastUpdated.getDate();
+            await notifyExpiredTrashedRequest(request, lastUpdatedString);
+            await removeHandler(request);
+        })
+    }
 </script>
 
 <main class="w-full flex justify-center" class:hidden={page !== 4}>
@@ -114,7 +159,7 @@
                     </div>
                 </div>
             </div>
-            <div class="h-[400px] w-full flex flex-col gap-4 py-2">
+            <div class="min-h-[400px] w-full flex flex-col gap-4 py-2">
                 {#if typeOfRequestToShow === "all"}
                     <AllRequests allRequests={allTrashedRequests} on:view={viewHandler}/>
                 {:else if typeOfRequestToShow === "documents"}

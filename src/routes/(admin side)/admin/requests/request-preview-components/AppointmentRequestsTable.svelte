@@ -9,6 +9,11 @@
     let maxPage;
 
     function dispatchHandler(requestData) {
+        if(!requestData.isViewed){
+            updateDoc(doc(db, requestData.collectionReference, requestData.requestId), {
+                isViewed: true
+            })
+        }
         dispatch("view", {
             requestData
         })
@@ -40,8 +45,8 @@
               </svg>
         </button>
     </div>
-    <table class="table w-full">
-        <thead>
+    <table class="table w-full h-max">
+        <thead class="h-max">
             <tr>
                 <th></th>
                 <th>Name</th>
@@ -50,13 +55,18 @@
                 <th>Requested Time</th>
             </tr>
         </thead>
-        <tbody>
+        <tbody class="h-max">
             {#each appointmentRequests as requestData, index}
             {#if (index >= ((currentPage-1)*itemsPerPageCounter)) && (index < (currentPage*itemsPerPageCounter)) }
-            <tr class="hover" on:click={dispatchHandler(requestData)}>
-                <th>{index+1}</th>
+            <tr class="hover w-full h-max " on:click={dispatchHandler(requestData)}>
+                <th class="indicator w-full h-full">
+                    {#if requestData.status==="pending" && !requestData.isViewed}
+                        <span class="indicator-item indicator-center badge badge-error z-100">new</span>
+                    {/if}
+                    <p class="h-full">{index+1}</p>
+                </th>
                 <td>{requestData.lastName}, {requestData.firstName} {requestData.middleName}</td>
-                <td class="flex flex-col">
+                <td>
                     <p>{requestData.selectedOfficial.name}</p>
                     <small>{requestData.selectedOfficial.position}</small>
                 </td>

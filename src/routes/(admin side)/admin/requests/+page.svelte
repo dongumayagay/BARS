@@ -11,42 +11,21 @@
 	import { collection, getDocs, onSnapshot } from 'firebase/firestore';
     import { db } from "$lib/firebase/client.js"
 
-    // onMount(()=>{
-    //     const documentunsub = onSnapshot(collection(db, ""))
-    // })
-
     $currentPage = 1;
 
     let page = 0;
 
     let officialsList = [];
 
-    // let newAppointmentRequestsCounter = 0;
-    // let newDocumentRequestsCounter = 0;
-    // let newRequestsCounter
-
-    // let newMessages = [];
-
     onMount(()=>{
         if(!$userStore){
             goto("../admin")
         }
-        // getOfficials();
-        // newAppointmentRequestsCounter = 0;
-        // newDocumentRequestsCounter = 0;
-        // newMessages = [];
     })
-
-    // async function getOfficials(){
-    //     const officials = await getDocs(collection(db, "officialsList"));
-    //     officialsList = officials.docs.map((doc)=>({...doc.data()}))
-    // }
 
     function navigate(event) {
         page = event.detail.index;
     }
-    // $: newRequestsCounter = newAppointmentRequestsCounter + newDocumentRequestsCounter
-    // $: console.log(newRequestsCounter)
 </script>
 
 
@@ -56,10 +35,6 @@
         <DAHeader {page} on:switchTab={navigate}/>
 		<div class="w-[90%] h-max min-h-[100vh] bg-base-100 flex justify-center border-[1px] border-base-300 rounded-lg">
             <PendingList {page} {officialsList}/>
-            <!-- on:newDocRequest={()=>newDocumentRequestsCounter++} 
-            on:newAptRequest={()=>newAppointmentRequestsCounter++} 
-            on:minusDocNotifCounter={()=>newDocumentRequestsCounter--}
-            on:minusAptNotifCounter={()=>newAppointmentRequestsCounter--} -->
             <DocumentsToClaim {page} />
             <ApprovedAppointments {page} />
             <ServedRequestsList {page} />

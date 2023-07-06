@@ -24,13 +24,13 @@
     $: documentRequestsThisWeek = documentRequests.filter((element)=> element.dateAddedMillis > thisWeek)
     $: documentRequestsThisMonth = documentRequests.filter((element)=> element.dateAddedMillis > thisMonth)
     
-    $: servedRequestsToday = documentRequestsToday.filter((element)=> {
+    $: servedRequestsToday = documentRequests.filter((element)=> {
         return element.status === "Request Completed" && (element.lastUpdated.toMillis() > daySpan && element.lastUpdated.toDate().getDate() === today.getDate())
     })
-    $: servedRequestsThisWeek = documentRequestsThisWeek.filter((element)=> {
+    $: servedRequestsThisWeek = documentRequests.filter((element)=> {
         return element.status === "Request Completed" && element.lastUpdated.toMillis() > thisWeek
     })
-    $: servedRequestsThisMonth = documentRequestsThisMonth.filter((element)=> {
+    $: servedRequestsThisMonth = documentRequests.filter((element)=> {
         return element.status === "Request Completed" && element.lastUpdated.toMillis() > thisMonth
     })
 </script>

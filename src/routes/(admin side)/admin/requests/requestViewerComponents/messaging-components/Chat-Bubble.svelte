@@ -6,7 +6,7 @@
     let time = new Timestamp(message?.dateSent.seconds??[], message?.dateSent.nanoseconds??[]).toDate().getHours() + ":" + new Timestamp(message?.dateSent.seconds??[], message?.dateSent.nanoseconds??[]).toDate().getMinutes()
 </script>
 
-<div class="chat {message?.sender !== $userStore.email ? "chat-start":"chat-end"}">
+<div class="chat {message?.sender !== $userStore.email ? "chat-start ml-4":"chat-end"}">
     <div class="chat-header">
         {message?.sender === $userStore.email ? "You" : message?.sender}
         <time class="text-xs opacity-50">

@@ -15,9 +15,9 @@
         "8:00 AM", "9:00 AM", "10:00 AM", "11:00 AM", "12:00 PM", "1:00 PM", "2:00 PM", "3:00 PM", "4:00 PM"
     ]
     let bookedHours = [];
-    let dateInput = "";
 
     let selectedDateAndTime = {
+        dateInput: "",
         date: "",
         time: ""
     };
@@ -42,9 +42,10 @@
         })
     }
 
-    $: if(!!dateInput) selectedDateAndTime.date = formatDate(dateInput);
+    $: if(!!selectedDateAndTime.dateInput) selectedDateAndTime.date = formatDate(selectedDateAndTime.dateInput);
     $: if(!!selectedDateAndTime.date) filterHours(selectedDateAndTime.date)
     $: if(!!selectedDateAndTime.time) console.log(selectedDateAndTime.date + " at " + selectedDateAndTime.time)
+    $: console.log(selectedDateAndTime.dateInput)
 </script>
 
 
@@ -67,7 +68,7 @@
                 min={minDate}
                 max={maxDate}
                 class="input input-bordered input-md input-primary w-full bg-transparent focus:border-primary focus:outline-offset-[3px] z-20"
-                bind:value={dateInput} 
+                bind:value={selectedDateAndTime.dateInput} 
                 />
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-7 h-7 absolute top-[51%] right-[12px] z-10">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0v-7.5A2.25 2.25 0 015.25 9h13.5A2.25 2.25 0 0121 11.25v7.5" />

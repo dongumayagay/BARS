@@ -10,6 +10,11 @@
     let maxPage;
 
     function dispatchHandler(requestData) {
+        if(!requestData.isViewed){
+            updateDoc(doc(db, requestData.collectionReference, requestData.requestId), {
+                isViewed: true
+            })
+        }
         dispatch("view", {
             requestData
         })
@@ -41,7 +46,7 @@
               </svg>
         </button>
     </div>
-    <table class="table w-full">
+    <table class="table w-full h-max">
         <thead>
             <tr>
                 <th></th>
@@ -54,10 +59,15 @@
             {#each documentRequests as requestData, index}
             {#if (index >= ((currentPage-1)*itemsPerPageCounter)) && (index < (currentPage*itemsPerPageCounter)) }
             <tr class="hover" on:click={dispatchHandler(requestData)}>
-                <th>{index+1}</th>
+                <th class="indicator w-full h-full">
+                    {#if requestData.status==="pending" && !requestData.isViewed}
+                        <span class="indicator-item indicator-center badge badge-error z-100">new</span>
+                    {/if}
+                    <p>{index+1}</p>
+                </th>
                 <td>{requestData.lastName}, {requestData.firstName} {requestData.middleName}</td>
                 <td>{requestData.requestId}</td>
-                <td class="flex flex-col gap-2">
+                <td>
                     {#each requestData.docsRequested as document}
                         <div class="flex gap-2 items-center">
                             <i class="fa-solid fa-circle text-[8px]"></i>
