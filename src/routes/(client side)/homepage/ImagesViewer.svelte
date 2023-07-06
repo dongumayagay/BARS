@@ -52,38 +52,6 @@
 </script>
 
 <!-- svelte-ignore a11y-click-events-have-key-events -->
-<!-- <div class="w-screen h-screen fixed top-0 left-0 flex flex-col items-center justify-center bg-black/70 z-20" on:click={()=>dispatch("close")}>
-    <div class="w-full flex justify-start">
-        <button class="btn btn-ghost hover:bg-transparent group" on:click={()=>dispatch("close")}>
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 text-white">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
-            </svg>
-            <p class="text-white group-hover:underline">Close</p>
-        </button>
-    </div>
-    <div class="h-[5%] w-full flex justify-center">
-        <p class="text-white text-md lg:text-lg">Photo # {imageIndex + 1} / {filePaths.length}</p>
-    </div>
-    <div class="carousel flex items-center justify-start gap-4 w-full" on:click|stopPropagation={()=>{}}>
-        <div class="absolute px-[3%] w-full flex justify-between z-20">
-            <button class="hidden btn btn-circle btn-primary md:block z-20" disabled={filePaths.length === 1} on:click={()=>slideHandler("left")}>❮</button> 
-            <button class="hidden btn btn-circle btn-primary md:block z-20" disabled={filePaths.length === 1} on:click={()=>slideHandler("right")}>❯</button>
-        </div>
-        {#each filePaths as filePath, index}
-        {#await getUrl(filePath)}
-            <p>Loading...</p>
-        {:then url} 
-        <div class="w-full h-screen flex items-center justify-center p-4">
-            <div id={"slide" + index} class="carousel-item flex justify-center relative w-screen max-h-[80%] z-1" use:swipe={{ timeframe: 1000, minSwipeDistance: 100, touchAction: 'pan-y' }} on:swipe={swipeHandler}>
-                <img src={url} alt={url} class="w-max max-w-[80%]" use:zoom={1.1} />
-            </div> 
-        </div>
-            
-        {/await}
-        {/each}
-    </div>
-</div> -->
-
 <div class="w-screen h-screen fixed top-0 left-0 flex flex-col items-center justify-start bg-black/70 z-20" on:click={()=>dispatch("close")}>
     <div class="w-full h-[15%] flex justify-start p-2">
         <button class="btn btn-ghost hover:bg-transparent group" on:click={()=>dispatch("close")}>
